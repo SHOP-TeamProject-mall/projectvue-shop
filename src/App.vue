@@ -44,9 +44,10 @@
                     <h5 style="background-color:pink;">남성복</h5>
                     <hr class="dropdown-divider">
                   <ul style="text-align:left;">
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품1</strong></a></li>
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품2</strong></a></li>
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품3</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu_product(1)"><strong>남성상의</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu_product(2)"><strong>남성하의</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>남성외투</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>남성속옷</strong></a></li>
                   </ul>
                     <hr class="dropdown-divider">
                 </li>
@@ -54,9 +55,10 @@
                     <h5 style="background-color:pink;">여성복</h5>
                     <hr class="dropdown-divider">
                   <ul style="text-align:left;">
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품1</strong></a></li>
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품2</strong></a></li>
-                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>상품3</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>여성상의</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>여성하의</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>여성외투</strong></a></li>
+                    <li><a class="dropdown-item" href="#" @click="changeMenu(2)"><strong>여성속옷</strong></a></li>
                   </ul>
                     <hr class="dropdown-divider">
                 </li>
@@ -95,7 +97,8 @@
 	export default {
     data(){
       return{
-        menu:1
+        menu:1,
+        menu_product:1
       }
     },
     methods:{
@@ -105,11 +108,11 @@
           console.log(menu);
         }
         else if(menu === 2){
-					this.$router.push({ path: "/product" });
+					this.$router.push({ path: "/product"});
           console.log(menu);
         }
         else if(menu === 3){
-          this.$router.push({ path: "/newproduct "});
+          this.$router.push({ path: "/newproduct"});
         }
         else if(menu === 4){
           this.$router.push({ path: "/productreview "});
@@ -118,6 +121,16 @@
           this.$router.push({ path: "/servicecenter "});
         }
         this.active = '';
+      },
+      changeMenu_product(idx){
+        if(idx === 1){
+          console.log(idx);
+          this.$router.push({path:'/product', query: {menu: 1}});
+        }
+        else if(idx === 2){
+          console.log(idx);
+          this.$router.push({path:'/product', query: {menu: 2}});
+        }
       }
     },
     created(){

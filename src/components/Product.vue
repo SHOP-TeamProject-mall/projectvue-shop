@@ -19,10 +19,10 @@
               </button>
               <div class="collapse" id="home-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded">남성상의</a></li>
-                  <li><a href="#" class="link-dark rounded">남성하의</a></li>
-                  <li><a href="#" class="link-dark rounded">남성외투</a></li>
-                  <li><a href="#" class="link-dark rounded">남성속옷</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(1)">남성상의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(2)">남성하의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=3">남성외투</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=4">남성속옷</a></li>
                 </ul>
               </div>
             </li>
@@ -32,10 +32,10 @@
               </button>
               <div class="collapse" id="dashboard-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded">여성상의</a></li>
-                  <li><a href="#" class="link-dark rounded">여성하의</a></li>
-                  <li><a href="#" class="link-dark rounded">여성외투</a></li>
-                  <li><a href="#" class="link-dark rounded">여성속옷</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=5">여성상의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=6">여성하의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=7">여성외투</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="menu=8">여성속옷</a></li>
                 </ul>
               </div>
             </li>
@@ -69,9 +69,103 @@
           </ul>
         </div>
       </div>
-      <div class="col-6 col-lg-9 themed-grid-col mt-5">
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
         <div class="row">
-          <div class="col-2">
+          <div class="col-2">남성상의
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===2">
+        <div class="row">
+          <div class="col-2">남성하의
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명{{this.menu}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===3">
+        <div class="row">
+          <div class="col-2">남성외투
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected>보기</option>
               <option value="1">최신순</option>
@@ -109,13 +203,62 @@
             <div class="card" style="width: 18rem; border:1px solid black;">
               <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
               <div class="card-body">
-                <p class="card-text text-center">상품명</p>
+                <p class="card-text text-center">상품명432423</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===4">
+        <div class="row">
+          <div class="col-2">남성속옷
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">상품명</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 themed-grid-col">
+            <div class="card" style="width: 18rem; border:1px solid black;">
+              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text text-center">sdfsfdsf</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
 
 
   </div>
@@ -123,6 +266,43 @@
 
 <script>
   export default {
+    data(){
+      return{
+        menu:1
+      }
+    },
+    methods:{
+      ChangMenu(menu){
+        if(menu === 1){
+          this.menu = 1;
+          console.log(menu);
+        }
+        else if(menu === 2){
+          this.menu = 2;
+          console.log(menu);
+        }
+      }
+    },
+    created(){
+      function p() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            var urlparam = location.search;
+            var params = new URLSearchParams(urlparam);
+            var menu = params.get('menu');
+            resolve(menu);
+          }, 1000);
+        });
+      }
+
+      async function asyncFunc() {
+        const temp = await p();
+        // console.log(temp);
+        this.ChangMenu(temp);
+      }
+
+      asyncFunc();
+    }
     
   }
 </script>
