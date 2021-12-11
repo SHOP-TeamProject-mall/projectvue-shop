@@ -5,6 +5,7 @@ import NewProduct from '@/components/NewProduct.vue';
 import ProductReview from '@/components/ProductReview.vue';
 import ServiceCenter from '@/components/ServiceCenter.vue';
 
+
 const routes = [
   { path:'/home', name:"Home", component:Home },
   { path:"/",  redirect : '/home' },

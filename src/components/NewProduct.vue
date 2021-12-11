@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div class="row" style="margin-top:50px;">
+  <div class="row" style="margin-top:50px;" v-for="a in aa" v-bind:key="a">
     <div class="col">
       1 of 3
     </div>
@@ -13,9 +13,12 @@
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             <p class="card-text">Last updated 3 mins ago</p>
         </div>
-        </div>
+      </div>
 
     <hr>
+
+
+    
 
     </div>
     <div class="col">

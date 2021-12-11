@@ -273,6 +273,7 @@
     },
     methods:{
       ChangMenu(menu){
+        console.log("Hello", menu);
         if(menu === 1){
           this.menu = 1;
           console.log(menu);
@@ -283,27 +284,28 @@
         }
       }
     },
-    created(){
+    async created(){
+      
+    },
+    async mounted() {
+      // this.$router.go();
+      const this1 = this;
       function p() {
         return new Promise(resolve => {
-          setTimeout(() => {
-            var urlparam = location.search;
-            var params = new URLSearchParams(urlparam);
-            var menu = params.get('menu');
-            resolve(menu);
-          }, 1000);
+          console.log("Hello");
+          var urlparam = location.search;
+          var params = new URLSearchParams(urlparam);
+          var menu = params.get('menu');
+          if(menu == 1) {
+            this1.menu = 1;
+          }else if(menu == 2) {
+            this1.menu = 2;
+          }
+          console.log(resolve);
         });
       }
-
-      async function asyncFunc() {
-        const temp = await p();
-        // console.log(temp);
-        this.ChangMenu(temp);
-      }
-
-      asyncFunc();
+      await p();
     }
-    
   }
 </script>
 
