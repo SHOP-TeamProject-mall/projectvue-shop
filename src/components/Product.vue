@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
-        <div class="row">
+        <div class="row" >
           <div class="col-2">남성상의
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected>보기</option>
@@ -83,33 +83,123 @@
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon21">Button</button>
             </div>
           </div>
         </div>
         <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+          <div class="col-4 themed-grid-col" v-for="a in aa" v-bind:key="a">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명{{this.menu}}</p>
+                  </div>
+                </div><hr>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div>
+                <h2 style="padding:50px;"><strong>상품정보</strong></h2>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/main1.jpg" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                  <h3 style="color:black; text-align:center; margin-left:50px;">물품명</h3>
+                  <h3 style="color:red; text-align:center; margin-left:50px;">38,000원</h3>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/main1.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/main2.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/main3.jpg" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="selectsize">
+                  <label for="selectsize">size</label>
+                  <select id="selectsize">
+                    <option>S</option>
+                    <option>M</option>
+                    <option>L</option>
+                    <option>XL</option>
+                    <option>XXL</option>
+                  </select>
+
+                  <input type="checkbox" id="selectcolor">
+                  <label for="selectcolor">color</label>
+                  <select id="selectcolor">
+                    <option>black</option>
+                    <option>white</option>
+                    <option>green</option>
+                    <option>red</option>
+                    <option>orange</option>
+                  </select>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -135,7 +225,7 @@
             </div>
           </div>
         </div>
-        <div class="row mb-3 mt-5">
+        <div class="row mb-3 mt-5" v-for="a in aa" v-bind:key="a">
           <div class="col-4 themed-grid-col">
             <div class="card" style="width: 18rem; border:1px solid black;">
               <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
@@ -268,7 +358,8 @@
   export default {
     data(){
       return{
-        menu:1
+        menu:1,
+        aa:9
       }
     },
     methods:{
@@ -311,6 +402,7 @@
 
 <style lang="scss" scoped>
 @import 'bootstrap/scss/bootstrap';
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -414,4 +506,259 @@ main {
 
 .fw-semibold { font-weight: 600; }
 .lh-tight { line-height: 1.25; }
+
+// 사이드바
+input[id="menuicon"] {display:none;}
+input[id="menuicon"] + label {display: block; position: relative; cursor: pointer;}
+
+
+div[class="sidebar"] {width: 600px; height: 100%; background: rgb(255, 255, 255);position: fixed;top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
+input[id="menuicon"]:checked + label + div {left: 0;}
+
+// 슬라이드 이미지
+.section input[id*="slide"]{
+  display: none;
+}
+.section .slidewrap{
+  max-width: 1200px;
+  margin:0 auto;
+  overflow: hidden;
+}
+.section .slidelist{
+  white-space: nowrap;
+  font-size: 0;
+}
+.section .slidelist > li {
+  display: inline-block;
+  vertical-align: center;
+  width: 100%;
+  transition: all .5s;
+}
+.section .slidelist > li > a {
+  display: block;
+  position: relative;
+}
+.section .slidelist > li > a img{
+  width:100%;
+  margin-left: -15px;;
+}
+.section .slidelist label {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 50px;
+  cursor: pointer;
+}
+.section .slidelist .left{
+  left: 30px;
+  background: url('../assets/logo.png') center center / 100% no-repeat;
+}
+
+.section .slidelist .right{
+  right: 30px;
+  background: url('../assets/logo.png') center center / 100% no-repeat;
+}
+
+.section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform: translateX(0%);}
+.section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-100%);}
+.section [id="slide03"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-200%);}
+
+// 모달 이미지
+input[id*="popup"]{
+  display: none;
+}
+input[id="popup"] + label {
+  display: inline-block;
+  color: #fff;
+}
+input[id="popup"] + label > img{
+  width: 500px;
+  margin-top: -5%;
+  margin-left: 10%;
+
+}
+input[id="popup"] + label + div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+input[id="popup"] + label + div > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 700px;
+  height: 400px;
+  background: rgba(0, 0, 0, .9);
+  z-index: 2;
+}
+input[id="popup"] + label + div > div > label {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  transform: translate(40%, -40%);
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 100%;
+  z-index: 1;
+}
+input[id="popup"] + label + div > label {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .9);
+  z-index: 1;
+}
+input[id*="popup"] + label + div{
+  opacity: 0;visibility: hidden;transition: all 1s;
+}
+input[id*="popup"]:checked + label + div{
+  opacity: 1;visibility: visible;
+}
+
+// 상품정보페이지
+//선택 = 사이즈
+input[id*="selectsize"]{
+  display: none;
+}
+
+input[id*="selectsize"] + label{
+  font-size: 20px;
+    margin-left: 8%;
+}
+
+select[id="selectsize"] {
+  width: 30%;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 20px;
+  border: 2px solid #ddd;
+}
+
+//선택 = 컬러
+input[id*="selectcolor"]{
+  display: none;
+}
+
+input[id*="selectcolor"] + label{
+  font-size: 20px;
+    margin-left: 5%;
+}
+select[id="selectcolor"] {
+  width: 30%;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 20px;
+    border: 2px solid #ddd;
+}
+// 주문버튼 ================================================
+// 주문하기
+.product_order_btn {
+  font-size: 21px;
+  padding: 15px 30px;
+  border: 1px solid red;
+  background-color:transparent ;
+  color: red;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.product_order_btn:focus{
+  outline: none;
+}
+.product_order_btn::before{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: red;
+  top: 100%;
+  left: 0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+.product_order_btn:hover::before{
+  transform: translateY(-100%);
+}
+.product_order_btn:hover{
+  color: white;
+}
+//장바구니
+.product_order_btn_shopping_basket {
+  font-size: 21px;
+  padding: 15px 30px;
+  border: 1px solid rgb(0, 0, 0, .9);
+  background-color:transparent ;
+  color: rgb(0, 0, 0, .9);
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.product_order_btn_shopping_basket:focus{
+  outline: none;
+}
+.product_order_btn_shopping_basket::before{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(0, 0, 0, .9);
+  top: 100%;
+  left: 0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+.product_order_btn_shopping_basket:hover::before{
+  transform: translateY(-100%);
+}
+.product_order_btn_shopping_basket:hover{
+  color: white;
+}
+// 찜하기
+.product_order_btn_heart {
+  font-size: 21px;
+  padding: 15px 30px;
+  border: 1px solid red;
+  background-color:transparent ;
+  color: red;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.product_order_btn_heart:focus{
+  outline: none;
+}
+.product_order_btn_heart::before{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: red;
+  top: 100%;
+  left: 0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+.product_order_btn_heart:hover::before{
+  transform: translateY(-100%);
+}
+.product_order_btn_heart:hover{
+  color: white;
+}
+
 </style>

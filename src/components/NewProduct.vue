@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row" style="margin-top:50px;" v-for="a in aa" v-bind:key="a">
     <div class="col">
-      1 of 3
+
     </div>
 
     <div class="col-8" >
@@ -22,7 +22,7 @@
 
     </div>
     <div class="col">
-      3 of 3
+
     </div>
   </div>
 

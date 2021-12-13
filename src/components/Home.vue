@@ -97,7 +97,7 @@
       </div>
     </div>
     
-    <div class="col-sm-4 themed-grid-col" style="margin-left:250px; margin-top:50px;">
+    <div class="col-sm-5 themed-grid-col" style="margin-left:200px; margin-top:50px;">
       <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -155,6 +155,21 @@
       </div>
     </div>
   </div>
+
+  <hr style="margin-top:50px;">
+
+  <div class="container">
+
+        <ul class="child-ul">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+
+
+  </div>
 </div>
 
 
@@ -184,5 +199,27 @@ export default {
     }
   }
 
+input[id="menuicon"] {display:none;}
+input[id="menuicon"] + label {display: block; margin: 30px; width: 30px; height: 50px; position: relative; cursor: pointer;}
+
+
+div[class="sidebar"] {width: 300px; height: 100%; background: #222;position: fixed;top: 0;left: -300px;z-index: 1;transition: all .35s;}
+input[id="menuicon"]:checked + label + div {left: 0;}
+
+*{margin: 0; padding: 0;}
+.child-ul {font-size: 0;height: 700px; width: 100%; align-content: center; margin-top: 50px;}
+.child-ul:after {content:'';clear: both;display: block;float: none;}
+.child-ul li {float:right;display: block;width: 33.3%;font-size: 12px;}
+.child-ul li:nth-child(2) {width: 66.6%;}
+.child-ul li:nth-child(2) a {height: 410px;}
+.child-ul li:nth-child(3) a {height: 410px; margin-top: -155px;}
+.child-ul li a {display: block; width: auto; margin: 5px; background: #ccc; height: 250px; transition: 1s;}
+.child-ul li:nth-child(1) a {background: url('../assets/img/main1.jpg') center center / 100% no-repeat;}
+.child-ul li:nth-child(2) a {background: url('../assets/img/main2.jpg') center center / 100% no-repeat;}
+.child-ul li:nth-child(3) a {background: url('../assets/img/main3.jpg') center center / 200% no-repeat;}
+.child-ul li:nth-child(4) a {background: url('../assets/img/main1.jpg') center center / 100% no-repeat;}
+.child-ul li:nth-child(5) a {background: url('../assets/img/main2.jpg') center center / 100% no-repeat;}
+.child-ul li a:hover {background-size: 110%;}
+.child-ul li:nth-child(3) a:hover {background-size: 210%;}
 
 </style>
