@@ -4,6 +4,7 @@ import Product from '@/components/Product.vue';
 import NewProduct from '@/components/NewProduct.vue';
 import ProductReview from '@/components/ProductReview.vue';
 import ServiceCenter from '@/components/ServiceCenter.vue';
+import Join from '@/components/Join.vue';
 
 
 const routes = [
@@ -13,6 +14,7 @@ const routes = [
   { path:'/newproduct', name:"NewProduct", component:NewProduct },
   { path:'/productreview', name:"ProductReview", component:ProductReview },
   { path:'/servicecenter', name:"ServiceCenter", component:ServiceCenter },
+  { path:'/join', name:"Join", component:Join },
 ]
 
 const router = createRouter({

@@ -1,6 +1,6 @@
 <template>
 <div class="container" >
-      <header class="py-3 mb-3 border-bottom">
+  <header class="py-3 mb-3 border-bottom">
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
       <div class="dropdown">
         <a href="#" @click="changeMenu(1)" style="text-decoration: none; color:black;">
@@ -13,7 +13,12 @@
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
 
-        <div class="flex-shrink-0 dropdown">
+        <div class="flex-shrink-0" >
+          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;"><span><strong>로그인</strong></span></a> | 
+          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-left:5px;" @click="changeMenu(6)"><span><strong>회원가입</strong></span></a>
+        </div>
+        <!-- // 회원 아이콘 -->
+        <!-- <div class="flex-shrink-0 dropdown">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
@@ -24,7 +29,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">로그아웃</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
   </header>
@@ -119,6 +124,9 @@
         }
         else if(menu === 5){
           this.$router.push({ path: "/servicecenter "});
+        }
+        else if(menu === 6){
+          this.$router.push({ path: "/join "});
         }
         this.active = '';
       },

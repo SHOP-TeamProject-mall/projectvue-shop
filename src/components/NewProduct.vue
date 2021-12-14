@@ -22,7 +22,11 @@
 
     </div>
     <div class="col">
-
+<div class="input-number">
+									<input type="number" :value="ordercnt1">
+									<span class="qty-up" @click="orderCnt(1)">+</span>
+									<span class="qty-down" @click="orderCnt(2)">-</span>
+								</div>
     </div>
   </div>
 
