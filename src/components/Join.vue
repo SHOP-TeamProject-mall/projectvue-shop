@@ -101,7 +101,7 @@ input[type="file"] + label{
 }
 p{
     font-family: 'Noto Sans KR', sans-serif;
-    color: rgb(15, 15, 155);
+    color: rgb(214, 7, 7);
     position: relative;
     margin-top: 5px;
     font-size: 12px;
