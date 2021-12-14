@@ -112,8 +112,6 @@
                 <img src="../assets/img/main1.jpg" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                  <h3 style="color:black; text-align:center; margin-left:50px;">물품명</h3>
-                  <h3 style="color:red; text-align:center; margin-left:50px;">38,000원</h3>
                 </div>
               </label>
               <div>
@@ -155,6 +153,8 @@
                   </label>
               </div>
 
+                  <h3 style="color:black; text-align:center;">물품명</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
