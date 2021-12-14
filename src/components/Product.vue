@@ -512,7 +512,7 @@ input[id="menuicon"] {display:none;}
 input[id="menuicon"] + label {display: block; position: relative; cursor: pointer;}
 
 
-div[class="sidebar"] {width: 600px; height: 100%; background: rgb(255, 255, 255);position: fixed;top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
+div[class="sidebar"] {width: 600px; height: 133%; background: rgb(255, 255, 255);position:absolute; top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
 input[id="menuicon"]:checked + label + div {left: 0;}
 
 // 슬라이드 이미지
@@ -663,6 +663,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
+  border-radius: 25px;
   background-color:transparent ;
   color: red;
   text-transform: uppercase;
@@ -697,6 +698,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid rgb(0, 0, 0, .9);
+  border-radius: 25px;
   background-color:transparent ;
   color: rgb(0, 0, 0, .9);
   text-transform: uppercase;
@@ -731,6 +733,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
+  border-radius: 25px;
   background-color:transparent ;
   color: red;
   text-transform: uppercase;

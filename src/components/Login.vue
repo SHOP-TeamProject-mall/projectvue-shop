@@ -2,41 +2,18 @@
     <div class="container">
 
              
-                <section class="Login-form" style="margin-bottom:-50px;">
-                    <h1>JOIN</h1>
-                    <div class="file-area">
-                        <input type="file" id="file" accept="">
-                        <label for="file">
-                            <div><img src="../assets/img/user_image.png" alt="" width="120px;" style="color:blue;"></div>
-                        </label>
-                        <p>이미지를 클릭해 사진을 등록하세요</p>
-                    </div>
+                <section class="Login-form">
+                    <h1>LOGIN</h1>
                     <div class="int-area">
                         <input type="text" name="id" id="id" autocomplete="off" required>
-                        <label for="id">USER ID</label>
+                        <label for="id">USER NAME</label>
                     </div>
                     <div class="int-area">
                         <input type="password" name="pw" id="pw"  autocomplete="off" required>
                         <label for="id">PASSWORD</label>
                     </div>
-                    <div class="int-area">
-                        <input type="password" name="pw_check" id="pw_check"  autocomplete="off" required>
-                        <label for="pw_check">PASSWORD CHECK</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_name" id="user_name" autocomplete="off" required>
-                        <label for="user_name">USER NAME</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_phone" id="user_phone" autocomplete="off" required>
-                        <label for="user_phone">USER PHONE</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_address" id="user_address" autocomplete="off" required>
-                        <label for="user_address">USER ADDRESS</label>
-                    </div>
                     <div class="btn-area">
-                        <button type="submit">회원가입</button>
+                        <button type="submit">로그인</button>
                     </div>
                     <div class="caption">
                         <a href="#" >Forgot Password?</a>
@@ -66,7 +43,7 @@
     justify-content: center;
     align-items: center;
     height: 85vh;
-    background: url("../assets/img/join_background.jpg") no-repeat center;
+    background: url("../assets/img/login_background.png") no-repeat center;
     background-size: cover;
 }
 .container::before{
@@ -84,35 +61,10 @@
     text-align: center;
     margin-bottom: 60px;
 }
-input[type="file"]{
-    display: none;
-}
-input[type="file"] + label{
-    color: rgb(81, 81, 246);
-    width: 190px;
-    // background-color: #f5af09;
-    position: relative;
-    margin: auto;
-    margin-top: -40px;
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-p{
-    font-family: 'Noto Sans KR', sans-serif;
-    color: rgb(15, 15, 155);
-    position: relative;
-    margin-top: 5px;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .int-area{
     width: 400px;
     position: relative;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 .int-area:first-child{
     margin-top: 0;
@@ -123,12 +75,12 @@ p{
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #999;
-    font-size: 18px; color: rgb(0, 0, 0);
+    font-size: 20px; color: rgb(0, 0, 0);
     outline: none;
 }
 .int-area label{
     position: absolute; left: 10px; top: 15px;
-    font-size: 18px; color: #999;
+    font-size: 25px; color: #999;
 }
 .int-area input:focus + label,
 .int-area input:valid + label {
@@ -161,10 +113,10 @@ p{
   width: 100%; height: 60px;
   font-size: 21px;
   padding: 15px 30px;
-  border: 3px solid rgb(81, 81, 246);
+  border: 3px solid pink;
   border-radius: 25px;
   background-color:transparent ;
-  color: rgb(81, 81, 246);
+  color: pink;
   text-transform: uppercase;
   letter-spacing: 5px;
   font-weight: bold;
@@ -180,7 +132,7 @@ p{
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgb(81, 81, 246);
+  background-color: pink;
   top: 100%;
   left: 0;
   transition: all 0.4s;
@@ -192,5 +144,4 @@ p{
 .btn-area button:hover{
   color: white;
 }
-
 </style>

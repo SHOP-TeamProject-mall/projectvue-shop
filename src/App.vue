@@ -14,7 +14,7 @@
         </form>
 
         <div class="flex-shrink-0" >
-          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;"><span><strong>로그인</strong></span></a> | 
+          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;" @click="changeMenu(7)"><span><strong>로그인</strong></span></a> | 
           <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-left:5px;" @click="changeMenu(6)"><span><strong>회원가입</strong></span></a>
         </div>
         <!-- // 회원 아이콘 -->
@@ -96,6 +96,12 @@
     </nav>
       <router-view :key="$route.fullPath"></router-view>
 </div>
+
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">Place sticky footer content here.</span>
+  </div>
+</footer>
 </template>
 
 <script>
@@ -127,6 +133,9 @@
         }
         else if(menu === 6){
           this.$router.push({ path: "/join "});
+        }
+        else if(menu === 7){
+          this.$router.push({ path: "/login "});
         }
         this.active = '';
       },

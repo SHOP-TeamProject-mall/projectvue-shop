@@ -5,7 +5,7 @@ import NewProduct from '@/components/NewProduct.vue';
 import ProductReview from '@/components/ProductReview.vue';
 import ServiceCenter from '@/components/ServiceCenter.vue';
 import Join from '@/components/Join.vue';
-
+import Login from '@/components/Login.vue';
 
 const routes = [
   { path:'/home', name:"Home", component:Home },
@@ -15,6 +15,7 @@ const routes = [
   { path:'/productreview', name:"ProductReview", component:ProductReview },
   { path:'/servicecenter', name:"ServiceCenter", component:ServiceCenter },
   { path:'/join', name:"Join", component:Join },
+  { path:'/login', name:"Login", component:Login },
 ]
 
 const router = createRouter({
