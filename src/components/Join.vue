@@ -2,7 +2,7 @@
     <div class="container">
 
              
-                <section class="Login-form" style="margin-bottom:-50px;">
+                <section class="Login-form">
                     <h1>JOIN</h1>
                     <div class="file-area">
                         <input type="file" id="file" accept="">
@@ -65,8 +65,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 85vh;
-    background: url("../assets/img/join_background.jpg") no-repeat center;
+    height: 90vh;
+    background: url("../assets/img/login_background.png") no-repeat center;
     background-size: cover;
 }
 .container::before{
@@ -123,12 +123,12 @@ p{
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #999;
-    font-size: 18px; color: rgb(0, 0, 0);
+    font-size: 20px; color: rgb(0, 0, 0);
     outline: none;
 }
 .int-area label{
     position: absolute; left: 10px; top: 15px;
-    font-size: 18px; color: #999;
+    font-size: 25px; color: #999;
 }
 .int-area input:focus + label,
 .int-area input:valid + label {
@@ -161,10 +161,10 @@ p{
   width: 100%; height: 60px;
   font-size: 21px;
   padding: 15px 30px;
-  border: 3px solid rgb(81, 81, 246);
+  border: 3px solid pink;
   border-radius: 25px;
   background-color:transparent ;
-  color: rgb(81, 81, 246);
+  color: pink;
   text-transform: uppercase;
   letter-spacing: 5px;
   font-weight: bold;
@@ -180,7 +180,7 @@ p{
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgb(81, 81, 246);
+  background-color: pink;
   top: 100%;
   left: 0;
   transition: all 0.4s;

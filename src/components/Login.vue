@@ -42,7 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 85vh;
+    height: 90vh;
     background: url("../assets/img/login_background.png") no-repeat center;
     background-size: cover;
 }
