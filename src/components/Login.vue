@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <section class="Login-form">
+        <section class="Login-form" style="margin-top:-150px;">
             <h1>LOGIN</h1>
             <div class="int-area">
                 <input type="text" name="id" id="id" autocomplete="off" required v-model="memberid">
@@ -60,7 +60,7 @@ import axios from "axios";
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 110vh;
     background: url("../assets/img/login_background.png") no-repeat center;
     background-size: cover;
 }
@@ -88,6 +88,7 @@ import axios from "axios";
     margin-top: 0;
 }
 .int-area input{
+    font-family: 'Noto Sans KR', sans-serif;
     width: 100%;
     padding: 20px 10px 10px;
     background-color: transparent;

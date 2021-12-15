@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <section class="Login-form">
+        <section class="Login-form" style="margin-top:-80px;">
             <h1>JOIN</h1>
             <div class="file-area">
                 <input type="file" id="file" accept="">
                 <label for="file">
-                    <div><img src="../assets/img/user_image.png" alt="" width="120px;" style="color:blue;"></div>
+                    <div><img src="../assets/img/user_image1.png" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
                 <p>이미지를 클릭해 사진을 등록하세요</p>
             </div>
@@ -18,7 +18,7 @@
                 <label for="id">PASSWORD</label>
             </div>
             <div class="int-area">
-                <input type="password" name="pw_check" id="pw_check"  autocomplete="off" required v-model="memberemail">
+                <input type="password" name="pw_check" id="pw_check"  autocomplete="off" required v-model="memberpw_check">
                 <label for="pw_check">PASSWORD CHECK</label>
             </div>
             <div class="int-area">
@@ -41,7 +41,7 @@
                 <button type="submit" @click="handlejoin">회원가입</button>
             </div>
             <div class="caption">
-                <a href="#" >Forgot Password?</a>
+                <input type="checkbox"><a href="#" style="margin-left:10px;">이용약관에 동의합니다 (약관 보기)</a>
             </div>
         </section>
     </div>
@@ -62,6 +62,7 @@ import axios from "axios";
             },
 
         methods : {
+            // 회원가입
            async handlejoin(){
                if (this.memberid.length === 0) {
 					return alert("아이디를 입력하세요");
@@ -112,7 +113,7 @@ import axios from "axios";
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 110vh;
     background: url("../assets/img/login_background.png") no-repeat center;
     background-size: cover;
 }
@@ -123,6 +124,7 @@ import axios from "axios";
     background-color: rgba(0, 0, 0,.7);
 }
 .Login-form{
+    margin-top: 50px;
     position: relative;
     z-index: 2;
 }
@@ -165,6 +167,7 @@ p{
     margin-top: 0;
 }
 .int-area input{
+    font-family: 'Noto Sans KR', sans-serif;
     width: 100%;
     padding: 20px 10px 10px;
     background-color: transparent;
@@ -179,6 +182,7 @@ p{
 }
 .int-area input:focus + label,
 .int-area input:valid + label {
+    
     top:0px;
     font-size: 18px; color: rgb(180, 12, 12);
 }
@@ -195,6 +199,7 @@ p{
 //     cursor: pointer;
 // }
 .caption{
+    font-family: 'Noto Sans KR', sans-serif;
     margin-top: 20px;
     text-align: center;
     margin-bottom:20px;

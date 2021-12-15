@@ -84,7 +84,7 @@
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
               <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon21">Button</button>
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
             </div>
           </div>
         </div>
@@ -103,8 +103,11 @@
             </label>
             <!-- 사이드바 -->
             <div class="sidebar">
-              <div>
-                <h2 style="padding:50px;"><strong>상품정보</strong></h2>
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
               </div>
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
@@ -539,8 +542,8 @@ input[id="menuicon"]:checked + label + div {left: 0;}
   position: relative;
 }
 .section .slidelist > li > a img{
-  width:100%;
-  margin-left: -15px;;
+  width:90%;
+
 }
 .section .slidelist label {
   position: absolute;
@@ -552,12 +555,12 @@ input[id="menuicon"]:checked + label + div {left: 0;}
 }
 .section .slidelist .left{
   left: 30px;
-  background: url('../assets/logo.png') center center / 100% no-repeat;
+  background: url('../assets/img/left_white.png') center center / 80% no-repeat;
 }
 
 .section .slidelist .right{
-  right: 30px;
-  background: url('../assets/logo.png') center center / 100% no-repeat;
+  right: 100px;
+  background: url('../assets/img/right_white.png') center center / 80% no-repeat;
 }
 
 .section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform: translateX(0%);}
@@ -593,17 +596,16 @@ input[id="popup"] + label + div > div {
   transform: translate(-50%,-50%);
   width: 700px;
   height: 400px;
-  background: rgba(0, 0, 0, .9);
   z-index: 2;
 }
+// close 버튼
 input[id="popup"] + label + div > div > label {
   position: absolute;
-  top: 0%;
-  right: 0%;
+  top: 4%;
+  right: 12%;
   transform: translate(40%, -40%);
   padding: 20px;
-  background: #ffffff;
-  border-radius: 100%;
+  background: url('../assets/img/close.png') center center no-repeat;
   z-index: 1;
 }
 input[id="popup"] + label + div > label {
@@ -663,7 +665,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
-  border-radius: 25px;
+
   background-color:transparent ;
   color: red;
   text-transform: uppercase;
@@ -698,7 +700,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid rgb(0, 0, 0, .9);
-  border-radius: 25px;
+
   background-color:transparent ;
   color: rgb(0, 0, 0, .9);
   text-transform: uppercase;
@@ -733,7 +735,7 @@ select[id="selectcolor"] {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
-  border-radius: 25px;
+
   background-color:transparent ;
   color: red;
   text-transform: uppercase;
