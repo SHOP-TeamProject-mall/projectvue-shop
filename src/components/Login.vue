@@ -1,33 +1,51 @@
 <template>
     <div class="container">
-
-             
-                <section class="Login-form">
-                    <h1>LOGIN</h1>
-                    <div class="int-area">
-                        <input type="text" name="id" id="id" autocomplete="off" required>
-                        <label for="id">USER NAME</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="password" name="pw" id="pw"  autocomplete="off" required>
-                        <label for="id">PASSWORD</label>
-                    </div>
-                    <div class="btn-area">
-                        <button type="submit">로그인</button>
-                    </div>
-                    <div class="caption">
-                        <a href="#" >Forgot Password?</a>
-                    </div>
-                </section>
-             
-
+        <section class="Login-form">
+            <h1>LOGIN</h1>
+            <div class="int-area">
+                <input type="text" name="id" id="id" autocomplete="off" required v-model="memberid">
+                <label for="id">USER NAME</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="pw" id="pw"  autocomplete="off" required v-model="memberpw">
+                <label for="id">PASSWORD</label>
+            </div>
+            <div class="btn-area">
+                <button type="submit" @click="handlelogin">로그인</button>
+            </div>
+            <div class="caption">
+                <a href="#" >Forgot Password?</a>
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
+import axios from "axios";
     export default {
-        methods:{
+        data(){
+            return {
+				memberid : "a1",
+				memberpw : "a",
+				token 	 : sessionStorage.getItem("TOKEN"),
+            }
+        },
 
+        methods : {
+            async handlelogin(){
+                if(this.memberid.length === 0){
+                    return alert("아이디를 입력하세요.")
+                }
+                if(this.memberpw.length === 0){
+                    return alert("비밀번호를 입력하세요.")
+                }
+
+                const url = "/HOST/member/memberlogin.json" ;
+                const body = { memberid: this.memberid, memberpw: this.memberpw };
+                const headers = { "Content-Type": "application/json" };
+                const response = await axios.post( url , body, { headers });
+                console.log(response);
+            }
         }
     }
 </script>

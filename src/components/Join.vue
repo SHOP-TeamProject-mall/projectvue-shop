@@ -1,56 +1,103 @@
 <template>
     <div class="container">
-
-             
-                <section class="Login-form">
-                    <h1>JOIN</h1>
-                    <div class="file-area">
-                        <input type="file" id="file" accept="">
-                        <label for="file">
-                            <div><img src="../assets/img/user_image.png" alt="" width="120px;" style="color:blue;"></div>
-                        </label>
-                        <p>이미지를 클릭해 사진을 등록하세요</p>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="id" id="id" autocomplete="off" required>
-                        <label for="id">USER ID</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="password" name="pw" id="pw"  autocomplete="off" required>
-                        <label for="id">PASSWORD</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="password" name="pw_check" id="pw_check"  autocomplete="off" required>
-                        <label for="pw_check">PASSWORD CHECK</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_name" id="user_name" autocomplete="off" required>
-                        <label for="user_name">USER NAME</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_phone" id="user_phone" autocomplete="off" required>
-                        <label for="user_phone">USER PHONE</label>
-                    </div>
-                    <div class="int-area">
-                        <input type="text" name="user_address" id="user_address" autocomplete="off" required>
-                        <label for="user_address">USER ADDRESS</label>
-                    </div>
-                    <div class="btn-area">
-                        <button type="submit">회원가입</button>
-                    </div>
-                    <div class="caption">
-                        <a href="#" >Forgot Password?</a>
-                    </div>
-                </section>
-             
-
+        <section class="Login-form">
+            <h1>JOIN</h1>
+            <div class="file-area">
+                <input type="file" id="file" accept="">
+                <label for="file">
+                    <div><img src="../assets/img/user_image.png" alt="" width="120px;" style="color:blue;"></div>
+                </label>
+                <p>이미지를 클릭해 사진을 등록하세요</p>
+            </div>
+            <div class="int-area">
+                <input type="text" name="id" id="id" autocomplete="off" required v-model="memberid">
+                <label for="id">USER ID</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="pw" id="pw"  autocomplete="off" required v-model="memberpw">
+                <label for="id">PASSWORD</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="pw_check" id="pw_check"  autocomplete="off" required v-model="memberemail">
+                <label for="pw_check">PASSWORD CHECK</label>
+            </div>
+            <div class="int-area">
+                <input type="text" name="user_name" id="user_name" autocomplete="off" required v-model="membername">
+                <label for="user_name">USER NAME</label>
+            </div>
+            <div class="int-area">
+                <input type="text" name="user_email" id="user_name" autocomplete="off" required v-model="memberemail">
+                <label for="user_name">USER EMAIL</label>
+            </div>
+            <div class="int-area">
+                <input type="text" name="user_phone" id="user_phone" autocomplete="off" required v-model="memberphone">
+                <label for="user_phone">USER PHONE</label>
+            </div>
+            <div class="int-area">
+                <input type="text" name="user_address" id="user_address" autocomplete="off" required v-model="memberaddress">
+                <label for="user_address">USER ADDRESS</label>
+            </div>
+            <div class="btn-area">
+                <button type="submit" @click="handlejoin">회원가입</button>
+            </div>
+            <div class="caption">
+                <a href="#" >Forgot Password?</a>
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
+import axios from "axios";
     export default {
-        methods:{
+        data(){
+            return {
+                memberid      : "a1",
+                memberpw      : "a" ,
+                membername      : "규",
+                memberemail   : "a@a,com",
+                memberaddress : "부산시 해운대구",
+                memberphone   : "010-0000-0000"
+                }
+            },
 
+        methods : {
+           async handlejoin(){
+               if (this.memberid.length === 0) {
+					return alert("아이디를 입력하세요");
+				}
+				if (this.memberpw.length === 0) {
+					return alert("비밀번호를 입력하세요");
+				}
+                if (this.membername.length === 0) {
+					return alert("비밀번호를 입력하세요");
+				}
+				if (this.memberemail.length === 0) {
+					return alert("이메일을 입력하세요");
+				}
+				if (this.memberaddress === 0){
+					return alert("주소를 입력하세요");
+				}
+				if (this.memberphone.length === 0) {
+					return alert("연락처를 입력하세요");
+				}
+
+                const headers = { "Content-Type": "application/json" };
+                const url = `/HOST/member/memberjoin.json`;
+                const body = {
+                    memberid      : this.memberid,
+                    memberpw      : this.memberpw,
+                    membername      : this.membername,
+                    memberemail   : this.memberemail,
+                    memberaddress : this.memberaddress,
+                    memberphone   : this.memberphone,
+                };
+                
+                const response = await axios.post(url, body, headers);
+                console.log(response);
+                alert("회원가입이 완료되었습니다.");
+                this.$router.push({ path: "/Login" });
+            }
         }
     }
 </script>
