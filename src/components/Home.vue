@@ -5,7 +5,7 @@
       <div class="card mb-3" style="width: 600px; border-bottom:2px solid red; border-left:3px solid red">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="../assets/img/logo11.png" class="img-fluid rounded-start" alt="...">
+            <img src="../assets/img/main3.jpg" class="img-fluid rounded-start" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -106,7 +106,7 @@
         </div>
         <div class="carousel-inner" >
           <div class="carousel-item active">
-            <img src="../assets/img/main3.jpg" class="bd-placeholder-img" alt="" width="100%" height="700px">
+            <img src="../assets/img/product33.gif" class="bd-placeholder-img" alt="" width="100%" height="700px">
 
             <div class="container">
               <div class="carousel-caption text-start">
@@ -119,7 +119,7 @@
           </div>
 
           <div class="carousel-item">
-            <img src="../assets/img/main2.jpg" class="bd-placeholder-img" alt="" width="100%" height="700px">
+            <img src="../assets/img/product22.jpg" class="bd-placeholder-img" alt="" width="100%" height="700px">
 
             <div class="container">
               <div class="carousel-caption">
@@ -131,7 +131,7 @@
           </div>
 
           <div class="carousel-item">
-            <img src="../assets/img/main1.jpg" class="bd-placeholder-img" alt="" width="100%" height="700px">
+            <img src="../assets/img/product11.jpg" class="bd-placeholder-img" alt="" width="100%" height="700px">
 
             <div class="container">
               <div class="carousel-caption text-end">

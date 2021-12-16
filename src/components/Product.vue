@@ -112,7 +112,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/main1.jpg" alt="">
+                <img src="../assets/img/product33.gif" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -129,21 +129,21 @@
                         <li>
                           <a href="#">
                             <label for="slide03" class="left"></label>
-                            <img src="../assets/img/main1.jpg" alt="">
+                            <img src="../assets/img/product11.jpg" alt="">
                             <label for="slide02" class="right"></label>
                           </a>
                         </li>
                         <li>
                           <a href="#">
                             <label for="slide01" class="left"></label>
-                            <img src="../assets/img/main2.jpg" alt="">
+                            <img src="../assets/img/product22.jpg" alt="">
                             <label for="slide03" class="right"></label>
                           </a>
                         </li>
                         <li>
                           <a href="#">
                             <label for="slide02" class="left"></label>
-                            <img src="../assets/img/main3.jpg" alt="">
+                            <img src="../assets/img/product33.gif" alt="">
                             <label for="slide01" class="right"></label>
                           </a>
                         </li>
@@ -156,7 +156,7 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">물품명</h3>
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
                   <h3 style="color:red; text-align:center;">38,000원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
@@ -166,25 +166,25 @@
                 <br>
 
                 <div style="margin-top:30px;">
-                  <input type="checkbox" id="selectsize">
-                  <label for="selectsize">size</label>
-                  <select id="selectsize">
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                    <option>XXL</option>
-                  </select>
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option">ddd</label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                    </div>
 
-                  <input type="checkbox" id="selectcolor">
-                  <label for="selectcolor">color</label>
-                  <select id="selectcolor">
-                    <option>black</option>
-                    <option>white</option>
-                    <option>green</option>
-                    <option>red</option>
-                    <option>orange</option>
-                  </select>
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                    </div>
+                  </div>
 
                 </div>
 
@@ -203,6 +203,7 @@
                     </button>
                   </span>
                 </div>
+                <br>
               </div>
             </div>
           </div>
@@ -362,7 +363,8 @@
     data(){
       return{
         menu:1,
-        aa:9
+        aa:9,
+        
       }
     },
     methods:{
@@ -515,7 +517,7 @@ input[id="menuicon"] {display:none;}
 input[id="menuicon"] + label {display: block; position: relative; cursor: pointer;}
 
 
-div[class="sidebar"] {width: 600px; height: 133%; background: rgb(255, 255, 255);position:absolute; top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
+div[class="sidebar"] {width: 600px; height: 100%; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
 input[id="menuicon"]:checked + label + div {left: 0;}
 
 // 슬라이드 이미지
@@ -576,8 +578,9 @@ input[id="popup"] + label {
   color: #fff;
 }
 input[id="popup"] + label > img{
-  width: 500px;
-  margin-top: -5%;
+  width: 100%;
+  height: 50%;
+  margin-top: -15%;
   margin-left: 10%;
 
 }
@@ -591,23 +594,23 @@ input[id="popup"] + label + div {
 }
 input[id="popup"] + label + div > div {
   position: absolute;
-  top: 50%;
+  top: 22.5%;
   left: 50%;
   transform: translate(-50%,-50%);
   width: 700px;
   height: 400px;
   z-index: 2;
 }
-// close 버튼
-input[id="popup"] + label + div > div > label {
-  position: absolute;
-  top: 4%;
-  right: 12%;
-  transform: translate(40%, -40%);
-  padding: 20px;
-  background: url('../assets/img/close.png') center center no-repeat;
-  z-index: 1;
-}
+// // close 버튼
+// input[id="popup"] + label + div > div > label {
+//   position: block;
+//   margin-left:100%;
+//   right: 0%;
+//   transform: translate(40%, -40%);
+//   padding: 20px;
+//   background: url('../assets/img/close.png') center center no-repeat;
+//   z-index: 1;
+// }
 input[id="popup"] + label + div > label {
   position: absolute;
   top: 0%;
@@ -625,40 +628,36 @@ input[id*="popup"]:checked + label + div{
 }
 
 // 상품정보페이지
-//선택 = 사이즈
-input[id*="selectsize"]{
-  display: none;
+//선택 = 옵션
+input[id="select_option"] {display:none;}
+input[id="select_option"] + label {display: block; position: relative; cursor: pointer; border: 2px solid #999; width: 80%; left: 10%; text-align: center; font-size: 18px; font-weight: 600;}
+div[class="select_option_list"] {width: 440px; height: 100px; background: rgb(255, 255, 255); margin-left: 8.5%;  position: block; overflow-y: auto; top: 69%;left: 13%;z-index: 1;transition: all .35s; border: 2px solid #999;}
+input[id="select_option"]:checked + label + div {display: none;}
+div[class="select_option_list_content"]{
+  width: 410px;
+  height: 52px;
+  margin: 5px;
+}
+div[class="select_option_list_content"] img{
+  width: 50px;
+  height: 50px; 
+}
+div[class="select_option_list_content"] span[id="select_option_list_content_name"]{
+  position: block;
+  margin-left: 10%;
+  font-size: 16px;
+  margin-top: 11px;
+  font-weight: bold;
+}
+div[class="select_option_list_content"] span[id="select_option_list_content_quantity"]{
+  position: block;
+  margin-top: 11px;
+  float: right;
+  font-size: 16px;
+
 }
 
-input[id*="selectsize"] + label{
-  font-size: 20px;
-    margin-left: 8%;
-}
 
-select[id="selectsize"] {
-  width: 30%;
-  text-align: center;
-  margin-left: 10px;
-  font-size: 20px;
-  border: 2px solid #ddd;
-}
-
-//선택 = 컬러
-input[id*="selectcolor"]{
-  display: none;
-}
-
-input[id*="selectcolor"] + label{
-  font-size: 20px;
-    margin-left: 5%;
-}
-select[id="selectcolor"] {
-  width: 30%;
-  text-align: center;
-  margin-left: 10px;
-  font-size: 20px;
-    border: 2px solid #ddd;
-}
 // 주문버튼 ================================================
 // 주문하기
 .product_order_btn {

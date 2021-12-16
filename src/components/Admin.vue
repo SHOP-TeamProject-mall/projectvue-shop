@@ -185,10 +185,185 @@
 
 <!-- 브랜드 / 상품명 / 제품명 / 제조사 / 가격 / 배송비 / 착불 , 선불 / (대표이미지) / 개별이미지 -->
 
+<!-- 상품(옵션) MODAL -->
 </div>
-<div class="option_modal" v-if="optionmodal === true">
-<div></div>
-</div>
+    <div class="option_modal" v-if="optionmodal === true">
+      <div id="optionmodal_close" @click="optionmodal = false"></div>
+      <div id="optionmodal_close_bg"></div>
+      <!-- 옵션추가 -->
+      <div class="option_modal_header">
+
+      </div>
+      <!-- 옵션조회 -->
+      <div class="option_modal_body">
+        <section>
+        <table style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>옵션번호</th>
+              <th>옵션명</th>
+              <th>사이즈</th>
+              <th>컬러</th>
+              <th>추가금액</th>
+              <th>버튼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th style="height:50px;">이미지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>옵션번호</th>
+              <th>옵션명</th>
+              <th>사이즈</th>
+              <th>컬러</th>
+              <th>추가금액</th>
+              <th>버튼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th style="height:50px;">이미지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>옵션번호</th>
+              <th>옵션명</th>
+              <th>사이즈</th>
+              <th>컬러</th>
+              <th>추가금액</th>
+              <th>버튼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th style="height:50px;">이미지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+          <table style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>옵션번호</th>
+              <th>옵션명</th>
+              <th>사이즈</th>
+              <th>컬러</th>
+              <th>추가금액</th>
+              <th>버튼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th style="height:50px;">이미지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+          <table style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>옵션번호</th>
+              <th>옵션명</th>
+              <th>사이즈</th>
+              <th>컬러</th>
+              <th>추가금액</th>
+              <th>버튼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th style="height:50px;">이미지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        </section>
+      </div>
+      <!-- 모달 close 버튼 -->
+      <div class="option_modal_footer">
+          <button @click="optionmodal = false">닫기</button>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -220,28 +395,81 @@
 @import 'bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Noto+Sans+KR:wght@900&family=Roboto+Mono:ital,wght@0,300;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Noto+Sans+KR:wght@300;900&family=Roboto+Mono:ital,wght@0,300;1,700&display=swap');
-//옵선추가 모달
+//옵선추가 모달========================================================================================================================
 div[class="option_modal"]{
   position: fixed;
   top: 50%;
   left: 50%;
+  border: 1px solid red;
+  border-radius: 25px;
   background: white;
   transform: translate(-50%,-50%);
   width: 1000px;
   height: 700px;
   z-index: 2;
 }
-div[class="option_modal"] div{
+// 모달 닫기
+#optionmodal_close{
   position: absolute;
   top: 0%;
-  left: 97%;
+  left: 96.5%;
   background: url('../assets/img/close.png') center center / 100% no-repeat;
   width: 30px;
   height: 30px;
-
+  z-index: 1;
+}
+#optionmodal_close_bg{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background:#999;
+  border-bottom: 1px solid black;
+  width: 1000px;
+  height: 30px;
+  border-start-start-radius: 25px;
+  border-start-end-radius: 25px;
+}
+div[class="option_modal_header"]{
+  position: absolute;
+  top: 30px;
+  left: 0%;
+  width: 1000px;
+  height: 150px;
+  border: 1px solid red;
+}
+div[class="option_modal_body"]{
+  position: absolute;
+  top: 180px;
+  left: 0%;
+  width: 1000px;
+  height: 450px;
+  border: 1px solid red;
+  overflow-y: auto;
+}
+div[class="option_modal_footer"]{
+  position: absolute;
+  top: 630px;
+  left: 0%;
+  border-end-start-radius: 25px;
+  border-end-end-radius: 25px;
+  width: 1000px;
+  height: 70px;
+  border: 1px solid red;
+}
+div[class="option_modal_footer"] button{
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  color: white;
+  background: black;
+  font-size: 18px;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
-//상품등록 테이블
+
+
+//상품등록 테이블===========================================================================================================================
 table{
     border: 1px solid black;
     margin-top: 50px;

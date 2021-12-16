@@ -22,6 +22,12 @@
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>
         </ul>
+
+        <!-- <input type="checkbox" id="select_menu">
+        <label for="select_menu">ddd</label>
+        <div class="select_menu_list">
+dfsdf
+        </div> -->
 </div>
 </template>
 
@@ -33,6 +39,19 @@
 
 <style lang="scss" scoped>
 @import 'bootstrap/scss/bootstrap';
+// input[id="select_option"] {display:none;}
+// input[id="select_option"] + label {display: block; position: relative; cursor: pointer;}
+// div[class="select_option_list"] {width: 500px; height: 500px; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;left: 0;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
+// input[id="select_option"]:checked + label + div {display: none;}
+
+
+
+
+
+
+
+
+
 
 input[id="menuicon"] {display:none;}
 input[id="menuicon"] + label {display: block; margin: 30px; width: 30px; height: 50px; position: relative; cursor: pointer;}

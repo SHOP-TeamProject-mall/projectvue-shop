@@ -5,7 +5,7 @@
             <div class="file-area">
                 <input type="file" id="file" accept="" @change="handleJoinImage($event)">
                 <label for="file">
-                    <div><img src="../assets/img/user_image1.png" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
+                    <div><img src="../assets/img/user_image.png" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
                 <p>이미지를 클릭해 사진을 등록하세요</p>
             </div>
