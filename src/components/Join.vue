@@ -3,7 +3,7 @@
         <section class="Login-form" style="margin-top:-80px;">
             <h1>JOIN</h1>
             <div class="file-area">
-                <input type="file" id="file" accept="">
+                <input type="file" id="file" accept="" @change="handleJoinImage($event)">
                 <label for="file">
                     <div><img src="../assets/img/user_image1.png" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
@@ -52,16 +52,29 @@ import axios from "axios";
     export default {
         data(){
             return {
-                memberid      : "a1",
+                memberid      : "",
                 memberpw      : "a" ,
                 membername      : "규",
                 memberemail   : "a@a,com",
                 memberaddress : "부산시 해운대구",
-                memberphone   : "010-0000-0000"
+                memberphone   : "010-0000-0000",
+
+                files: ""
                 }
             },
 
         methods : {
+            // 회원가입 시 프로필 이미지 추가
+            async handleJoinImage(){
+                const url = `/HOST/member/memberJoinImage.json?no=`;
+                const headers = { "Content-Type": "multipart/form-data" }; 
+                const formData = new FormData();
+                formData.append("file", this.files);
+                const response = await axios.post(url, formData, { headers });
+                console.log(response);
+            },
+
+            
             // 회원가입
            async handlejoin(){
                if (this.memberid.length === 0) {
@@ -99,7 +112,15 @@ import axios from "axios";
                 alert("회원가입이 완료되었습니다.");
                 this.$router.push({ path: "/Login" });
             }
-        }
+        },
+        watch  : {
+            async memberid(val){
+                const url = `/HOST/member/memberIdCheck.json?memberid=${val}`
+                const headers = { "Content-Type": "application/json" };
+                const response = await axios.get(url, headers);
+                console.log(response);
+            }
+        },
     }
 </script>
 
