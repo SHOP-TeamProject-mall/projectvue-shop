@@ -49,6 +49,12 @@
           </ul>
         </div>
       </div>
+      <!-- 메뉴 list 
+           메뉴1 = 상품등록
+           메뉴2 = 상품조회   
+                          -->
+
+      <!-- 메뉴1(상품등록) -->
       <div class="col-6 col-lg-9 themed-grid-col" v-if="menu === 1">
           <div class="container1">
               <h3 style="margin-top:130px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품등록</h3>
@@ -166,7 +172,10 @@
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
-                        <td><input type="file"></td>
+                        <td>
+                          <input type="submit" style="width:50%; background:gold;" value="상품정보수정">
+                          <input type="button" style="width:50%; background:pink;" @click="optionmodal = true" value="상품옵션추가">
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -177,6 +186,9 @@
 <!-- 브랜드 / 상품명 / 제품명 / 제조사 / 가격 / 배송비 / 착불 , 선불 / (대표이미지) / 개별이미지 -->
 
 </div>
+<div class="option_modal" v-if="optionmodal === true">
+<div></div>
+</div>
 </template>
 
 <script>
@@ -184,7 +196,8 @@
         data(){
             return{
                 quantity:1000,
-                menu:1
+                menu:1,
+                optionmodal:false
             }
         },
         methods:{
@@ -207,6 +220,27 @@
 @import 'bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Noto+Sans+KR:wght@900&family=Roboto+Mono:ital,wght@0,300;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Noto+Sans+KR:wght@300;900&family=Roboto+Mono:ital,wght@0,300;1,700&display=swap');
+//옵선추가 모달
+div[class="option_modal"]{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: white;
+  transform: translate(-50%,-50%);
+  width: 1000px;
+  height: 700px;
+  z-index: 2;
+}
+div[class="option_modal"] div{
+  position: absolute;
+  top: 0%;
+  left: 97%;
+  background: url('../assets/img/close.png') center center / 100% no-repeat;
+  width: 30px;
+  height: 30px;
+
+}
+
 //상품등록 테이블
 table{
     border: 1px solid black;
@@ -236,7 +270,7 @@ td > input {
 
 
 .container1{
-    height: 60vh;
+    height: 70vh;
     align-items: center;
     justify-content: center;
 }
