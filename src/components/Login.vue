@@ -39,12 +39,21 @@ import axios from "axios";
                 if(this.memberpw.length === 0){
                     return alert("비밀번호를 입력하세요.")
                 }
-
                 const url = "/HOST/member/memberlogin.json" ;
                 const body = { memberid: this.memberid, memberpw: this.memberpw };
                 const headers = { "Content-Type": "application/json" };
                 const response = await axios.post( url , body, { headers });
-                console.log(response);
+                console.log(response.data);
+
+                if (response.data.status == 200){
+                    sessionStorage.setItem("TOKEN", response.data.token);
+                    // alert("로그인 성공");
+                    this.$router.push({ path: "/home" });
+                } else if(response.data.status === 0) {
+                    alert("개인 회원이 아닙니다.");
+                } else if (response.data.status === -1) {
+                    alert("존재 하지 않는 회원입니다.");
+                }
             }
         }
     }

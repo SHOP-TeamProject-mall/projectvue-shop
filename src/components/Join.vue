@@ -3,9 +3,9 @@
         <section class="Login-form" style="margin-top:-80px;">
             <h1>JOIN</h1>
             <div class="file-area">
-                <input type="file" id="file" accept="" @change="handleJoinImage($event)">
+                <input type="file" id="file" ref="file" @change="handleJoinImage($event)">
                 <label for="file">
-                    <div><img src="../assets/img/user_image.png" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
+                    <div><img :src="`/HOST/member/MemberSelect_image?no=1`" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
                 <p>이미지를 클릭해 사진을 등록하세요</p>
             </div>
@@ -41,7 +41,7 @@
                 <button type="submit" @click="handlejoin">회원가입</button>
             </div>
             <div class="caption">
-                <input type="checkbox"><a href="#" style="margin-left:10px;">이용약관에 동의합니다 (약관 보기)</a>
+                <input type="checkbox" v-model="checkbox"><a href="#" style="margin-left:10px;">이용약관에 동의합니다 (약관 보기)</a>
             </div>
         </section>
     </div>
@@ -54,26 +54,25 @@ import axios from "axios";
             return {
                 memberid      : "",
                 memberpw      : "a" ,
-                membername      : "규",
+                membername    : "규",
                 memberemail   : "a@a,com",
                 memberaddress : "부산시 해운대구",
                 memberphone   : "010-0000-0000",
-
-                files: ""
+                checkbox      : "",
+                file : ""
                 }
             },
 
         methods : {
             // 회원가입 시 프로필 이미지 추가
-            async handleJoinImage(){
-                const url = `/HOST/member/memberJoinImage.json?no=`;
+            async handleJoinImage(e){
+                const url = `/HOST/member/memberJoinImage.json?no=a1`;
                 const headers = { "Content-Type": "multipart/form-data" }; 
                 const formData = new FormData();
-                formData.append("file", this.files);
+                formData.append("file", e.target.files[0]);
                 const response = await axios.post(url, formData, { headers });
                 console.log(response);
             },
-
             
             // 회원가입
            async handlejoin(){
@@ -94,6 +93,9 @@ import axios from "axios";
 				}
 				if (this.memberphone.length === 0) {
 					return alert("연락처를 입력하세요");
+				}
+                if (this.checkbox.length === 0) {
+					return alert("약관에 동의해주세요");
 				}
 
                 const headers = { "Content-Type": "application/json" };
@@ -122,6 +124,8 @@ import axios from "axios";
             }
         },
     }
+
+    
 </script>
 
 <style lang="scss" scoped>
