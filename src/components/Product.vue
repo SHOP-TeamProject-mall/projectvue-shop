@@ -170,19 +170,19 @@
                   <label for="select_option">ddd</label>
                   <div class="select_option_list" >
                     <div class="select_option_list_content">
-                      <img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
                     </div>
 
                     <hr style="margin:0; padding:0;">
 
                     <div class="select_option_list_content">
-                      <img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
                     </div>
 
                     <hr style="margin:0; padding:0;">
 
                     <div class="select_option_list_content">
-                      <img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span>
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
                     </div>
                   </div>
 

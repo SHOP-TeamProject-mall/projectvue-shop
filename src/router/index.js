@@ -7,6 +7,7 @@ import ServiceCenter from '@/components/ServiceCenter.vue';
 import Join from '@/components/Join.vue';
 import Login from '@/components/Login.vue';
 import Admin from '@/components/Admin.vue';
+import Mypage from '@/components/Mypage.vue';
 
 const routes = [
   { path:'/home', name:"Home", component:Home },
@@ -18,6 +19,7 @@ const routes = [
   { path:'/join', name:"Join", component:Join },
   { path:'/login', name:"Login", component:Login },
   { path:'/admin', name:"Admin", component:Admin },
+  { path:'/mypage', name:"Mypage", component:Mypage },
 ]
 
 const router = createRouter({
