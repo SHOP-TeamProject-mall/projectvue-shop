@@ -71,28 +71,28 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-bottom:none;"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" v-model="producttitle"></td>
                         <td>
-                            <select name="aa" id="aa" style="width:100%; text-align:center; border:none;">
-                                <option value="dd">남성상의</option>
-                                <option value="dd">남성하의</option>
-                                <option value="dd">남성외투</option>
-                                <option value="dd">남성속옷</option>
-                                <option value="dd">여성상의</option>
-                                <option value="dd">여성하의</option>
-                                <option value="dd">여성외투</option>
-                                <option value="dd">여성속옷</option>         
-                                <option value="dd">상품1</option>  
-                                <option value="dd">상품2</option>  
-                                <option value="dd">상품3</option>  
+                            <select  style="width:100%; text-align:center; border:none;" v-model="productcategory">
+                                <option >남성상의</option>
+                                <option >남성하의</option>
+                                <option >남성외투</option>
+                                <option >남성속옷</option>
+                                <option >여성상의</option>
+                                <option >여성하의</option>
+                                <option >여성외투</option>
+                                <option >여성속옷</option>         
+                                <option >상품1</option>  
+                                <option >상품2</option>  
+                                <option >상품3</option>  
                             </select>
                             </td>
                         <td>
-                            <select name="bb" id="bb" style="width:100%; text-align:center; border:none;">
-                                <option value="" v-for="qnt in quantity" v-bind:key="qnt">{{qnt}}</option>
+                            <select style="width:100%; text-align:center; border:none;" v-model="productquantity">
+                                <option v-for="qnt in quantity" v-bind:key="qnt">{{qnt}}</option>
                             </select>
                             </td>
-                        <td><input type="text"></td>
+                        <td><input type="text" v-model="productbrand"></td>
                     </tr>
                 </tbody>
                 <thead>
@@ -107,9 +107,9 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" v-model="productfabric"></td>
+                        <td><input type="text" v-model="productprice"></td>
+                        <td><input type="text" v-model="productdeliveryfee"></td>
                         <td><input type="file"></td>
                     </tr>
                 </tbody>
@@ -146,7 +146,7 @@
                     </div>
                 </div>
             </div>
-              <button style="left:44%; position:relative; top:30px; font-size:20px; font-weight:bold; border:1px solid black; ">상품등록완료</button>
+              <button style="left:44%; position:relative; top:30px; font-size:20px; font-weight:bold; border:1px solid black; " @click="insertProduct">상품등록완료</button>
           </div>
       </div>
 
@@ -325,15 +325,26 @@
 </template>
 
 <script>
+    import axios from "axios";
     export default {
         data(){
             return{
                 quantity:1000,
+                category:11,
                 menu:1,
                 optionmodal:false,
                 files: [], //업로드용 파일
                 filesPreview: [],
-                uploadImageIndex: 0 // 이미지 업로드를 위한 변수
+                uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+
+                // product
+                productcategory:[],
+                producttitle:"",
+                productquantity:[],
+                productbrand:'',
+                productfabric:'',
+                productprice:0,
+                productdeliveryfee:0
             }
         },
         methods:{
@@ -407,6 +418,29 @@
                 this.files = this.files.filter(data => data.number !== Number(name));
                 // console.log(this.files);
             },
+            //상품등록 ==================================================================================================================
+            async insertProduct(){
+              const headers = { "Content-Type": "application/json" };
+              const url = `/HOST/product/insertproduct.json`;
+              const body = {
+                producttitle : this.producttitle,
+                productcategory : this.productcategory,
+                productbrand : this.productbrand,
+                productprice : this.productprice,
+                productfabric : this.productfabric,
+                productquantity : this.productquantity,
+                productdeliveryfee : this.productdeliveryfee
+              };
+              const response = await axios.post(url,body, {headers:headers});
+              console.log(response);
+            // console.log(this.productcategory);
+            // console.log(this.productquantity);
+            // console.log(this.producttitle);
+            // console.log(this.productdeliveryfee);
+            // console.log(this.productbrand);
+            // console.log(this.productfabric);
+            // console.log(this.productprice);
+            }
         },
         created(){
             this.changeMenu();

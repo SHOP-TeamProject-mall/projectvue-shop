@@ -7,6 +7,11 @@ module.exports = {
                 changeOrigin: true,
                 logLevel: 'debug',
             },
+            '/HOST/product': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                logLevel: 'debug',
+            },
         },
         port: 9090
     },
