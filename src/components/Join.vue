@@ -5,7 +5,7 @@
             <div class="file-area">
                 <input type="file" id="file" ref="file" @change="handleJoinImage($event)">
                 <label for="file">
-                    <div><img :src="`/HOST/member/MemberSelect_image?no=1`" alt="" style="color:blue; width:120px; border-radius: 60px;"></div>
+                    <div><img src="../assets/img/user_image.png" id="preview-image" alt=""  style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
                 <p>이미지를 클릭해 사진을 등록하세요</p>
             </div>
@@ -62,10 +62,13 @@ import axios from "axios";
                 file : ""
                 }
             },
+            
 
         methods : {
             // 회원가입 시 프로필 이미지 추가
             async handleJoinImage(e){
+                
+
                 const url = `/HOST/member/memberJoinImage.json?no=a1`;
                 const headers = { "Content-Type": "multipart/form-data" }; 
                 const formData = new FormData();
