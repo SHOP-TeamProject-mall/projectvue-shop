@@ -57,7 +57,7 @@
       <!-- 메뉴1(상품등록) -->
       <div class="col-6 col-lg-9 themed-grid-col" v-if="menu === 1">
           <div class="container1">
-              <h3 style="margin-top:130px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품등록</h3>
+              <h3 style="margin-top:60px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품등록</h3>
             <table border="1px solid black;"  >
                 <thead>
                     <tr>
@@ -117,16 +117,13 @@
             <div class="room-file-upload-wrapper">
                 <div v-if="!files.length" class="room-file-upload-example-container">
                     <div class="room-file-upload-example">
-                        <div class="room-file-image-example-wrapper">이미지</div>
+                        <div class="room-file-image-example-wrapper">서브이미지</div>
                         <div class="room-file-notice-item">
-                            실사진 최소 3장 이상 등록하셔야 하며, 가로사진을 권장합니다.
-                        </div>
-                        <div class="room-file-notice-item room-file-notice-item-red">
-                            로고를 제외한 불필요한 정보(워터마크,상호,전화번호 등)가 있는 매물은 비공개처리됩니다
+                            실사진 최소 3장 이상 등록하셔야 됩니다.
                         </div>
                         <div class="room-file-notice-item room-file-upload-button">
                             <div class="image-box">
-                                <label for="file">일반 사진 등록</label>
+                                <label for="file">서브이미지 등록</label>
                                 <input type="file" id="file" ref="files" @change="imageUpload" multiple />
                             </div>
                         </div>
@@ -142,19 +139,20 @@
                         </div>
                         <div class="file-preview-wrapper-upload">
                             <div class="image-box">
-                                <label for="file">추가 사진 등록</label>
+                                <label for="file">추가 이미지 등록</label>
                                 <input type="file" id="file" ref="files" @change="imageAddUpload" multiple />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+              <button style="left:44%; position:relative; top:30px; font-size:20px; font-weight:bold; border:1px solid black; ">상품등록완료</button>
           </div>
       </div>
 
       <div class="col-6 col-lg-9 themed-grid-col" v-if="menu === 2">
           <div class="container1">
-              <h3 style="margin-top:130px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품관리</h3>
+              <h3 style="margin-top:60px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품관리</h3>
             <table border="1px solid black;"  >
                 <thead>
                     <tr>
@@ -227,7 +225,28 @@
       <div id="optionmodal_close_bg"></div>
       <!-- 옵션추가 -->
       <div class="option_modal_header">
-
+          <div class="int-area">
+              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <label for="name">옵션명</label>
+          </div>
+          <div class="int-area">
+              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <label for="name">사이즈</label>
+          </div>
+          <div class="int-area1">
+              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <label for="name">컬러</label>
+          </div>
+          <div class="int-area1">
+              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <label for="name">추가금액</label>
+          </div>
+          <div class="int-area2">
+              <input type="file"  style="font-size:13px; font-weight:bold; position:relative; left:-30px; ">
+          </div>
+          <div class="int-area2">
+              <input type="submit" style="font-size:20px; font-weight:bold; position:relative; left:50px; border:1px solid black; " value="옵션추가">
+          </div>
       </div>
       <!-- 옵션조회 -->
       <div class="option_modal_body">
@@ -278,102 +297,6 @@
           <tbody>
             <tr>
               <td>2</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-              <th style="height:50px;">이미지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-        <table style="margin-top:0;">
-          <thead>
-            <tr>
-              <th>옵션번호</th>
-              <th>옵션명</th>
-              <th>사이즈</th>
-              <th>컬러</th>
-              <th>추가금액</th>
-              <th>버튼</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>3</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-              <th style="height:50px;">이미지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-          <table style="margin-top:0;">
-          <thead>
-            <tr>
-              <th>옵션번호</th>
-              <th>옵션명</th>
-              <th>사이즈</th>
-              <th>컬러</th>
-              <th>추가금액</th>
-              <th>버튼</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>4</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-              <th style="height:50px;">이미지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-          <table style="margin-top:0;">
-          <thead>
-            <tr>
-              <th>옵션번호</th>
-              <th>옵션명</th>
-              <th>사이즈</th>
-              <th>컬러</th>
-              <th>추가금액</th>
-              <th>버튼</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>4</td>
               <td><input type="text"></td>
               <td><input type="text"></td>
               <td><input type="text"></td>
@@ -500,7 +423,7 @@ div[class="option_modal"]{
   position: fixed;
   top: 50%;
   left: 50%;
-  border: 1px solid red;
+  border: 1px solid black;
   border-radius: 25px;
   background: white;
   transform: translate(-50%,-50%);
@@ -524,7 +447,7 @@ div[class="option_modal"]{
   left: 0%;
   background:#999;
   border-bottom: 1px solid black;
-  width: 1000px;
+  width: 999px;
   height: 30px;
   border-start-start-radius: 25px;
   border-start-end-radius: 25px;
@@ -533,18 +456,18 @@ div[class="option_modal_header"]{
   position: absolute;
   top: 30px;
   left: 0%;
-  width: 1000px;
+  width: 999px;
   height: 150px;
-  border: 1px solid red;
+  border-bottom: 1px solid black;
 }
 div[class="option_modal_body"]{
   position: absolute;
   top: 180px;
   left: 0%;
-  width: 1000px;
+  width: 998px;
   height: 450px;
-  border: 1px solid red;
   overflow-y: auto;
+  border-bottom: 1px solid black;
 }
 div[class="option_modal_footer"]{
   position: absolute;
@@ -554,12 +477,11 @@ div[class="option_modal_footer"]{
   border-end-end-radius: 25px;
   width: 1000px;
   height: 70px;
-  border: 1px solid red;
 }
 div[class="option_modal_footer"] button{
   position: absolute;
   top: 25%;
-  left: 50%;
+  left: 48%;
   color: white;
   background: black;
   font-size: 18px;
@@ -598,7 +520,7 @@ td > input {
 
 
 .container1{
-    height: 70vh;
+    height: 100vh;
     align-items: center;
     justify-content: center;
 }
@@ -840,5 +762,70 @@ width: 100%; */
 
 .room-write-button:hover {
     opacity: 0.8;
+}
+
+// 옵션 등록
+.int-area{
+    width: 550px;
+    left: 15%;
+    top: 0;
+    position: relative;
+    margin-top: 10px;
+}
+.int-area:first-child{
+    margin-top: 0;
+}
+.int-area input{
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 30%;
+    padding: 20px 10px 10px;
+    background-color: transparent;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #999;
+    font-size: 16px; color: black;
+    outline: none;
+    font-weight: bold;
+}
+.int-area label{
+    position: absolute; left: -90px; top: 25px;
+    font-size: 16px; color: black;
+    font-weight: bold;
+}
+
+.int-area1{
+    width: 550px;
+    left: 45%;
+    top: -87%;
+    position: relative;
+    margin-top: 10px;
+}
+.int-area1:first-child{
+    margin-top: 0;
+}
+.int-area1 input{
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 30%;
+    padding: 20px 10px 10px;
+    background-color: transparent;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #999;
+    font-size: 16px; color: black;
+    font-weight: bold;
+    outline: none;
+}
+.int-area1 label{
+    position: absolute; left: -90px; top: 25px;
+    font-size: 16px; color: black;
+    font-weight: bold;
+}
+
+.int-area2{
+    width: 400px;
+    left: 70%;
+    top: -160%;
+    position: relative;
+    margin-top: 20px;
 }
 </style>
