@@ -3,9 +3,9 @@
         <section class="Login-form" style="margin-top:-80px;">
             <h1>JOIN</h1>
             <div class="file-area">
-                <input type="file" id="file" ref="file" @change="handleJoinImage($event)">
+                <input type="file" id="file" ref="files" @change="imageUpload()">
                 <label for="file">
-                    <div><img src="../assets/img/user_image.png" id="preview-image" alt=""  style="color:blue; width:120px; border-radius: 60px;"></div>
+                    <div><img :src="this.preview" id="preview-image" alt=""  style="color:blue; width:120px; border-radius: 60px;"></div>
                 </label>
                 <p>이미지를 클릭해 사진을 등록하세요</p>
             </div>
@@ -59,22 +59,18 @@ import axios from "axios";
                 memberaddress : "부산시 해운대구",
                 memberphone   : "010-0000-0000",
                 checkbox      : "",
-                file : ""
+                files : [],
+                preview : [],
+                idCheckchk : ""
                 }
             },
             
 
         methods : {
             // 회원가입 시 프로필 이미지 추가
-            async handleJoinImage(e){
-                
-
-                const url = `/HOST/member/memberJoinImage.json?no=a1`;
-                const headers = { "Content-Type": "multipart/form-data" }; 
-                const formData = new FormData();
-                formData.append("file", e.target.files[0]);
-                const response = await axios.post(url, formData, { headers });
-                console.log(response);
+            imageUpload(){
+                // console.log(this.$refs.files.files);
+                this.preview = URL.createObjectURL(this.$refs.files.files[0]);
             },
             
             // 회원가입
@@ -100,6 +96,12 @@ import axios from "axios";
                 if (this.checkbox.length === 0) {
 					return alert("약관에 동의해주세요");
 				}
+                // if (this.$refs.files.files.length === 0){
+                //     return alert("프로필을 첨부해주세요");
+                // }
+                if (this.idCheckchk == 1){ // 아이가 중복이면
+                    return alert("이미 존재하는 아이디 입니다.")
+                }
 
                 const headers = { "Content-Type": "application/json" };
                 const url = `/HOST/member/memberjoin.json`;
@@ -113,9 +115,17 @@ import axios from "axios";
                 };
                 
                 const response = await axios.post(url, body, headers);
-                console.log(response);
+                console.log(response.data.status);
                 alert("회원가입이 완료되었습니다.");
                 this.$router.push({ path: "/Login" });
+
+
+                const url2 = `/HOST/member/memberJoinImage.json?no=${this.memberid}`;
+                const headers2 = { "Content-Type": "multipart/form-data" };
+                const formData = new FormData();
+                    formData.append("file", this.$refs.files.files[0]);
+                const response2 = await axios.post(url2, formData, { headers2 });
+                console.log(response2);
             }
         },
         watch  : {
@@ -123,7 +133,11 @@ import axios from "axios";
                 const url = `/HOST/member/memberIdCheck.json?memberid=${val}`
                 const headers = { "Content-Type": "application/json" };
                 const response = await axios.get(url, headers);
-                console.log(response);
+                console.log(response.data.idCheckchk);
+
+                if (response.data.status === 200){
+                    this.idCheckchk = response.data.idCheckchk
+                }
             }
         },
     }

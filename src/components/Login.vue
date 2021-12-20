@@ -49,6 +49,7 @@ import axios from "axios";
                     sessionStorage.setItem("TOKEN", response.data.token);
                     // alert("로그인 성공");
                     this.$router.push({ path: "/home" });
+                    this.$emit('changeLogged');
                 } else if(response.data.status === 0) {
                     alert("개인 회원이 아닙니다.");
                 } else if (response.data.status === -1) {

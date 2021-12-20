@@ -14,11 +14,12 @@
         </form>
 
         <div class="flex-shrink-0" >
-          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;" @click="changeMenu(7)"><span><strong>로그인</strong></span></a> | 
-          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-left:5px;" @click="changeMenu(6)"><span><strong>회원가입</strong></span></a>
+          <a href="/login" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;" v-if="!logged" @click="changeMenu(7)"><span><strong>로그인</strong></span></a> | 
+          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-left:5px;" v-if="!logged" @click="changeMenu(6)"><span><strong>회원가입</strong></span></a>
         </div>
-        <!-- // 회원 아이콘 -->
-        <!-- <div class="flex-shrink-0 dropdown">
+        
+        <!-- 회원 아이콘 -->
+        <div class="flex-shrink-0 dropdown" v-if="logged">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
@@ -27,9 +28,9 @@
             <li><a class="dropdown-item" href="#">주문내역</a></li>
             <li><a class="dropdown-item" href="#">장바구니</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+            <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
           </ul>
-        </div> -->
+        </div>
       </div>
     </div>
   </header>
@@ -94,7 +95,9 @@
         </div>
       </div>
     </nav>
-      <router-view :key="$route.fullPath"></router-view>
+      <router-view :key="$route.fullPath"
+        @changeLogged="changeLogged" >
+      </router-view>
 </div>
 
 <footer class="footer mt-auto py-3 bg-light">
@@ -112,6 +115,11 @@
         menu_product:1
       }
     },
+
+    created(){
+			this.changeLogged();
+		},
+
     methods:{
       changeMenu(menu){
         if(menu === 1){
@@ -139,6 +147,17 @@
         }
         this.active = '';
       },
+
+      changeLogged(){
+				console.log("App.vue => changeLogged")
+				this.token = sessionStorage.getItem("TOKEN");
+          if ( this.token != null ) {
+            this.logged = true;
+          } else {
+            this.logged = false;
+          }
+			},
+
       changeMenu_product(idx){
         if(idx === 1){
           console.log(idx);
@@ -150,9 +169,6 @@
         }
       }
     },
-    created(){
-
-    }
 }
 </script>
 

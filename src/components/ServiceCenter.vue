@@ -113,8 +113,7 @@ dfsdf
                                     preview: URL.createObjectURL(this.$refs.files.files[i]),
                                     //삭제및 관리를 위한 number
                                     number: i
-                                }
-                            ];
+                                }];
                             num = i;
                             //이미지 업로드용 프리뷰
                             // this.filesPreview = [
@@ -160,7 +159,6 @@ dfsdf
                         // console.log(this.files);
                     },
                 }
-            
     }
 </script>
 

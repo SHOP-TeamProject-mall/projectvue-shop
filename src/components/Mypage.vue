@@ -13,7 +13,8 @@
         <div v-if="menu === 1">
             <section class="Login-form">
                 <h1>내정보</h1>
-                <div class="My_info">
+                <div class="My_info" >
+                    <img :src="`/HOST/member/MemberSelect_image?no=a1`" style="width:100%; height:400px;" />
                 </div>
                 <div>
                     <input type="file" style="position:relative; left:23%; top:10px;">
@@ -22,24 +23,29 @@
                     <button style="position:relative; left:23%; top:12px; color:blue; border:1px solid blue;">이미지 변경</button>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="id" id="id" autocomplete="off" required  :disabled="disabled" focus placeholder="a1">
+                    <input type="text" name="id" id="id" autocomplete="off" required  :disabled="disabled" focus   v-model="memberid" />
+                    <div>{{memberlist.memberid}}</div>
                     <label for="id">아이디</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="name" id="name"  autocomplete="off" required  :disabled="disabled"  placeholder="홍길동">
+                    <input type="text" name="name" id="name"  autocomplete="off" required  :disabled="disabled"   v-model="membername"/>
+                    <div>{{memberlist.membername}}</div>
                     <label for="name">이름</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="phone" id="phone" autocomplete="off" required  :disabled="disabled"  placeholder="010-2429-4026">
+                    <input type="text" name="phone" id="phone" autocomplete="off" required  :disabled="disabled"   v-model="memberphone"/>
+                    <div>{{memberlist.memberphone}}</div>
                     <label for="phone">연락처</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="adress" id="adress" style="font-size:16px;"  autocomplete="off" required  :disabled="disabled"  placeholder="부산광역시 해운대구 재송2동">
+                    <input type="text" name="adress" id="adress" style="font-size:16px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberaddress"/>
+                    <div>{{memberlist.memberaddress}}</div>
                     <label for="adress">주소</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="adress1" id="adress1" style="font-size:15px;"  autocomplete="off" required  :disabled="disabled"  placeholder="1987-46857번지 xxx아파트 550동 203호">
-                    <label for="adress1">상세주소</label>
+                    <input type="text" name="email" id="email" style="font-size:15px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberemail"/>
+                    <div>{{memberlist.memberemail}}</div>
+                    <label for="adress1">이메일</label>
                 </div>
                 <div class="btn-area">
                     <button type="submit" @click="update_info">정보수정</button>
@@ -66,7 +72,7 @@
                     <label for="phone">새암호확인</label>
                 </div>
                 <div class="btn-area">
-                    <button type="submit" style="top:50px;">정보수정</button>
+                    <button type="submit" style="top:50px;">변경하기</button>
                 </div>
             </section>
         </div>
@@ -137,20 +143,75 @@
 </template>
 
 <script>
+import axios from "axios";
     export default {
         data(){
             return{
-                disabled:true,
-                menu:1,
+                disabled      : true,
+                menu          : 1,
+                token         : sessionStorage.getItem("TOKEN"),
+                memberid      : "",
+                membername    : "",
+                memberemail   : "",
+                memberaddress : "",
+                memberphone   : "",
+
+                memberlist    : {}
             }
         },
+        async changeMenu(menu){ 
+            this.menu = menu;
+            if (this.menu == 1){
+                this.handlemylist();
+            }
+        },
+        created() {
+            // 회원정보 가져오기
+            this.handlememberlist();
+
+            // 회원 이미지 가져오기
+            this.handlememberimage();
+        },
         methods:{
+            // 회원정보 조회
+            async handlememberlist() {  
+                const url = '/HOST/member/memberlist.json';
+                const headers = { "Content-Type": "application/json", token: this.token};
+                const response = await axios.get(url, {headers:headers});
+                
+                console.log('Mypage.vue => handlemylist');
+                console.log(response.data);
+                if (response.data.status === 200){
+                    this.memberlist = response.data.memberlist;
+                }
+            },
+
+            // 회원 이미지 조회
+            async handlememberimage() {  
+                const url = `/HOST/member/MemberSelect_image?no=a1`;
+                const headers = { "Content-Type": "application/json", token: this.token};
+                const response = await axios.get(url, {}, {headers:headers});
+                console.log('Mypage.vue => handlememberimage');
+                console.log(response);
+            },
+            
             update_info(){ // 정보수정 클릭시 input text박스 변환 -> 완료버튼 나옴
                 this.disabled = !this.disabled;
             },
-            update_info_clear(){ // 정보수정 후 완료버튼
+            async update_info_clear(){ // 정보수정 후 완료버튼
                 this.disabled = !this.disabled;
-            },
+                const headers = { "Content-Type": "application/json", "token" : this.token };
+                const url = `/HOST/member/memberupdate.json`;
+                const body = {
+                    // memberid      : this.memberid,
+                    membername    : this.membername,
+                    memberphone   : this.memberphone,
+                    memberaddress : this.memberaddress,
+                    memberemail   : this.memberemail,
+                };
+                const response = await axios.put(url, body, {  headers:headers });
+                console.log(response);
+                },
             changeMenu(menu){
                 if(menu === 1){
                     this.menu = 1;
