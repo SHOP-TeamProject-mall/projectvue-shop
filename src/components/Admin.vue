@@ -110,7 +110,7 @@
                         <td><input type="text" v-model="productfabric"></td>
                         <td><input type="text" v-model="productprice"></td>
                         <td><input type="text" v-model="productdeliveryfee"></td>
-                        <td><input type="file"></td>
+                        <td><input type="file" @change="handleProductMainImage($event)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -124,7 +124,7 @@
                         <div class="room-file-notice-item room-file-upload-button">
                             <div class="image-box">
                                 <label for="file">서브이미지 등록</label>
-                                <input type="file" id="file" ref="files" @change="imageUpload" multiple />
+                                <input type="file" id="file" ref="files" @change="imageUpload()" multiple />
                             </div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         <div class="file-preview-wrapper-upload">
                             <div class="image-box">
                                 <label for="file">추가 이미지 등록</label>
-                                <input type="file" id="file" ref="files" @change="imageAddUpload" multiple />
+                                <input type="file" id="file" ref="files" @change="imageAddUpload()" multiple />
                             </div>
                         </div>
                     </div>
@@ -332,6 +332,7 @@
                 quantity:1000,
                 category:11,
                 menu:1,
+                productidx:0,
                 optionmodal:false,
                 files: [], //업로드용 파일
                 filesPreview: [],
@@ -344,7 +345,8 @@
                 productbrand:'',
                 productfabric:'',
                 productprice:0,
-                productdeliveryfee:0
+                productdeliveryfee:0,
+                productmainimage:"",
             }
         },
         methods:{
@@ -356,13 +358,17 @@
                     this.menu = 2;
                 }
             },
+            handleProductMainImage(e){
+              this.productmainimage = e.target.files[0];
+            },
             imageUpload() {
-                console.log(this.$refs.files.files);
+                // console.log(this.$refs.files.files);
 
                 // this.files = [...this.files, this.$refs.files.files];
                 //하나의 배열로 넣기
                 let num = -1;
                 for (let i = 0; i < this.$refs.files.files.length; i++) {
+                  console.log(this.uploadImageIndex);
                     this.files = [
                         ...this.files,
                         //이미지 업로드
@@ -377,17 +383,17 @@
                     ];
                     num = i;
                     //이미지 업로드용 프리뷰
-                    // this.filesPreview = [
-                    //   ...this.filesPreview,
-                    //   { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
-                    // ];
+                    this.filesPreview = [
+                      ...this.filesPreview,
+                      { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
+                    ];
+
                 }
                 this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
-                console.log(this.files);
-                // console.log(this.filesPreview);
+                console.log(this.filesPreview);
             },
             imageAddUpload() {
-                console.log(this.$refs.files.files);
+                // console.log(this.$refs.files.files);
 
                 // this.files = [...this.files, this.$refs.files.files];
                 //하나의 배열로 넣기c
@@ -403,15 +409,17 @@
                             //이미지 프리뷰
                             preview: URL.createObjectURL(this.$refs.files.files[i]),
                             //삭제및 관리를 위한 number
-                            number: i + this.uploadImageIndex
+                            number: i + this.uploadImageIndex,
                         }
                     ];
                     num = i;
+                    this.filesPreview = [
+                      ...this.filesPreview,
+                      { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
+                    ];
                 }
                 this.uploadImageIndex = this.uploadImageIndex + num + 1;
-
-                console.log(this.files);
-                // console.log(this.filesPreview);
+                console.log(this.filesPreview);
             },
             fileDeleteButton(e) {
                 const name = e.target.getAttribute('name');
@@ -433,6 +441,21 @@
               };
               const response = await axios.post(url,body, {headers:headers});
               console.log(response);
+
+              const headers1 = { "Content-Type": "multipart/form-data" };
+              const url1 = `/HOST/product/insertproduct_subimage.json?productno=${response.data.no}`;
+              const formData = new FormData();
+
+              for(var i=0; i<this.filesPreview.length; i++){
+
+                formData.append("product_subfile", this.filesPreview[i]);
+                console.log(this.filesPreview);
+              }
+
+              console.log(formData);
+
+              const response1 = await axios.post(url1, formData, { headers:headers1 });
+              console.log(response1);
             // console.log(this.productcategory);
             // console.log(this.productquantity);
             // console.log(this.producttitle);
