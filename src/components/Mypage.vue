@@ -60,19 +60,19 @@
             <section class="Login-form">
                 <h1>암호변경</h1>
                 <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="id" id="id" autocomplete="off" required style="text-align:left; width:300px;">
+                    <input type="password" name="id" id="id" autocomplete="off" required style="text-align:left; width:300px;" v-model="memberpw">
                     <label for="id">현재암호</label>
                 </div>
                 <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="name" id="name"  autocomplete="off" required style="text-align:left; width:300px;">
+                    <input type="password" name="name" id="name"  autocomplete="off" required style="text-align:left; width:300px;" v-model="membernewpw">
                     <label for="name">새암호</label>
                 </div> 
                 <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="phone" id="phone" autocomplete="off" required style="text-align:left; width:300px;">
+                    <input type="password" name="phone" id="phone" autocomplete="off" required style="text-align:left; width:300px;" v-model="membernewpw1">
                     <label for="phone">새암호확인</label>
                 </div>
                 <div class="btn-area">
-                    <button type="submit" style="top:50px;">변경하기</button>
+                    <button type="submit" style="top:50px;" @click ="handlepassword">변경하기</button>
                 </div>
             </section>
         </div>
@@ -155,6 +155,9 @@ import axios from "axios";
                 memberemail   : "",
                 memberaddress : "",
                 memberphone   : "",
+                memberpw      : "",
+                membernewpw   : "",
+                membernewpw1  : "",
 
                 memberlist    : {}
             }
@@ -173,6 +176,34 @@ import axios from "axios";
             this.handlememberimage();
         },
         methods:{
+
+            // 암호변경
+            async handlepassword() { 
+                if (this.memberpw.length === 0 ){
+                    return alert("현재 비밀번호를 입력하세요.")
+                }
+                if (this.membernewpw.length === 0 ){
+                    return alert("새 암호를 입력하세요.")
+                }
+                if (this.membernewpw1.length  === 0 ){
+                    return alert("새 암호 확인을 입력하세요.")
+                }
+                if (this.membernewpw != this.membernewpw1){
+                    return alert("암호와 새 암호 확인을 다시 해주세요.")
+                }
+                const headers = { "Content-Type": "application/json", "token" : this.token };
+                const url = `/HOST/member/memberpwupdate.json`;
+                const body = {
+                    memberpw : this.memberpw,
+                    // newpassword : this.newpassword,
+                };
+                const response = await axios.post(url, body, {headers:headers});
+                    console.log('Mypage.vue => handlepassword');
+                    console.log(response.data);
+                    // this.$router.push({ path: "/home" });
+            },
+
+
             // 회원정보 조회
             async handlememberlist() {  
                 const url = '/HOST/member/memberlist.json';

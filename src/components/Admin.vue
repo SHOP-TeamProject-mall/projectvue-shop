@@ -432,11 +432,11 @@
               const url = `/HOST/product/insertproduct.json`;
               const body = {
                 producttitle : this.producttitle,
-                productcategory : this.productcategory,
+                // productcategory : this.productcategory,
                 productbrand : this.productbrand,
                 productprice : this.productprice,
                 productfabric : this.productfabric,
-                productquantity : this.productquantity,
+                // productquantity : this.productquantity,
                 productdeliveryfee : this.productdeliveryfee
               };
               const response = await axios.post(url,body, {headers:headers});
@@ -448,7 +448,16 @@
 
               for(var i=0; i<this.filesPreview.length; i++){
 
-                formData.append("product_subfile", this.filesPreview[i]);
+                formData.append("product_subfile", this.$refs.files.files[0]);
+                formData.append("product_subfile", this.$refs.files.files[1]);
+                formData.append("product_subfile", this.$refs.files.files[2]);
+                formData.append("product_subfile", this.$refs.files.files[3]);
+                formData.append("product_subfile", this.$refs.files.files[4]);
+                formData.append("product_subfile", this.$refs.files.files[5]);
+                formData.append("product_subfile", this.$refs.files.files[6]);
+                formData.append("product_subfile", this.$refs.files.files[7]);
+                formData.append("product_subfile", this.$refs.files.files[8]);
+                formData.append("product_subfile", this.$refs.files.files[9]);
                 console.log(this.filesPreview);
               }
 
