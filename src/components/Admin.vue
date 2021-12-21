@@ -428,15 +428,42 @@
             },
             //상품등록 ==================================================================================================================
             async insertProduct(){
+              if(this.productmainimage === ""){
+                return alert("메인이미지를 업로드하세요");
+              }
+              if(this.filesPreview.length < 1){
+                return alert("서브이미지를 업로드하세요");
+              }
+              if(this.producttitle === ""){
+                return alert("상품명을 입력하세요");
+              }
+              if(this.productcategory.length === 0){
+                return alert("상품카테고리를 선택하세요");
+              }
+              if(this.productbrand === ""){
+                return alert("브랜드를 입력하세요");
+              }
+              if(this.productprice === ""){
+                return alert("가격을 입력하세요");
+              }
+              if(this.productfabric === ""){
+                return alert("옷감을 입력하세요");
+              }
+              if(this.productquantity.length === 0){
+                return alert("수량을 선택하세요");
+              }
+              if(this.productdeliveryfee === ""){
+                return alert("배송비를 입력하세요");
+              }
               const headers = { "Content-Type": "application/json" };
               const url = `/HOST/product/insertproduct.json`;
               const body = {
                 producttitle : this.producttitle,
-                // productcategory : this.productcategory,
+                productcategory : this.productcategory,
                 productbrand : this.productbrand,
                 productprice : this.productprice,
                 productfabric : this.productfabric,
-                // productquantity : this.productquantity,
+                productquantity : this.productquantity,
                 productdeliveryfee : this.productdeliveryfee
               };
               const response = await axios.post(url,body, {headers:headers});
@@ -444,34 +471,32 @@
 
               const headers1 = { "Content-Type": "multipart/form-data" };
               const url1 = `/HOST/product/insertproduct_subimage.json?productno=${response.data.no}`;
-              const formData = new FormData();
+              const formData1 = new FormData();
+              
+                for(var i=0; i<this.filesPreview.length; i++){
+                  formData1.append("product_subfile", this.$refs.files.files[0]);
+                  formData1.append("product_subfile", this.$refs.files.files[1]);
+                  formData1.append("product_subfile", this.$refs.files.files[2]);
+                  formData1.append("product_subfile", this.$refs.files.files[3]);
+                  formData1.append("product_subfile", this.$refs.files.files[4]);
+                  formData1.append("product_subfile", this.$refs.files.files[5]);
+                  formData1.append("product_subfile", this.$refs.files.files[6]);
+                  formData1.append("product_subfile", this.$refs.files.files[7]);
+                  formData1.append("product_subfile", this.$refs.files.files[8]);
+                  formData1.append("product_subfile", this.$refs.files.files[9]);
+                  console.log(this.filesPreview);
 
-              for(var i=0; i<this.filesPreview.length; i++){
+                const response1 = await axios.post(url1, formData1, { headers:headers1 });
+                console.log(response1);
+                }
 
-                formData.append("product_subfile", this.$refs.files.files[0]);
-                formData.append("product_subfile", this.$refs.files.files[1]);
-                formData.append("product_subfile", this.$refs.files.files[2]);
-                formData.append("product_subfile", this.$refs.files.files[3]);
-                formData.append("product_subfile", this.$refs.files.files[4]);
-                formData.append("product_subfile", this.$refs.files.files[5]);
-                formData.append("product_subfile", this.$refs.files.files[6]);
-                formData.append("product_subfile", this.$refs.files.files[7]);
-                formData.append("product_subfile", this.$refs.files.files[8]);
-                formData.append("product_subfile", this.$refs.files.files[9]);
-                console.log(this.filesPreview);
-              }
+                const headers2 = { "Content-Type": "multipart/form-data" };
+                const url2 = `/HOST/product/insertproduct_mainimage.json?productno=${response.data.no}`;
+                const formData2 = new FormData();
 
-              console.log(formData);
-
-              const response1 = await axios.post(url1, formData, { headers:headers1 });
-              console.log(response1);
-            // console.log(this.productcategory);
-            // console.log(this.productquantity);
-            // console.log(this.producttitle);
-            // console.log(this.productdeliveryfee);
-            // console.log(this.productbrand);
-            // console.log(this.productfabric);
-            // console.log(this.productprice);
+                formData2.append("product_mainfile", this.productmainimage);
+                const response2 = await axios.post(url2, formData2, { headers:headers2 });
+                console.log(response2);
             }
         },
         created(){
