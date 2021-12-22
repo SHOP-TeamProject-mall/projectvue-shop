@@ -14,7 +14,7 @@
         </form>
 
         <div class="flex-shrink-0" >
-          <a href="/login" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;" v-if="!logged" @click="changeMenu(7)"><span><strong>로그인</strong></span></a> | 
+          <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-right:5px;" v-if="!logged" @click="changeMenu(7)"><span><strong>로그인</strong></span></a> | 
           <a href="#" style="text-decoration:none; color:black; font-weight: bold; font-size:15px; margin-left:5px;" v-if="!logged" @click="changeMenu(6)"><span><strong>회원가입</strong></span></a>
         </div>
         
@@ -24,7 +24,7 @@
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-            <li><a class="dropdown-item" href="#">내정보</a></li>
+            <li><a class="dropdown-item" href="#" @click="changeMenu(8)">내정보</a></li>
             <li><a class="dropdown-item" href="#">주문내역</a></li>
             <li><a class="dropdown-item" href="#">장바구니</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -144,6 +144,9 @@
         }
         else if(menu === 7){
           this.$router.push({ path: "/login "});
+        }
+        else if(menu === 8){
+          this.$router.push({ path: "/mypage "});
         }
         this.active = '';
       },
