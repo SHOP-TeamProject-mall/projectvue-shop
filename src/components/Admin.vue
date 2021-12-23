@@ -132,7 +132,7 @@
                 <div v-else class="file-preview-content-container">
                     <div class="file-preview-container">
                         <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                            <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
+                            <div class="file-close-button" @click="fileDeleteButton(index)" :name="file.number">
                                 x
                             </div>
                             <img :src="file.preview" />
@@ -140,7 +140,7 @@
                         <div class="file-preview-wrapper-upload">
                             <div class="image-box">
                                 <label for="file">추가 이미지 등록</label>
-                                <input type="file" id="file" ref="files" @change="imageAddUpload()" multiple />
+                                <input type="file" id="file" ref="files" @change="imageAddUpload($event)" multiple />
                             </div>
                         </div>
                     </div>
@@ -347,6 +347,8 @@
                 productprice:0,
                 productdeliveryfee:0,
                 productmainimage:"",
+
+
             }
         },
         methods:{
@@ -392,40 +394,75 @@
                 this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
                 console.log(this.filesPreview);
             },
-            imageAddUpload() {
+
+
+            imageAddUpload(e) {
+              console.log(e);
                 // console.log(this.$refs.files.files);
+
+                this.files.push({ 
+                      //실제 파일
+                      file: e.target.files[0],
+                      //이미지 프리뷰
+                      preview: URL.createObjectURL(e.target.files[0]),
+                      //삭제및 관리를 위한 number
+                      //number: i + this.uploadImageIndex,
+                });
+
 
                 // this.files = [...this.files, this.$refs.files.files];
                 //하나의 배열로 넣기c
-                let num = -1;
-                for (let i = 0; i < this.$refs.files.files.length; i++) {
-                    console.log(this.uploadImageIndex);
-                    this.files = [
-                        ...this.files,
-                        //이미지 업로드
-                        {
-                            //실제 파일
-                            file: this.$refs.files.files[i],
-                            //이미지 프리뷰
-                            preview: URL.createObjectURL(this.$refs.files.files[i]),
-                            //삭제및 관리를 위한 number
-                            number: i + this.uploadImageIndex,
-                        }
-                    ];
-                    num = i;
-                    this.filesPreview = [
-                      ...this.filesPreview,
-                      { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
-                    ];
+                // let num = -1;
+                // for (let i = 0; i < this.$refs.files.files.length; i++) {
+                //     console.log(this.uploadImageIndex);
+                    
+                //     this.files = [
+                //         ...this.files,
+                //         //이미지 업로드
+                //         {
+                //             //실제 파일
+                //             file: this.$refs.files.files[i],
+                //             //이미지 프리뷰
+                //             preview: URL.createObjectURL(this.$refs.files.files[i]),
+                //             //삭제및 관리를 위한 number
+                //             number: i + this.uploadImageIndex,
+                //         }
+                //     ];
+
+                //     num = i;
+                // }
+                // this.uploadImageIndex = this.uploadImageIndex + num + 1;
+                // console.log(this.filesPreview);
+                
+                console.log(this.files);
+
+
+                // for(let i=0;i<this.files.length;i++){
+                //   console.log( this.files[i].file );
+                  
+                // }
+            },
+
+
+            fileDeleteButton(idx) {
+              console.log(idx);
+
+              let tmp = [];
+              for(let i=0;i<this.files.length;i++){
+                if(idx !== i){
+                  tmp.push(this.files[i]);
                 }
-                this.uploadImageIndex = this.uploadImageIndex + num + 1;
-                console.log(this.filesPreview);
-            },
-            fileDeleteButton(e) {
-                const name = e.target.getAttribute('name');
-                this.files = this.files.filter(data => data.number !== Number(name));
+              }
+              this.files = tmp;
+
+                // const name = e.target.getAttribute('name');
+                // console.log(name);
+                // this.files = this.files.filter(data => data.number !== Number(name));
                 // console.log(this.files);
+                //this.files[idx] = null;
             },
+
+
             //상품등록 ==================================================================================================================
             async insertProduct(){
               if(this.productmainimage === ""){
@@ -486,8 +523,8 @@
                   formData1.append("product_subfile", this.$refs.files.files[9]);
                   console.log(this.filesPreview);
 
-                const response1 = await axios.post(url1, formData1, { headers:headers1 });
-                console.log(response1);
+                  const response1 = await axios.post(url1, formData1, { headers:headers1 });
+                  console.log(response1);
                 }
 
                 const headers2 = { "Content-Type": "multipart/form-data" };
@@ -501,6 +538,7 @@
         },
         created(){
             this.changeMenu();
+
         }
     }
 </script>
