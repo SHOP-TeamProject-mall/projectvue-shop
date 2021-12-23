@@ -167,7 +167,7 @@
 
                 <div style="margin-top:30px;">
                   <input type="checkbox" id="select_option">
-                  <label for="select_option">ddd</label>
+                  <label for="select_option"> -- 옵션선택 -- </label>
                   <div class="select_option_list" >
                     <div class="select_option_list_content">
                       <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
