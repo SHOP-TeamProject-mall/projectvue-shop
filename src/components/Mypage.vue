@@ -101,42 +101,62 @@
         <div v-if="menu === 4">
             <section class="Login-form">
                 <h1>장바구니</h1>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="id" id="id" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="id">현재암호</label>
-                </div>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="name" id="name"  autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="name">새암호</label>
-                </div> 
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="phone" id="phone" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="phone">새암호확인</label>
-                </div>
-                <div class="btn-area">
-                    <button type="submit" style="top:50px;">정보수정</button>
-                </div>
+                <table class="table table-striped" style="border: 1px solid rgb(139, 126, 126)">
+                    <thead>
+                        <tr>
+                        <th>체크</th>
+                        <th></th>
+                        <th>상품명</th>
+                        <th class="w130">가격</th>
+                        <th class="w130">수량</th>
+                        <th class="w130">배송</th>
+                        <th class="w100">날짜</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                        <td><input type="checkbox" v-model="chks" /></td>
+                        <td><img :src="``" style="width:300px;height:150px" /></td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </div>
         <!-- 찜목록 -->
         <div v-if="menu === 5">
             <section class="Login-form">
                 <h1>찜목록</h1>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="id" id="id" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="id">현재암호</label>
-                </div>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="name" id="name"  autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="name">새암호</label>
-                </div> 
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="phone" id="phone" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="phone">새암호확인</label>
-                </div>
-                <div class="btn-area">
-                    <button type="submit" style="top:50px;">정보수정</button>
-                </div>
+                <table class="table table-striped" style="border: 1px solid rgb(139, 126, 126)">
+                    <thead>
+                        <tr>
+                        <th>체크</th>
+                        <th></th>
+                        <th>상품명</th>
+                        <th class="w130">가격</th>
+                        <th class="w130">수량</th>
+                        <th class="w130">배송</th>
+                        <th class="w100">날짜</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                        <td><input type="checkbox" v-model="chks" /></td>
+                        <td><img :src="``" style="width:300px;height:150px" /></td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        <td>{{}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </div>
     </div>
@@ -174,6 +194,9 @@ import axios from "axios";
 
             // 회원 이미지 가져오기
             this.handlememberimage();
+
+            // 카트리스트 가져오기
+            this.cartList()
         },
         methods:{
 
@@ -259,6 +282,16 @@ import axios from "axios";
                 else if(menu === 5){
                     this.menu = 5;
                 }
+            },
+
+            // 카트리스트
+            async cartList(){
+            const url = ``
+            const headers = { "Content-Type": "application/json", "token" : this.token};
+            const response = await axios.get(url, {headers:headers});
+
+            console.log('cartList');
+            console.log(response.data);
             }
         }
     }
