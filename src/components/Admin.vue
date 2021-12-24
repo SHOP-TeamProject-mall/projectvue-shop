@@ -61,16 +61,16 @@
             <table border="1px solid black;"  >
                 <thead>
                     <tr>
-                        <th style="width:50px;"><input type="checkbox"></th>
+                        
                         <th>상품명</th>
                         <th>상품분류</th>
                         <th>수량</th>
                         <th>브랜드</th>
+                        <th>할인(1~100% 숫자만)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="width:50px; border-bottom:none;"></td>
                         <td><input type="text" v-model="producttitle"></td>
                         <td>
                             <select  style="width:100%; text-align:center; border:none;" v-model="productcategory">
@@ -93,11 +93,12 @@
                             </select>
                             </td>
                         <td><input type="text" v-model="productbrand"></td>
+                        <td><input type="text" v-model="productsale"></td>
                     </tr>
                 </tbody>
                 <thead>
                     <tr>
-                        <th style="width:50px; border-bottom:none; border-top:none; background:none;"></th>
+                        <th></th>
                         <th>옷감</th>
                         <th>가격</th>
                         <th>배송비</th>
@@ -106,7 +107,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="width:50px; border-top:none;"></td>
+                        <td style="background:rgb(167, 165, 165); border:none;"></td>
                         <td><input type="text" v-model="productfabric"></td>
                         <td><input type="text" v-model="productprice"></td>
                         <td><input type="text" v-model="productdeliveryfee"></td>
@@ -347,6 +348,8 @@
             productprice:0,
             productdeliveryfee:0,
             productmainimage:"",
+            productsale:0,
+            productfinalprice:0
 
 
         }
@@ -448,6 +451,8 @@
           if(this.productdeliveryfee === ""){
             return alert("배송비를 입력하세요");
           }
+          this.productfinalprice = this.productprice - (this.productprice*this.productsale/100);
+          console.log(this.productfinalprice);
           const headers = { "Content-Type": "application/json" };
           const url = `/HOST/product/insertproduct.json`;
           const body = {
@@ -457,7 +462,9 @@
             productprice : this.productprice,
             productfabric : this.productfabric,
             productquantity : this.productquantity,
-            productdeliveryfee : this.productdeliveryfee
+            productdeliveryfee : this.productdeliveryfee,
+            productsale : this.productsale,
+            productfinalprice : this.productfinalprice
           };
           const response = await axios.post(url,body, {headers:headers});
           console.log(response);
