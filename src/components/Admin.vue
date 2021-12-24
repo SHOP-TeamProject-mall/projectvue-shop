@@ -154,10 +154,10 @@
       <div class="col-6 col-lg-9 themed-grid-col" v-if="menu === 2">
           <div class="container1">
               <h3 style="margin-top:60px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품관리</h3>
-            <table border="1px solid black;"  >
+            <table border="1px solid black;" v-for="product in productitems" v-bind:key="product" style="margin-bottom:-50px;">
                 <thead>
                     <tr>
-                        <th style="width:50px;"><input type="checkbox"></th>
+                        <th style="width:50px;">{{product.productno}}</th>
                         <th>상품명</th>
                         <th>상품분류</th>
                         <th>수량</th>
@@ -167,9 +167,10 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-bottom:none;"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" :placeholder="product.producttitle"></td>
                         <td>
                             <select name="aa" id="aa" style="width:100%; text-align:center; border:none;">
+                                <option value="dd">{{product.productcategory}}</option>
                                 <option value="dd">남성상의</option>
                                 <option value="dd">남성하의</option>
                                 <option value="dd">남성외투</option>
@@ -185,10 +186,11 @@
                             </td>
                         <td>
                             <select name="bb" id="bb" style="width:100%; text-align:center; border:none;">
+                                <option value="">{{product.productquantity}}</option>
                                 <option value="" v-for="qnt in quantity" v-bind:key="qnt">{{qnt}}</option>
                             </select>
                             </td>
-                        <td><input type="text"></td>
+                        <td><input type="text" :placeholder="product.productbrand"></td>
                     </tr>
                 </tbody>
                 <thead>
@@ -197,22 +199,51 @@
                         <th>옷감</th>
                         <th>가격</th>
                         <th>배송비</th>
-                        <th>대표이미지</th>
+                        <th>할인율</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" :placeholder="product.productfabric"></td>
+                        <td><input type="text" :placeholder="product.productprice"></td>
+                        <td><input type="text" :placeholder="product.productdeliveryfee"></td>
+                        <td><input type="text" :placeholder="product.productsale"></td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th style="width:50px; border-bottom:none; border-top:none; background:none;"></th>
+                        <th>대표이미지</th>
+                        <th>서브이미지</th>
+                        <th>최종가격</th>
+                        <th>버튼</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width:50px; border-top:none;"></td>
+                        <td><img src="#" alt="" style="width:50px; height:50px;"><input type="file"></td>
+                        <td><img src="#" alt="" style="width:50px; height:50px;"><input type="file"></td>
+                        <td>{{product.productfinalprice}}</td>
                         <td>
                           <input type="submit" style="width:50%; background:gold;" value="상품정보수정">
-                          <input type="button" style="width:50%; background:pink;" @click="optionmodal = true" value="상품옵션추가">
+                          <input type="button" style="width:50%; background:pink;" @click="openoptionmodal(product.productno)" value="상품옵션추가">
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+
+              <ol class="ppagenation">
+                <li class="ppagenation_First"><a href="#" @click="productpagenation(idx = 1)"></a></li>
+                <li class="ppagenation_Prev"><a href="#" ></a></li>
+                <li v-for="(productpagetion,idx) in ppages" v-bind:key="productpagetion"><a href="#" @click="productpagenation(idx+1)" >{{idx+1}}</a></li>
+                <li class="ppagenation_Next"><a href="#" ></a></li>
+                <li class="ppagenation_Last"><a href="#" @click="productpagenation(idx = ppages)"></a></li>
+              </ol>
+
+            </div>
           </div>
       </div>
     </div>
@@ -227,32 +258,32 @@
       <!-- 옵션추가 -->
       <div class="option_modal_header">
           <div class="int-area">
-              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <input type="text" name="name" id="name"  autocomplete="off" required v-model="productoptionname" >
               <label for="name">옵션명</label>
           </div>
           <div class="int-area">
-              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <input type="text" name="name" id="name"  autocomplete="off" required v-model="productoptionsize" >
               <label for="name">사이즈</label>
           </div>
           <div class="int-area1">
-              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <input type="text" name="name" id="name"  autocomplete="off" required v-model="productoptioncolor" >
               <label for="name">컬러</label>
           </div>
           <div class="int-area1">
-              <input type="text" name="name" id="name"  autocomplete="off" required  >
+              <input type="text" name="name" id="name"  autocomplete="off" required v-model="productoptionadditionalamount" >
               <label for="name">추가금액</label>
           </div>
           <div class="int-area2">
-              <input type="file"  style="font-size:13px; font-weight:bold; position:relative; left:-30px; ">
+              <input type="file"  style="font-size:13px; font-weight:bold; position:relative; left:-30px; " @change="handleProductOptionImage($event)">
           </div>
           <div class="int-area2">
-              <input type="submit" style="font-size:20px; font-weight:bold; position:relative; left:50px; border:1px solid black; " value="옵션추가">
+              <input type="submit" style="font-size:20px; font-weight:bold; position:relative; left:50px; " value="옵션추가" @click="insertProductOption">
           </div>
       </div>
       <!-- 옵션조회 -->
       <div class="option_modal_body">
         <section>
-        <table style="margin-top:0;">
+        <table style="margin-top:0;" v-for="productoption in productoptionitems" v-bind:key="productoption">
           <thead>
             <tr>
               <th>옵션번호</th>
@@ -265,44 +296,12 @@
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-              <th style="height:50px;">이미지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-        <table style="margin-top:0;">
-          <thead>
-            <tr>
-              <th>옵션번호</th>
-              <th>옵션명</th>
-              <th>사이즈</th>
-              <th>컬러</th>
-              <th>추가금액</th>
-              <th>버튼</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>2</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
+              <td>{{productoption.productoptionno}}</td>
+              <td><input type="text" :placeholder="productoption.productoptionname"></td>
+              <td><input type="text" :placeholder="productoption.productoptionsize"></td>
+              <td><input type="text" :placeholder="productoption.productoptioncolor"></td>
+              <td><input type="text" :placeholder="productoption.productoptionadditionalamount"></td>
+              <td><input type="button" value="수정완료"></td>
             </tr>
           </tbody>
           <thead>
@@ -338,6 +337,9 @@
             files: [], //업로드용 파일
             filesPreview: [],
             uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+            page:1,
+            ppages:"",
+            productitems:"",
 
             // product
             productcategory:[],
@@ -347,24 +349,36 @@
             productfabric:'',
             productprice:0,
             productdeliveryfee:0,
-            productmainimage:"",
             productsale:0,
-            productfinalprice:0
+            productfinalprice:0,
+            productmainimage:"",
 
+            // productoption
+            productoptionname:"",
+            productoptionsize:"",
+            productoptioncolor:"",
+            productoptionadditionalamount:"",
+            productoptionimage:"",
+            productoption_productno:0,
+            productoptionitems:""
 
         }
     },
     methods:{
         changeMenu(menu){
-            if(menu === 1){
-                this.menu = 1;
-            }
-            else if(menu === 2){
-                this.menu = 2;
-            }
+          this.menu = menu;
+          if(menu === 1){
+            this.menu = 1;
+          }
+          else if(menu === 2){
+            this.selectProduct();
+          }
         },
         handleProductMainImage(e){
           this.productmainimage = e.target.files[0];
+        },
+        handleProductOptionImage(e){
+          this.productoptionimage = e.target.files[0];
         },
         imageUpload() {
             // console.log(this.$refs.files.files);
@@ -486,11 +500,62 @@
             formData2.append("product_mainfile", this.productmainimage);
             const response2 = await axios.post(url2, formData2, { headers:headers2 });
             console.log(response2);
-        }
-    },
-    created(){
-        this.changeMenu();
+        },
+        async selectProduct(){
+          const url = `/HOST/product/select_product.json?page=${this.page}&title=&brand=`;
+          const headers = { "Content-Type": "application/json" };
+          const response = await axios.get(url, { headers });
+          console.log(response);
+          if(response.status === 200){
+            this.productitems = response.data.list;
+            // console.log(this.productitems);
+            this.ppages = response.data.ppage;
+            console.log(this.ppages);
+          }
+        },
+        async productpagenation(idx){
+          console.log("222");
+          const url = `/HOST/product/select_product.json?page=${idx}&title=?&brand=`;
+          const headers = { "Content-Type": "application/json" };
+          const response = await axios.get(url, { headers });
+          console.log(response);
+          if(response.status === 200){
+            this.productitems = response.data.list;
+            console.log(this.productitems);
+          }
+        },
+        //옵션추가 ==================================================================================================================
+        async insertProductOption(){
+          console.log(this.productoption_productno);
+          const headers = { "Content-Type": "application/json" };
+          const url = `/HOST/productoption/insert_productoption.json?productno=${this.productoption_productno}`;
+          const body = {
+            productoptionname : this.productoptionname,
+            productoptionsize : this.productoptionsize,
+            productoptioncolor : this.productoptioncolor,
+            productoptionadditionalamount : this.productoptionadditionalamount
+          }
+          const response = await axios.post(url,body, {headers:headers});
+          console.log(response);
+         },
+        async openoptionmodal(productno){
+          this.productoption_productno = productno;
+          this.optionmodal = true;
+          const url = `/HOST/productoption/select_productoption.json?productno=${this.productoption_productno}`;
+          const headers = { "Content-Type": "application/json" };
+          const response = await axios.get(url, { headers });
+          // console.log(response);
+          // console.log(productno);
+          if(response.status === 200){
+            this.productoptionitems = response.data.list;
+            // console.log(this.productoptionitems);
+          }
+          
+        },
+        created(){
+            this.changeMenu();
 
+        }
     }
   }
 </script>
@@ -595,6 +660,7 @@ td{
 }
 td > input {
     width: 100%;
+    text-align: center;
     padding: 0; margin: 0;
     border: none;
 }
@@ -909,4 +975,21 @@ width: 100%; */
     position: relative;
     margin-top: 20px;
 }
+
+// 페이지 네이션 ===============================================================================================
+.ppagenation {text-align: center; padding: 150px 0;}
+.ppagenation li {display: inline-block; vertical-align: middle;}
+.ppagenation li a {color: #898786; display: block; width: 32px; height: 32px;}
+.ppagenation li a:hover {color: #ff5a20; text-decoration: underline;}
+.ppagenation li.ppagenation_First a,
+.ppagenation li.ppagenation_Prev a,
+.ppagenation li.ppagenation_Next a,
+.ppagenation li.ppagenation_Last a {overflow: hidden; width: 30px; height: 30px; margin: 0 2px; color: transparent; background: no-repeat center;}
+.ppagenation li.ppagenation_First a {background-image: url('../assets/img/first.png') ;}
+.ppagenation li.ppagenation_Prev a {background-image: url('../assets/img/left.png') ;}
+.ppagenation li.ppagenation_Next a {background-image: url('../assets/img/right.png') ;}
+.ppagenation li.ppagenation_Last a {background-image: url('../assets/img/last.png') ;}
+.ppagenation li.ppagenation_Prev a {margin-right: 23px; margin-left: 13px;}
+.ppagenation li.ppagenation_Next a {margin-left: 23px; margin-right: 13px;}
+
 </style>
