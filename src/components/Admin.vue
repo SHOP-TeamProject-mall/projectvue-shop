@@ -325,222 +325,167 @@
 </template>
 
 <script>
-    import axios from "axios";
-    export default {
-        data(){
-            return{
-                quantity:1000,
-                category:11,
-                menu:1,
-                productidx:0,
-                optionmodal:false,
-                files: [], //업로드용 파일
-                filesPreview: [],
-                uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+  import axios from "axios";
+  export default {
+    data(){
+        return{
+            quantity:1000,
+            category:11,
+            menu:1,
+            productidx:0,
+            optionmodal:false,
+            files: [], //업로드용 파일
+            filesPreview: [],
+            uploadImageIndex: 0, // 이미지 업로드를 위한 변수
 
-                // product
-                productcategory:[],
-                producttitle:"",
-                productquantity:[],
-                productbrand:'',
-                productfabric:'',
-                productprice:0,
-                productdeliveryfee:0,
-                productmainimage:"",
+            // product
+            productcategory:[],
+            producttitle:"",
+            productquantity:[],
+            productbrand:'',
+            productfabric:'',
+            productprice:0,
+            productdeliveryfee:0,
+            productmainimage:"",
 
-
-            }
-        },
-        methods:{
-            changeMenu(menu){
-                if(menu === 1){
-                    this.menu = 1;
-                }
-                else if(menu === 2){
-                    this.menu = 2;
-                }
-            },
-            handleProductMainImage(e){
-              this.productmainimage = e.target.files[0];
-            },
-            imageUpload() {
-                // console.log(this.$refs.files.files);
-
-                // this.files = [...this.files, this.$refs.files.files];
-                //하나의 배열로 넣기
-                let num = -1;
-                for (let i = 0; i < this.$refs.files.files.length; i++) {
-                  console.log(this.uploadImageIndex);
-                    this.files = [
-                        ...this.files,
-                        //이미지 업로드
-                        {
-                            //실제 파일
-                            file: this.$refs.files.files[i],
-                            //이미지 프리뷰
-                            preview: URL.createObjectURL(this.$refs.files.files[i]),
-                            //삭제및 관리를 위한 number
-                            number: i
-                        }
-                    ];
-                    num = i;
-                    //이미지 업로드용 프리뷰
-                    this.filesPreview = [
-                      ...this.filesPreview,
-                      { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
-                    ];
-
-                }
-                this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
-                console.log(this.filesPreview);
-            },
-
-
-            imageAddUpload(e) {
-              console.log(e);
-                // console.log(this.$refs.files.files);
-
-                this.files.push({ 
-                      //실제 파일
-                      file: e.target.files[0],
-                      //이미지 프리뷰
-                      preview: URL.createObjectURL(e.target.files[0]),
-                      //삭제및 관리를 위한 number
-                      //number: i + this.uploadImageIndex,
-                });
-
-
-                // this.files = [...this.files, this.$refs.files.files];
-                //하나의 배열로 넣기c
-                // let num = -1;
-                // for (let i = 0; i < this.$refs.files.files.length; i++) {
-                //     console.log(this.uploadImageIndex);
-                    
-                //     this.files = [
-                //         ...this.files,
-                //         //이미지 업로드
-                //         {
-                //             //실제 파일
-                //             file: this.$refs.files.files[i],
-                //             //이미지 프리뷰
-                //             preview: URL.createObjectURL(this.$refs.files.files[i]),
-                //             //삭제및 관리를 위한 number
-                //             number: i + this.uploadImageIndex,
-                //         }
-                //     ];
-
-                //     num = i;
-                // }
-                // this.uploadImageIndex = this.uploadImageIndex + num + 1;
-                // console.log(this.filesPreview);
-                
-                console.log(this.files);
-
-
-                // for(let i=0;i<this.files.length;i++){
-                //   console.log( this.files[i].file );
-                  
-                // }
-            },
-
-
-            fileDeleteButton(idx) {
-              console.log(idx);
-
-              let tmp = [];
-              for(let i=0;i<this.files.length;i++){
-                if(idx !== i){
-                  tmp.push(this.files[i]);
-                }
-              }
-              this.files = tmp;
-
-                // const name = e.target.getAttribute('name');
-                // console.log(name);
-                // this.files = this.files.filter(data => data.number !== Number(name));
-                // console.log(this.files);
-                //this.files[idx] = null;
-            },
-
-
-            //상품등록 ==================================================================================================================
-            async insertProduct(){
-              if(this.productmainimage === ""){
-                return alert("메인이미지를 업로드하세요");
-              }
-              if(this.filesPreview.length < 1){
-                return alert("서브이미지를 업로드하세요");
-              }
-              if(this.producttitle === ""){
-                return alert("상품명을 입력하세요");
-              }
-              if(this.productcategory.length === 0){
-                return alert("상품카테고리를 선택하세요");
-              }
-              if(this.productbrand === ""){
-                return alert("브랜드를 입력하세요");
-              }
-              if(this.productprice === ""){
-                return alert("가격을 입력하세요");
-              }
-              if(this.productfabric === ""){
-                return alert("옷감을 입력하세요");
-              }
-              if(this.productquantity.length === 0){
-                return alert("수량을 선택하세요");
-              }
-              if(this.productdeliveryfee === ""){
-                return alert("배송비를 입력하세요");
-              }
-              const headers = { "Content-Type": "application/json" };
-              const url = `/HOST/product/insertproduct.json`;
-              const body = {
-                producttitle : this.producttitle,
-                productcategory : this.productcategory,
-                productbrand : this.productbrand,
-                productprice : this.productprice,
-                productfabric : this.productfabric,
-                productquantity : this.productquantity,
-                productdeliveryfee : this.productdeliveryfee
-              };
-              const response = await axios.post(url,body, {headers:headers});
-              console.log(response);
-
-              const headers1 = { "Content-Type": "multipart/form-data" };
-              const url1 = `/HOST/product/insertproduct_subimage.json?productno=${response.data.no}`;
-              const formData1 = new FormData();
-              
-                for(var i=0; i<this.filesPreview.length; i++){
-                  formData1.append("product_subfile", this.$refs.files.files[0]);
-                  formData1.append("product_subfile", this.$refs.files.files[1]);
-                  formData1.append("product_subfile", this.$refs.files.files[2]);
-                  formData1.append("product_subfile", this.$refs.files.files[3]);
-                  formData1.append("product_subfile", this.$refs.files.files[4]);
-                  formData1.append("product_subfile", this.$refs.files.files[5]);
-                  formData1.append("product_subfile", this.$refs.files.files[6]);
-                  formData1.append("product_subfile", this.$refs.files.files[7]);
-                  formData1.append("product_subfile", this.$refs.files.files[8]);
-                  formData1.append("product_subfile", this.$refs.files.files[9]);
-                  console.log(this.filesPreview);
-
-                  const response1 = await axios.post(url1, formData1, { headers:headers1 });
-                  console.log(response1);
-                }
-
-                const headers2 = { "Content-Type": "multipart/form-data" };
-                const url2 = `/HOST/product/insertproduct_mainimage.json?productno=${response.data.no}`;
-                const formData2 = new FormData();
-
-                formData2.append("product_mainfile", this.productmainimage);
-                const response2 = await axios.post(url2, formData2, { headers:headers2 });
-                console.log(response2);
-            }
-        },
-        created(){
-            this.changeMenu();
 
         }
+    },
+    methods:{
+        changeMenu(menu){
+            if(menu === 1){
+                this.menu = 1;
+            }
+            else if(menu === 2){
+                this.menu = 2;
+            }
+        },
+        handleProductMainImage(e){
+          this.productmainimage = e.target.files[0];
+        },
+        imageUpload() {
+            // console.log(this.$refs.files.files);
+
+            // this.files = [...this.files, this.$refs.files.files];
+            //하나의 배열로 넣기
+            let num = -1;
+            for (let i = 0; i < this.$refs.files.files.length; i++) {
+              // console.log(this.uploadImageIndex);
+                this.files = [
+                    ...this.files,
+                    //이미지 업로드
+                    {
+                        //실제 파일
+                        file: this.$refs.files.files[i],
+                        //이미지 프리뷰
+                        preview: URL.createObjectURL(this.$refs.files.files[i]),
+                        //삭제및 관리를 위한 number
+                        number: i
+                    }
+                ];
+                num = i;
+                //이미지 업로드용 프리뷰
+                this.filesPreview = [
+                  ...this.filesPreview,
+                  { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
+                ];
+
+            }
+            this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+            // console.log(this.filesPreview);
+        },
+
+
+        imageAddUpload(e) {
+          console.log(e);
+            // console.log(this.$refs.files.files);
+            this.files.push({ 
+                  file: e.target.files[0],
+                  preview: URL.createObjectURL(e.target.files[0]),
+            });
+            // console.log(this.files);
+        },
+
+
+        fileDeleteButton(idx) {
+          console.log(idx);
+          let tmp = [];
+          for(let i=0;i<this.files.length;i++){
+            if(idx !== i){
+              tmp.push(this.files[i]);
+            }
+          }
+          this.files = tmp;
+        },
+
+
+        //상품등록 ==================================================================================================================
+        async insertProduct(){
+          if(this.productmainimage === ""){
+            return alert("메인이미지를 업로드하세요");
+          }
+          if(this.filesPreview.length < 1){
+            return alert("서브이미지를 업로드하세요");
+          }
+          if(this.producttitle === ""){
+            return alert("상품명을 입력하세요");
+          }
+          if(this.productcategory.length === 0){
+            return alert("상품카테고리를 선택하세요");
+          }
+          if(this.productbrand === ""){
+            return alert("브랜드를 입력하세요");
+          }
+          if(this.productprice === ""){
+            return alert("가격을 입력하세요");
+          }
+          if(this.productfabric === ""){
+            return alert("옷감을 입력하세요");
+          }
+          if(this.productquantity.length === 0){
+            return alert("수량을 선택하세요");
+          }
+          if(this.productdeliveryfee === ""){
+            return alert("배송비를 입력하세요");
+          }
+          const headers = { "Content-Type": "application/json" };
+          const url = `/HOST/product/insertproduct.json`;
+          const body = {
+            producttitle : this.producttitle,
+            productcategory : this.productcategory,
+            productbrand : this.productbrand,
+            productprice : this.productprice,
+            productfabric : this.productfabric,
+            productquantity : this.productquantity,
+            productdeliveryfee : this.productdeliveryfee
+          };
+          const response = await axios.post(url,body, {headers:headers});
+          console.log(response);
+
+          const headers1 = { "Content-Type": "multipart/form-data" };
+          const url1 = `/HOST/product/insertproduct_subimage.json?productno=${response.data.no}`;
+          const formData1 = new FormData();
+          
+            for(var i=0; i<this.files.length; i++){
+              formData1.append("product_subfile", this.files[i].file);
+            }
+              const response1 = await axios.post(url1, formData1, { headers:headers1 });
+              console.log(response1);
+
+            const headers2 = { "Content-Type": "multipart/form-data" };
+            const url2 = `/HOST/product/insertproduct_mainimage.json?productno=${response.data.no}`;
+            const formData2 = new FormData();
+
+            formData2.append("product_mainfile", this.productmainimage);
+            const response2 = await axios.post(url2, formData2, { headers:headers2 });
+            console.log(response2);
+        }
+    },
+    created(){
+        this.changeMenu();
+
     }
+  }
 </script>
 
 <style lang="scss" scoped>
