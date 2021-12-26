@@ -59,9 +59,42 @@
               </button>
               <div class="collapse" id="account-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded">찜목록</a></li>
-                  <li><a href="#" class="link-dark rounded">주문내역</a></li>
-                  <li><a href="#" class="link-dark rounded">Settings</a></li>
+                  <li>
+                    <input type="checkbox" id="wishlist">
+                    <label for="wishlist">
+                      찜목록
+                    </label>
+                    <div class="sidebar_wishlist">
+                      <div style="padding:50px;">
+                        <input type="checkbox" id="wishlist">
+                        <label for="wishlist" style="position: absolute; top: 0%; left:-4%; width:50px; height:40px;">
+                          <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                        </label>
+                      </div>
+                      <!-- 찜목록내용 여기에 작성하시면 됩니다. -->
+                    </div>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="basket">
+                    <label for="basket">
+                      장바구니
+                    </label>
+                    <div class="sidebar_basket">
+                      <div style="padding:50px;">
+                        <input type="checkbox" id="basket">
+                        <label for="basket" style="position: absolute; top: -1%; left:-1%; width:50px; height:40px;">
+                          <img src="../assets/img/close.png" style="width:30px; background:pink;"  alt="">
+                        </label>
+                      </div>
+                      <!-- 장바구니내용 여기에 작성하시면 됩니다. -->
+                    </div>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="orderlist">
+                    <label for="orderlist">
+                      주문목록
+                    </label>
+                  </li>
                   <li><a href="#" class="link-dark rounded">Sign out</a></li>
                 </ul>
               </div>
@@ -69,6 +102,8 @@
           </ul>
         </div>
       </div>
+
+
 
                                                               <!-- MENU 번호 ( code 찾기 : menu===1/2/3/4/5/6/7/8 )
                                                                   메뉴1 : 남성상의  메뉴5 : 여성상의
@@ -1537,6 +1572,27 @@ input[id="menuicon"] + label {display: block; position: relative; cursor: pointe
 div[class="sidebar"] {width: 600px; height: 100%; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
 input[id="menuicon"]:checked + label + div {left: 0;}
 
+// 장바구니 사이드바
+input[id="basket"] {display:none;}
+input[id="basket"] + label  {display: block; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
+input[id="basket"] + label:hover {background:#20c997;}
+
+div[class="sidebar_basket"] {width:100%; height: 300px; background: rgb(255, 255, 255);position:fixed; left: 0; bottom: -300px; overflow-x: auto;; z-index: 1; transition: all .35s; border-top: 2px solid rgb(255, 0, 0);}
+input[id="basket"]:checked + label + div {bottom: 0;}
+
+// 찜목록 사이드바
+input[id="wishlist"] {display:none;}
+input[id="wishlist"] + label  {display: block; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
+input[id="wishlist"] + label:hover {background:#20c997;}
+
+div[class="sidebar_wishlist"] {width:400px; height: 100%; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;right: -600px; z-index: 1; transition: all .35s; border-left: 2px solid rgb(255, 0, 0);}
+input[id="wishlist"]:checked + label + div {right: 0;}
+
+// 주문목록 버튼 style
+input[id="orderlist"] {display:none;}
+input[id="orderlist"] + label  {display: inline-flex; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
+input[id="orderlist"] + label:hover {background:#20c997;}
+
 // 슬라이드 이미지
 .section input[id*="slide"]{
   display: none;
@@ -1549,7 +1605,7 @@ input[id="menuicon"]:checked + label + div {left: 0;}
 .section .slidelist{
   white-space: nowrap;
   font-size: 0;
-}
+} 
 .section .slidelist > li {
   display: inline-block;
   vertical-align: center;
