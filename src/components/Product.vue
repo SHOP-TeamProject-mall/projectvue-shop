@@ -69,6 +69,13 @@
           </ul>
         </div>
       </div>
+
+                                                              <!-- MENU 번호 ( code 찾기 : menu===1/2/3/4/5/6/7/8 )
+                                                                  메뉴1 : 남성상의  메뉴5 : 여성상의
+                                                                  메뉴2 : 남성하의  메뉴6 : 여성하의
+                                                                  메뉴3 : 남성외투  메뉴7 : 여성외투
+                                                                  메뉴4 : 남성속옷  메뉴8 : 여성속옷  -->
+
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
         <div class="row" >
           <div class="col-2">남성상의
