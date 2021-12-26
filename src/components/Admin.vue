@@ -223,8 +223,17 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
-                        <td><img src="#" alt="" style="width:50px; height:50px;"><input type="file"></td>
-                        <td><img src="#" alt="" style="width:50px; height:50px;"><input type="file"></td>
+                        <td><img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" alt="" style="width:50px; height:50px;"><input type="file"></td>
+                        <td>
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=1`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=2`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=3`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=4`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=5`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=6`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=7`" alt="" style="width:50px; height:50px;">
+                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=8`" alt="" style="width:50px; height:50px;">
+                          </td>
                         <td>{{product.productfinalprice}}</td>
                         <td>
                           <input type="submit" style="width:50%; background:gold;" value="상품정보수정">
@@ -282,8 +291,8 @@
       </div>
       <!-- 옵션조회 -->
       <div class="option_modal_body">
-        <section>
-        <table style="margin-top:0;" v-for="productoption in productoptionitems" v-bind:key="productoption">
+        <section v-for="(productoption,idx) in productoptionitems" v-bind:key="productoption">
+        <table style="margin-top:0;" >
           <thead>
             <tr>
               <th>옵션번호</th>
@@ -296,7 +305,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{productoption.productoptionno}}</td>
+              <td>{{idx+1}}</td>
               <td><input type="text" :placeholder="productoption.productoptionname"></td>
               <td><input type="text" :placeholder="productoption.productoptionsize"></td>
               <td><input type="text" :placeholder="productoption.productoptioncolor"></td>
@@ -304,17 +313,12 @@
               <td><input type="button" value="수정완료"></td>
             </tr>
           </tbody>
-          <thead>
-            <tr>
-              <th style="height:50px;">이미지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-            </tr>
-          </tbody>
         </table>
+          <div style="position:relative; text-align:center; margin:10px;">
+            <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${productoption.productoptionno}`" style="width:100px; height:100px; background-color:white; display: inline;" alt=""> 
+            <input type="file" style="margin-left: 50px;">
+          </div>
+
         </section>
       </div>
       <!-- 모달 close 버튼 -->
@@ -340,6 +344,7 @@
             page:1,
             ppages:"",
             productitems:"",
+            idxs:[1,2,3,4,5,6],
 
             // product
             productcategory:[],
@@ -537,6 +542,14 @@
           }
           const response = await axios.post(url,body, {headers:headers});
           console.log(response);
+
+          const headers2 = { "Content-Type": "multipart/form-data" };
+          const url2 = `/HOST/productoption/insert_productoption_image.json?productoptionno=${response.data.option.productoptionno}`;
+          const formData2 = new FormData();
+
+          formData2.append("product_optionfile", this.productoptionimage);
+          const response2 = await axios.post(url2, formData2, { headers:headers2 });
+          console.log(response2);
          },
         async openoptionmodal(productno){
           this.productoption_productno = productno;
@@ -667,7 +680,7 @@ td > input {
 
 
 .container1{
-    height: 100vh;
+    height: 110vh;
     align-items: center;
     justify-content: center;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container1">
     <div class="row mb-3">
       <div class="col-sm-6 col-lg-3 themed-grid-col">
         <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
@@ -21,8 +21,8 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   <li><a href="#" class="link-dark rounded" @click="ChangMenu(1)">남성상의</a></li>
                   <li><a href="#" class="link-dark rounded" @click="ChangMenu(2)">남성하의</a></li>
-                  <li><a href="#" class="link-dark rounded" @click="menu=3">남성외투</a></li>
-                  <li><a href="#" class="link-dark rounded" @click="menu=4">남성속옷</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(3)">남성외투</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(4)">남성속옷</a></li>
                 </ul>
               </div>
             </li>
@@ -32,10 +32,10 @@
               </button>
               <div class="collapse" id="dashboard-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded" @click="menu=5">여성상의</a></li>
-                  <li><a href="#" class="link-dark rounded" @click="menu=6">여성하의</a></li>
-                  <li><a href="#" class="link-dark rounded" @click="menu=7">여성외투</a></li>
-                  <li><a href="#" class="link-dark rounded" @click="menu=8">여성속옷</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(5)">여성상의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(6)">여성하의</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(7)">여성외투</a></li>
+                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(8)">여성속옷</a></li>
                 </ul>
               </div>
             </li>
@@ -89,14 +89,18 @@
           </div>
         </div>
         <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="a in aa" v-bind:key="a">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
             <input type="checkbox" id="menuicon">
             <label for="menuicon">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
-                <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <p class="card-text text-center">상품명{{this.menu}}</p>
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
                   </div>
                 </div><hr>
               </div>
@@ -211,7 +215,7 @@
       </div>
 
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===2">
-        <div class="row">
+        <div class="row" >
           <div class="col-2">남성하의
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected>보기</option>
@@ -224,33 +228,131 @@
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
             </div>
           </div>
         </div>
-        <div class="row mb-3 mt-5" v-for="a in aa" v-bind:key="a">
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명{{this.menu}}</p>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
               </div>
             </div>
           </div>
@@ -258,7 +360,7 @@
       </div>
 
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===3">
-        <div class="row">
+        <div class="row" >
           <div class="col-2">남성외투
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected>보기</option>
@@ -271,33 +373,131 @@
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
             </div>
           </div>
         </div>
         <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명</p>
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명</p>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
               </div>
-            </div>
-          </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명432423</p>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
               </div>
             </div>
           </div>
@@ -305,7 +505,7 @@
       </div>
 
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===4">
-        <div class="row">
+        <div class="row" >
           <div class="col-2">남성속옷
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected>보기</option>
@@ -318,33 +518,711 @@
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" style="background-color:pink;" type="button" id="button-addon2">Button</button>
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
             </div>
           </div>
         </div>
         <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명</p>
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
+              </div>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
+              </div>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
               </div>
             </div>
           </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">상품명</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===5">
+        <div class="row" >
+          <div class="col-2">여성상의
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
+              </div>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
+              </div>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
               </div>
             </div>
           </div>
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">sdfsfdsf</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===6">
+        <div class="row" >
+          <div class="col-2">여성하의
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
+              </div>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
+              </div>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===7">
+        <div class="row" >
+          <div class="col-2">여성외투
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
+              </div>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
+              </div>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===8">
+        <div class="row" >
+          <div class="col-2">여성속옷
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected>보기</option>
+              <option value="1">최신순</option>
+              <option value="2">인기순</option>
+              <option value="3">주문순</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col col-lg-7">
+            <div class="input-group mb-3" style="width:300px; float:right;">
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 mt-5">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+              <div class="col-4 themed-grid-col">
+                <div class="card" style="width: 18rem; border:1px solid black;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div>
+                </div><hr>
+              </div>
+            </label>
+            <!-- 사이드바 -->
+            <div class="sidebar">
+              <div style="padding:50px;">
+                <input type="checkbox" id="menuicon">
+                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
+                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
+                </label>
+              </div>
+              <!-- 이미지 모달 -->
+              <input type="checkbox" id="popup">
+              <label for="popup">
+                <img src="../assets/img/product33.gif" alt="">
+                <div style="color:black; margin-left:50px;">
+                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
+                </div>
+              </label>
+              <div>
+                <div>
+                  <label for="popup"></label>
+                  <div class="section">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <div class="slidewrap">
+                      <ul class="slidelist">
+                        <li>
+                          <a href="#">
+                            <label for="slide03" class="left"></label>
+                            <img src="../assets/img/product11.jpg" alt="">
+                            <label for="slide02" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide01" class="left"></label>
+                            <img src="../assets/img/product22.jpg" alt="">
+                            <label for="slide03" class="right"></label>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <label for="slide02" class="left"></label>
+                            <img src="../assets/img/product33.gif" alt="">
+                            <label for="slide01" class="right"></label>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                  <label for="popup">
+
+                  </label>
+              </div>
+
+                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
+                  <h3 style="color:red; text-align:center;">38,000원</h3>
+              <hr style="border:1px solid black; width:80%; margin-left:10%;">
+
+              <div class="container">
+                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
+
+                <br>
+
+                <div style="margin-top:30px;">
+                  <input type="checkbox" id="select_option">
+                  <label for="select_option"> -- 옵션선택 -- </label>
+                  <div class="select_option_list" >
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+
+                    <hr style="margin:0; padding:0;">
+
+                    <div class="select_option_list_content">
+                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    </div>
+                  </div>
+
+                </div>
+
+              <hr style="border:1px solid black; width:90%; margin-left:5%;">
+                <div class="container">
+                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span style="margin-left:15px;">
+                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                      </svg>
+                      찜
+                    </button>
+                  </span>
+                </div>
+                <br>
               </div>
             </div>
           </div>
@@ -359,11 +1237,14 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
     data(){
       return{
         menu:1,
         aa:9,
+        productitems:"",
+        productcategoryname:""
         
       }
     },
@@ -372,14 +1253,89 @@
         console.log("Hello", menu);
         if(menu === 1){
           this.menu = 1;
-          console.log(menu);
+          this.productcategoryname = "남성상의"
+          this.selectProduct();
         }
         else if(menu === 2){
           this.menu = 2;
-          console.log(menu);
+          this.productcategoryname = "남성하의"
+          this.selectProduct();
+        }
+        else if(menu === 3){
+          this.menu = 3;
+          this.productcategoryname = "남성외투"
+          this.selectProduct();
+        }
+        else if(menu === 4){
+          this.menu = 4;
+          this.productcategoryname = "남성속옷"
+          this.selectProduct();
+        }
+        else if(menu === 5){
+          this.menu = 5;
+          this.productcategoryname = "여성상의"
+          this.selectProduct();
+        }
+        else if(menu === 6){
+          this.menu = 6;
+          this.productcategoryname = "여성하의"
+          this.selectProduct();
+        }
+        else if(menu === 7){
+          this.menu = 7;
+          this.productcategoryname = "여성외투"
+          this.selectProduct();
+        }
+        else if(menu === 8){
+          this.menu = 8;
+          this.productcategoryname = "여성속옷"
+          this.selectProduct();
+        }
+
+      },
+      async selectProduct(){
+        // console.log(this.menu+"ddd");
+        const url = `/HOST/product/select_product_category.json?menu=${this.menu}&productcategory=${this.productcategoryname}`;
+        const headers = { "Content-Type": "application/json" };
+        const response = await axios.get(url, { headers });
+        console.log(response);
+        if(response.status === 200){
+          if(this.menu === 1){
+            this.productitems = response.data.masculine;
+            console.log(this.productitems);
+            // console.log(this.ppages);
+          }
+          if(this.menu === 2){
+            this.productitems = response.data.mensbottoms;
+            console.log(this.productitems);
+          }
+          if(this.menu === 3){
+            this.productitems = response.data.mensovercoat;
+            console.log(this.productitems);
+          }
+          if(this.menu === 4){
+            this.productitems = response.data.mensunderwear;
+            console.log(this.productitems);
+          }
+          if(this.menu === 5){
+            this.productitems = response.data.femaletop;
+            console.log(this.productitems);
+          }
+          if(this.menu === 6){
+            this.productitems = response.data.womensbottoms;
+            console.log(this.productitems);
+          }
+          if(this.menu === 7){
+            this.productitems = response.data.womensovercoat;
+            console.log(this.productitems);
+          }
+          if(this.menu === 8){
+            this.productitems = response.data.womensunderwear;
+            console.log(this.productitems);
+          }
         }
       }
-    },
+      },
     async created(){
       
     },
@@ -394,8 +1350,27 @@
           var menu = params.get('menu');
           if(menu == 1) {
             this1.menu = 1;
-          }else if(menu == 2) {
+          }
+          else if(menu == 2) {
             this1.menu = 2;
+          }
+          else if(menu == 3) {
+            this1.menu = 3;
+          }
+          else if(menu == 4) {
+            this1.menu = 4;
+          }
+          else if(menu == 5) {
+            this1.menu = 5;
+          }
+          else if(menu == 6) {
+            this1.menu = 6;
+          }
+          else if(menu == 7) {
+            this1.menu = 7;
+          }
+          else if(menu == 8) {
+            this1.menu = 8;
           }
           console.log(resolve);
         });
@@ -407,6 +1382,12 @@
 
 <style lang="scss" scoped>
 @import 'bootstrap/scss/bootstrap';
+
+.container1{
+    height: 260vh;
+    align-items: center;
+    justify-content: center;
+}
 
 .bd-placeholder-img {
   font-size: 1.125rem;
