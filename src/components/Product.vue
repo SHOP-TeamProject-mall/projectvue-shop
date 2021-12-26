@@ -97,12 +97,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -123,7 +124,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -167,13 +168,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -202,7 +204,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -242,12 +244,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -268,7 +271,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -312,13 +315,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -347,7 +351,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -387,12 +391,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -413,7 +418,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -457,13 +462,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -492,7 +498,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -532,12 +538,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -558,7 +565,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -602,13 +609,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -637,7 +645,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -677,12 +685,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -703,7 +712,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -747,13 +756,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -782,7 +792,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -822,12 +832,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -848,7 +859,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -892,13 +903,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -927,7 +939,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -967,12 +979,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -993,7 +1006,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -1037,13 +1050,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -1072,7 +1086,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -1112,12 +1126,13 @@
         </div>
         <div class="row mb-3 mt-5">
           <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon">
-            <label for="menuicon">
+            <input type="checkbox" id="menuicon" >
+            <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
                 <div class="card" style="width: 18rem; border:1px solid black;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
                     <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
                     <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
                     <p class="card-text text-center">가격 : {{product.productprice}}</p>
@@ -1138,7 +1153,7 @@
               <!-- 이미지 모달 -->
               <input type="checkbox" id="popup">
               <label for="popup">
-                <img src="../assets/img/product33.gif" alt="">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
                 <div style="color:black; margin-left:50px;">
                   <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
                 </div>
@@ -1182,13 +1197,14 @@
                   </label>
               </div>
 
-                  <h3 style="color:black; text-align:center;">모아로라 슬림티(2colors)</h3>
-                  <h3 style="color:red; text-align:center;">38,000원</h3>
+                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
+                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:80%; " for="delivery_fee">배송비</label><span id="delivery_fee">무료</span>
-
+                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
+                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
+                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -1217,7 +1233,7 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
                 <div class="container">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>40,000원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -1251,7 +1267,8 @@
         menu:1,
         aa:9,
         productitems:"",
-        productcategoryname:""
+        productcategoryname:"",
+        productitemsone:""
         
       }
     },
@@ -1341,8 +1358,20 @@
             console.log(this.productitems);
           }
         }
-      }
       },
+      async selectoneProduct(productno){
+        console.log(productno);
+        const url = `/HOST/product/selectone_product.json?productno=${productno}`;
+        const headers = { "Content-Type": "application/json" };
+        const response = await axios.get(url, { headers });
+        console.log(response);
+        if(response.status === 200){
+          this.productitemsone = response.data.list;
+          console.log(this.productitemsone);
+        }
+      }
+
+    },
     async created(){
       
     },
