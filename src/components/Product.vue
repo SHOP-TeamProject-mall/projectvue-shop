@@ -97,6 +97,7 @@
                   </li>
                   <li><a href="#" class="link-dark rounded">Sign out</a></li>
                 </ul>
+
               </div>
             </li>
           </ul>
