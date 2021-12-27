@@ -114,20 +114,20 @@
 
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
         <div class="row" >
-          <div class="col-2">남성상의
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
+          <div class="col-2">
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" @change="latestorder($event)">
+              <option selected >보기</option>
+              <option value="최신순">최신순</option>
+              <option value="인기순">인기순</option>
+              <option value="주문순">주문순</option>
             </select>
           </div>
           <div class="col-md-3">
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
+              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21" v-model="searchproduct" @keyup.enter="selectProduct">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21" @click="selectProduct(this.searchproduct)">Button</button>
             </div>
           </div>
         </div>
@@ -140,10 +140,17 @@
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
                       <span>[무료배송]</span>
-                      <span style="margin-left:10px;">{{product.producttitle}}</span>
+                      <span style="margin-left:10px; font-weight:bold;">{{product.producttitle}}</span>
                       <div style="text-decoration:line-through;">{{product.productprice}}won</div>
                       <div style="color:blue;">{{product.productfinalprice}}won</div>
-                      <div>리뷰 : 1</div>
+                      <div>
+                        <span> 리뷰 : 1 </span>
+                        <span style="float:right;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red;" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                          </svg>22
+                        </span>
+                    </div>
                       <div style="background:red; float:right;"><span style="color:gold;">무료</span><span style="color:white;">배송</span></div>
                   </div>
                 </div>
@@ -235,14 +242,14 @@
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
 
                 <div class="select_option_list1" style="width:99%; position:relative; border:none; left:25px; ">
-                  <div class="select_option_list_content" v-for="(selectoption) in list" v-bind:key="selectoption">
+                  <div class="select_option_list_content" v-for="(selectoption,idx) in list" v-bind:key="selectoption">
                     <a href="#" style="text-decoration:none; color:black;">
                           <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${selectoption.no}`" alt=""> 
                           <span id="select_option_list_content_name" >{{selectoption.name}}</span> 
                           <span id="select_option_list_content_name" style="margin-left:70px;">{{selectoption.size}} - {{selectoption.color}}</span> 
-                          <span id="select_option_list_content_quantity" style="margin-left:70px;"><button style="border:1px solid #999; background:#999;">x</button></span> 
+                          <span id="select_option_list_content_quantity" style="margin-left:70px;"><button style="border:none; background:none;" @click="Order_option_quantity_cancel(idx)">x</button></span> 
                           <span id="select_option_list_content_quantity" style="margin-right:-70px;">
-                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt">
+                            <input type="number" style="width:40px; border:none; display:block;"  :v-model="optioncnt[idx]">
                             <span class="qty-up" style="display:block;"></span>
                             <span class="qty-down" style="display:block;"></span>
                           </span> 
@@ -1322,12 +1329,28 @@
         productoptionitems:"",
         productoptionquantity:"",
         list:[],
-        optioncnt:1
+        optioncnt:1,
+        searchproduct:"",
+        page:1,
+        latestorder_select:""
 
         
       }
     },
     methods:{
+      latestorder(e){
+        if(e.target.value === "최신순"){
+          this.latestorder_select = e.target.value;
+          console.log(this.latestorder_select);
+          this.selectProduct();
+
+        }
+      },
+      Order_option_quantity_cancel(idx){
+        // console.log(idx);
+        this.list.splice(idx,1);
+        // console.log(this.list);
+      },
       Order_option_quantity(idx){
         console.log(idx);
         this.productoptionquantity = this.productoptionitems[idx];
@@ -1387,7 +1410,12 @@
       },
       async selectProduct(){
         // console.log(this.menu+"ddd");
-        const url = `/HOST/product/select_product_category.json?menu=${this.menu}&productcategory=${this.productcategoryname}`;
+        if(this.latestorder_select === "최신순"){
+          var url = `/HOST/product/select_product_category_title.json?menu=${this.menu}&page=${this.page}&productcategory=${this.productcategoryname}&producttitle=`;
+        }
+        else{
+          url = `/HOST/product/select_product_category_title.json?menu=${this.menu}&page=${this.page}&productcategory=${this.productcategoryname}&producttitle=${this.searchproduct}`;
+        }
         const headers = { "Content-Type": "application/json" };
         const response = await axios.get(url, { headers });
         console.log(response);
