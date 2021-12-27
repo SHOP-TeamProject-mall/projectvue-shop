@@ -242,7 +242,7 @@ import axios from "axios";
 
             // 회원 이미지 조회
             async handlememberimage() {  
-                const url = `/HOST/member/MemberSelect_image?no=a1`;
+                const url = `/HOST/member/MemberSelect_image`;
                 const headers = { "Content-Type": "application/json", token: this.token};
                 const response = await axios.get(url, {}, {headers:headers});
                 console.log('Mypage.vue => handlememberimage');

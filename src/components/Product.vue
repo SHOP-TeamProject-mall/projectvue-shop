@@ -76,13 +76,13 @@
                   </li>
                   <li>
                     <input type="checkbox" id="basket">
-                    <label for="basket">
+                    <label for="basket" @click="handlecart">
                       장바구니
                     </label>
                     <div class="sidebar_basket">
                       <div style="padding:50px;">
                         <input type="checkbox" id="basket">
-                        <label for="basket" style="position: absolute; top: -1%; left:-1%; width:50px; height:40px;">
+                        <label for="basket" style="position: absolute; top: -1%; left:-1%; width:50px; height:40px;" >
                           <img src="../assets/img/close.png" style="width:30px; background:pink;"  alt="">
                         </label>
                       </div>
@@ -103,15 +103,11 @@
           </ul>
         </div>
       </div>
-
-
-
                                                               <!-- MENU 번호 ( code 찾기 : menu===1/2/3/4/5/6/7/8 )
                                                                   메뉴1 : 남성상의  메뉴5 : 여성상의
                                                                   메뉴2 : 남성하의  메뉴6 : 여성하의
                                                                   메뉴3 : 남성외투  메뉴7 : 여성외투
                                                                   메뉴4 : 남성속옷  메뉴8 : 여성속옷  -->
-
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
         <div class="row" >
           <div class="col-2">
@@ -154,6 +150,14 @@
                       <div style="background:red; float:right;"><span style="color:gold;">무료</span><span style="color:white;">배송</span></div>
                   </div>
                 </div>
+                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
+                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
+                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
+                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
+                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
+                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                  </div> 
+                </div><hr>
               </div>
             </label>
             <!-- 사이드바 -->
@@ -1293,7 +1297,7 @@
                   <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;" >장바구니</button>
                     <button class="product_order_btn_heart" style="margin-left:5px;">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -1333,11 +1337,24 @@
         searchproduct:"",
         page:1,
         latestorder_select:""
-
         
+        menu                : 1,
+        aa                  : 9,
+        productitems        : "",
+        productcategoryname : "",
+        productitemsone     : "",
+				token 	            : sessionStorage.getItem("TOKEN")
       }
     },
-    methods:{
+    methods : {
+      // 장바구니 회원별 리스트 조회
+      handlecart(){
+        const url = `/HOST/cart/memberselectcart.json`
+        const headers = { "Content-Type": "application/json" }
+        const response = await axios.get( url, { headers })
+        console.log(response);
+      }
+      
       latestorder(e){
         if(e.target.value === "최신순"){
           this.latestorder_select = e.target.value;
@@ -1408,6 +1425,7 @@
         }
 
       },
+
       async selectProduct(){
         // console.log(this.menu+"ddd");
         if(this.latestorder_select === "최신순"){
