@@ -132,21 +132,21 @@
           </div>
         </div>
         <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
+          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product" style="margin-bottom:20px;">
             <input type="checkbox" id="menuicon" >
             <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
+                <div class="card" style="width: 18rem; border:0;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
+                      <span>[무료배송]</span>
+                      <span style="margin-left:10px;">{{product.producttitle}}</span>
+                      <div style="text-decoration:line-through;">{{product.productprice}}won</div>
+                      <div style="color:blue;">{{product.productfinalprice}}won</div>
+                      <div>리뷰 : 1</div>
+                      <div style="background:red; float:right;"><span style="color:gold;">무료</span><span style="color:white;">배송</span></div>
                   </div>
-                </div><hr>
+                </div>
               </div>
             </label>
             <!-- 사이드바 -->
@@ -209,36 +209,50 @@
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
+                <label  for="delivery_fee" style="position:relative; left:50px;">가격:</label><span id="delivery_fee" style="position:relative; left:50px;">{{productitemsone.productprice}}</span>
+                <label  for="delivery_fee" style="position:relative; left:150px;">할인:</label><span id="delivery_fee" style="position:relative; left:150px;">{{productitemsone.productsale*100}} %</span>
+                <label  for="delivery_fee " style="position:relative; left:250px;">배송비:</label><span id="delivery_fee" style="position:relative; left:250px;">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
                   <input type="checkbox" id="select_option">
                   <label for="select_option"> -- 옵션선택 -- </label>
                   <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
+                    <div class="select_option_list_content" v-for="(option,idx) in productoptionitems" v-bind:key="option">
+                      <a href="#" style="text-decoration:none; color:black;" @click="Order_option_quantity(idx)">
+                        <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${option.productoptionno}`" alt=""> 
+                        <span id="select_option_list_content_name" >{{option.productoptionname}}</span> 
+                        <span id="select_option_list_content_name" style="margin-left:70px;">{{option.productoptionsize}} - {{option.productoptioncolor}}</span> 
+                        <span id="select_option_list_content_quantity" style="margin-left:70px;">{{productitemsone.productfinalprice + option.productoptionadditionalamount}}</span> 
+                      </a>
                     </div>
 
                     <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
                   </div>
 
                 </div>
 
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
+
+                <div class="select_option_list1" style="width:99%; position:relative; border:none; left:25px; ">
+                  <div class="select_option_list_content" v-for="(selectoption) in list" v-bind:key="selectoption">
+                    <a href="#" style="text-decoration:none; color:black;">
+                          <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${selectoption.no}`" alt=""> 
+                          <span id="select_option_list_content_name" >{{selectoption.name}}</span> 
+                          <span id="select_option_list_content_name" style="margin-left:70px;">{{selectoption.size}} - {{selectoption.color}}</span> 
+                          <span id="select_option_list_content_quantity" style="margin-left:70px;"><button style="border:1px solid #999; background:#999;">x</button></span> 
+                          <span id="select_option_list_content_quantity" style="margin-right:-70px;">
+                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt">
+                            <span class="qty-up" style="display:block;"></span>
+                            <span class="qty-down" style="display:block;"></span>
+                          </span> 
+                          <span id="select_option_list_content_price" style="margin-right:10px;">{{this.optioncnt * productitemsone.productfinalprice + selectoption.addprice}}won</span> 
+                    </a>
+                     
+                  </div>
+                </div>
+
+                <div class="container" style="margin-top:10px;">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
                   <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
@@ -1304,11 +1318,29 @@
         aa:9,
         productitems:"",
         productcategoryname:"",
-        productitemsone:""
+        productitemsone:"",
+        productoptionitems:"",
+        productoptionquantity:"",
+        list:[],
+        optioncnt:1
+
         
       }
     },
     methods:{
+      Order_option_quantity(idx){
+        console.log(idx);
+        this.productoptionquantity = this.productoptionitems[idx];
+        console.log(this.productoptionquantity);
+        this.list.push({
+          no:this.productoptionquantity.productoptionno,
+          name:this.productoptionquantity.productoptionname,
+          size:this.productoptionquantity.productoptionsize,
+          color:this.productoptionquantity.productoptioncolor,
+          addprice:this.productoptionquantity.productoptionadditionalamount
+        })
+        console.log(this.list);
+      },
       ChangMenu(menu){
         console.log("Hello", menu);
         if(menu === 1){
@@ -1400,11 +1432,20 @@
         const url = `/HOST/product/selectone_product.json?productno=${productno}`;
         const headers = { "Content-Type": "application/json" };
         const response = await axios.get(url, { headers });
-        console.log(response);
+        // console.log(response);
         if(response.status === 200){
           this.productitemsone = response.data.list;
-          console.log(this.productitemsone);
+          // console.log(this.productitemsone);
         }
+        const url1 = `/HOST/productoption/select_productoption.json?productno=${response.data.list.productno}`;
+        const headers1 = { "Content-Type": "application/json" };
+        const response1 = await axios.get(url1, { headers1 });
+        // console.log(response1);
+        if(response1.status === 200){
+          this.productoptionitems = response1.data.list;
+          console.log(this.productoptionitems);
+        }
+        
       }
 
     },
@@ -1705,10 +1746,10 @@ input[id*="popup"]:checked + label + div{
 //선택 = 옵션
 input[id="select_option"] {display:none;}
 input[id="select_option"] + label {display: block; position: relative; cursor: pointer; border: 2px solid #999; width: 80%; left: 10%; text-align: center; font-size: 18px; font-weight: 600;}
-div[class="select_option_list"] {width: 440px; height: 100px; background: rgb(255, 255, 255); margin-left: 8.5%;  position: block; overflow-y: auto; top: 69%;left: 13%;z-index: 1;transition: all .35s; border: 2px solid #999;}
+div[class="select_option_list"] {width: 440px; height: 200px; background: rgb(255, 255, 255); margin-left: 8.5%;  position: block; overflow-y: auto; top: 69%;left: 13%;z-index: 1;transition: all .35s; border: 2px solid #999;}
 input[id="select_option"]:checked + label + div {display: none;}
 div[class="select_option_list_content"]{
-  width: 410px;
+  width: 98%;
   height: 52px;
   margin: 5px;
 }
@@ -1717,18 +1758,29 @@ div[class="select_option_list_content"] img{
   height: 50px; 
 }
 div[class="select_option_list_content"] span[id="select_option_list_content_name"]{
-  position: block;
-  margin-left: 10%;
+  position: relative;
+  left:10%;
+  float:center;
   font-size: 16px;
   margin-top: 11px;
   font-weight: bold;
 }
 div[class="select_option_list_content"] span[id="select_option_list_content_quantity"]{
-  position: block;
+  position: relative;
   margin-top: 11px;
-  float: right;
+  float:right;
+  right:50px;
   font-size: 16px;
 
+}
+div[class="select_option_list_content"] span[id="select_option_list_content_price"]{
+  position: relative;
+  margin-top: 11px;
+  right:30px;
+  float: right;
+  font-size: 16px;
+  color: blue;
+  font-weight: bold;
 }
 
 

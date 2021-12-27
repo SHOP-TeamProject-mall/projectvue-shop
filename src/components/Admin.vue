@@ -3,7 +3,7 @@
     <div class="row mb-3">
       <div class="col-sm-6 col-lg-3 themed-grid-col">
         <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-          <a href="/product" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+          <a href="#" @click="changeMenu(1)" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
             <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
             <span style="padding-right:20px;">
                 <img src="../assets/img/admin.png" width="50px" height="50px" alt="">
