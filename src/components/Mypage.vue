@@ -14,7 +14,7 @@
             <section class="Login-form">
                 <h1>내정보</h1>
                 <div class="My_info" >
-                    <img :src="`/HOST/member/MemberSelect_image?no=a1`" style="width:100%; height:400px;" />
+                    <img :src="`/HOST/member/MemberSelect_image?no=${memberlist.memberid}`" style="width:100%; height:400px;" />
                 </div>
                 <div>
                     <input type="file" style="position:relative; left:23%; top:10px;">
@@ -182,18 +182,13 @@ import axios from "axios";
                 memberlist    : {}
             }
         },
-        async changeMenu(menu){ 
-            this.menu = menu;
-            if (this.menu == 1){
-                this.handlemylist();
-            }
-        },
+
         created() {
             // 회원정보 가져오기
             this.handlememberlist();
 
             // 회원 이미지 가져오기
-            this.handlememberimage();
+            // this.handlememberimage();
 
             // 카트리스트 가져오기
             this.cartList()
@@ -240,14 +235,14 @@ import axios from "axios";
                 }
             },
 
-            // 회원 이미지 조회
-            async handlememberimage() {  
-                const url = `/HOST/member/MemberSelect_image`;
-                const headers = { "Content-Type": "application/json", token: this.token};
-                const response = await axios.get(url, {}, {headers:headers});
-                console.log('Mypage.vue => handlememberimage');
-                console.log(response);
-            },
+                // // 회원 이미지 조회
+                // async handlememberimage() {  
+                //     const url = `/HOST/member/MemberSelect_image?no=${this.memberid}`;
+                //     const headers = { "Content-Type": "application/json", token: this.token};
+                //     const response = await axios.get(url, {}, {headers:headers});
+                //     console.log('Mypage.vue => handlememberimage');
+                //     console.log(response);
+                // },
             
             update_info(){ // 정보수정 클릭시 input text박스 변환 -> 완료버튼 나옴
                 this.disabled = !this.disabled;
@@ -283,13 +278,12 @@ import axios from "axios";
                     this.menu = 5;
                 }
             },
-
+            
             // 카트리스트
             async cartList(){
-            const url = ``
+            const url = `/HOST/cart/memberselectcart.json`
             const headers = { "Content-Type": "application/json", "token" : this.token};
-            const response = await axios.get(url, {headers:headers});
-
+            const response = await axios.get(url, { headers : headers });
             console.log('cartList');
             console.log(response.data);
             }
