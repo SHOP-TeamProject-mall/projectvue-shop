@@ -104,15 +104,19 @@
   <div class="container">
     <span class="text-muted">Place sticky footer content here.</span>
   </div>
+  <button @click="storeMenu">메뉴변경</button>
 </footer>
 </template>
 
 <script>
+  import { useStore } from "vuex";
+
 	export default {
     data(){
       return{
         menu:1,
-        menu_product:1
+        menu_product:1,
+        store : useStore()
       }
     },
 
@@ -120,7 +124,21 @@
 			this.changeLogged();
 		},
 
+    mounted(){
+
+    },
+
     methods:{
+      storeMenu(){
+        //바꾸기 
+        // this.store.commit("setMenu",  111);
+
+        //가져오기
+        // const a = this.store.getters.getMenu;
+        // console.log(a);
+        // alert(a);
+      },
+
       changeMenu(menu){
         if(menu === 1){
 					this.$router.push({ path: "/home" });
@@ -149,6 +167,8 @@
           this.$router.push({ path: "/mypage "});
         }
         this.active = '';
+
+
       },
 
       changeLogged(){
@@ -170,6 +190,9 @@
           console.log(idx);
           this.$router.push({path:'/product', query: {menu: 2}});
         }
+
+        //바꾸기
+        this.store.commit("setMenu",  idx);
       }
     },
 }

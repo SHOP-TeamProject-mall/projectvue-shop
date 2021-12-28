@@ -126,8 +126,8 @@
           </div>
           <div class="col col-lg-7">
             <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21" v-model="searchproduct" @keyup.enter="selectProduct">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21" @click="selectProduct(this.searchproduct)">Button</button>
+              <input type="text" class="form-control" placeholder="상품명 검색" aria-label="Recipient's username" aria-describedby="button-addon21" v-model="searchproduct" @keyup.enter="selectProduct">
+              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21" @click="selectProduct(this.searchproduct)">검색</button>
             </div>
           </div>
         </div>
@@ -181,25 +181,11 @@
                     <input type="radio" name="slide" id="slide03">
                     <div class="slidewrap">
                       <ul class="slidelist">
-                        <li>
-                          <a href="#">
+                        <li v-for="tmp in 5" v-bind:key="tmp">
+                          <a href="#" >
                             <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
+                            <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=${tmp}`" alt="">
                             <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
                           </a>
                         </li>
                       </ul>
@@ -240,7 +226,7 @@
                 </div>
 
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
-
+{{optioncnt}}
                 <div class="select_option_list1" style="width:99%; position:relative; border:none; left:25px; ">
                   <div class="select_option_list_content" v-for="(selectoption,idx) in list" v-bind:key="selectoption">
                     <a href="#" style="text-decoration:none; color:black;">
@@ -249,19 +235,20 @@
                           <span id="select_option_list_content_name" style="margin-left:70px;">{{selectoption.size}} - {{selectoption.color}}</span> 
                           <span id="select_option_list_content_quantity" style="margin-left:70px;"><button style="border:none; background:none;" @click="Order_option_quantity_cancel(idx)">x</button></span> 
                           <span id="select_option_list_content_quantity" style="margin-right:-70px;">
-                            <input type="number" style="width:40px; border:none; display:block;"  :v-model="optioncnt[idx]">
+                            
+                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt[idx]">
                             <span class="qty-up" style="display:block;"></span>
                             <span class="qty-down" style="display:block;"></span>
                           </span> 
-                          <span id="select_option_list_content_price" style="margin-right:10px;">{{this.optioncnt * productitemsone.productfinalprice + selectoption.addprice}}won</span> 
+                          <span id="select_option_list_content_price" style="margin-right:10px;">{{optioncnt[idx] * (productitemsone.productfinalprice + selectoption.addprice)}}won</span> 
                     </a>
                      
                   </div>
                 </div>
-
+                  
                 <div class="container" style="margin-top:10px;">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{optioncnt[idx] * productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -1318,7 +1305,29 @@
 
 <script>
   import axios from "axios";
+  import { useStore } from "vuex";
   export default {
+    async created(){
+      
+    },
+
+    mounted(){
+      this.store.subscribe( (mutation, state) => {
+
+          if(mutation.type == "setMenu") {
+              
+              console.log("Product.vue => ");
+              console.log(state);
+              console.log(mutation.payload)  // mutation에 전달된 값 
+              const menu = Number(mutation.payload);
+              console.log(menu);
+
+
+              this.ChangMenu(menu);
+          }
+      });
+    },
+
     data(){
       return{
         menu:1,
@@ -1329,10 +1338,12 @@
         productoptionitems:"",
         productoptionquantity:"",
         list:[],
-        optioncnt:1,
+        optioncnt:[],
         searchproduct:"",
         page:1,
-        latestorder_select:""
+        latestorder_select:"",
+
+        store : useStore()
         
       }
     },
@@ -1362,12 +1373,13 @@
         })
         console.log(this.list);
       },
-      ChangMenu(menu){
+      async ChangMenu(menu){
         console.log("Hello", menu);
         if(menu === 1){
           this.menu = 1;
           this.productcategoryname = "남성상의"
-          this.selectProduct();
+          await this.selectProduct();
+          
         }
         else if(menu === 2){
           this.menu = 2;
@@ -1473,47 +1485,8 @@
         
       }
     },
-    async created(){
-      
-    },
-    async mounted() {
-      // this.$router.go();
-      const this1 = this;
-      function p() {
-        return new Promise(resolve => {
-          console.log("Hello");
-          var urlparam = location.search;
-          var params = new URLSearchParams(urlparam);
-          var menu = params.get('menu');
-          if(menu == 1) {
-            this1.menu = 1;
-          }
-          else if(menu == 2) {
-            this1.menu = 2;
-          }
-          else if(menu == 3) {
-            this1.menu = 3;
-          }
-          else if(menu == 4) {
-            this1.menu = 4;
-          }
-          else if(menu == 5) {
-            this1.menu = 5;
-          }
-          else if(menu == 6) {
-            this1.menu = 6;
-          }
-          else if(menu == 7) {
-            this1.menu = 7;
-          }
-          else if(menu == 8) {
-            this1.menu = 8;
-          }
-          console.log(resolve);
-        });
-      }
-      await p();
-    }
+
+   
   }
 </script>
 
