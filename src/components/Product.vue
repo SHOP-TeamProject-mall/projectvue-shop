@@ -76,13 +76,13 @@
                   </li>
                   <li>
                     <input type="checkbox" id="basket">
-                    <label for="basket" @click="handlecart">
+                    <label for="basket">
                       장바구니
                     </label>
                     <div class="sidebar_basket">
                       <div style="padding:50px;">
                         <input type="checkbox" id="basket">
-                        <label for="basket" style="position: absolute; top: -1%; left:-1%; width:50px; height:40px;" >
+                        <label for="basket" style="position: absolute; top: -1%; left:-1%; width:50px; height:40px;">
                           <img src="../assets/img/close.png" style="width:30px; background:pink;"  alt="">
                         </label>
                       </div>
@@ -103,11 +103,15 @@
           </ul>
         </div>
       </div>
+
+
+
                                                               <!-- MENU 번호 ( code 찾기 : menu===1/2/3/4/5/6/7/8 )
                                                                   메뉴1 : 남성상의  메뉴5 : 여성상의
                                                                   메뉴2 : 남성하의  메뉴6 : 여성하의
                                                                   메뉴3 : 남성외투  메뉴7 : 여성외투
                                                                   메뉴4 : 남성속옷  메뉴8 : 여성속옷  -->
+
       <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===1">
         <div class="row" >
           <div class="col-2">
@@ -150,14 +154,6 @@
                       <div style="background:red; float:right;"><span style="color:gold;">무료</span><span style="color:white;">배송</span></div>
                   </div>
                 </div>
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div> 
-                </div><hr>
               </div>
             </label>
             <!-- 사이드바 -->
@@ -1297,7 +1293,7 @@
                   <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;" >장바구니</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
                     <button class="product_order_btn_heart" style="margin-left:5px;">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -1338,29 +1334,14 @@
         page:1,
         latestorder_select:""
         
-        menu                : 1,
-        aa                  : 9,
-        productitems        : "",
-        productcategoryname : "",
-        productitemsone     : "",
-				token 	            : sessionStorage.getItem("TOKEN")
       }
     },
-    methods : {
-      // 장바구니 회원별 리스트 조회
-      handlecart(){
-        const url = `/HOST/cart/memberselectcart.json`
-        const headers = { "Content-Type": "application/json" }
-        const response = await axios.get( url, { headers })
-        console.log(response);
-      }
-      
+    methods:{
       latestorder(e){
         if(e.target.value === "최신순"){
           this.latestorder_select = e.target.value;
           console.log(this.latestorder_select);
           this.selectProduct();
-
         }
       },
       Order_option_quantity_cancel(idx){
@@ -1423,9 +1404,7 @@
           this.productcategoryname = "여성속옷"
           this.selectProduct();
         }
-
       },
-
       async selectProduct(){
         // console.log(this.menu+"ddd");
         if(this.latestorder_select === "최신순"){
@@ -1493,7 +1472,6 @@
         }
         
       }
-
     },
     async created(){
       
@@ -1541,13 +1519,11 @@
 
 <style lang="scss" scoped>
 @import 'bootstrap/scss/bootstrap';
-
 .container1{
     height: 260vh;
     align-items: center;
     justify-content: center;
 }
-
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -1555,22 +1531,18 @@
   -moz-user-select: none;
   user-select: none;
 }
-
 @media (min-width: 768px) {
 .bd-placeholder-img-lg {
   font-size: 3.5rem;
 }
 }
-
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
-
 html {
   height: -webkit-fill-available;
 }
-
 main {
   display: flex;
   flex-wrap: nowrap;
@@ -1580,7 +1552,6 @@ main {
   overflow-x: auto;
   overflow-y: hidden;
 }
-
 .b-example-divider {
   flex-shrink: 0;
   width: 1.5rem;
@@ -1590,19 +1561,15 @@ main {
   border-width: 1px 0;
   box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
 }
-
 .bi {
   vertical-align: -.125em;
   pointer-events: none;
   fill: currentColor;
 }
-
 .dropdown-toggle { outline: 0; }
-
 .nav-flush .nav-link {
   border-radius: 0;
 }
-
 .btn-toggle {
   display: inline-flex;
   align-items: center;
@@ -1617,7 +1584,6 @@ main {
   color: rgba(0, 0, 0, .85);
   background-color: #d2f4ea;
 }
-
 .btn-toggle::before {
   width: 1.25em;
   line-height: 0;
@@ -1625,14 +1591,12 @@ main {
   transition: transform .35s ease;
   transform-origin: .5em 50%;
 }
-
 .btn-toggle[aria-expanded="true"] {
   color: rgba(0, 0, 0, .85);
 }
 .btn-toggle[aria-expanded="true"]::before {
   transform: rotate(90deg);
 }
-
 .btn-toggle-nav a {
   display: inline-flex;
   padding: .1875rem .5rem;
@@ -1644,43 +1608,32 @@ main {
 .btn-toggle-nav a:focus {
   background-color: #d2f4ea;
 }
-
 .scrollarea {
   overflow-y: auto;
 }
-
 .fw-semibold { font-weight: 600; }
 .lh-tight { line-height: 1.25; }
-
 // 사이드바
 input[id="menuicon"] {display:none;}
 input[id="menuicon"] + label {display: block; position: relative; cursor: pointer;}
-
-
 div[class="sidebar"] {width: 600px; height: 100%; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;left: -600px;z-index: 1;transition: all .35s; border-right: 2px solid rgb(255, 0, 0);}
 input[id="menuicon"]:checked + label + div {left: 0;}
-
 // 장바구니 사이드바
 input[id="basket"] {display:none;}
 input[id="basket"] + label  {display: block; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
 input[id="basket"] + label:hover {background:#20c997;}
-
 div[class="sidebar_basket"] {width:100%; height: 300px; background: rgb(255, 255, 255);position:fixed; left: 0; bottom: -300px; overflow-x: auto;; z-index: 1; transition: all .35s; border-top: 2px solid rgb(255, 0, 0);}
 input[id="basket"]:checked + label + div {bottom: 0;}
-
 // 찜목록 사이드바
 input[id="wishlist"] {display:none;}
 input[id="wishlist"] + label  {display: block; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
 input[id="wishlist"] + label:hover {background:#20c997;}
-
 div[class="sidebar_wishlist"] {width:400px; height: 100%; background: rgb(255, 255, 255);position:fixed; overflow-y: auto; top: 0;right: -600px; z-index: 1; transition: all .35s; border-left: 2px solid rgb(255, 0, 0);}
 input[id="wishlist"]:checked + label + div {right: 0;}
-
 // 주문목록 버튼 style
 input[id="orderlist"] {display:none;}
 input[id="orderlist"] + label  {display: inline-flex; position: relative; cursor: pointer; width:72px; height:27px; margin-top: 0.125rem; margin-left: 1.25rem; padding: 0.1875rem 0.5rem;}
 input[id="orderlist"] + label:hover {background:#20c997;}
-
 // 슬라이드 이미지
 .section input[id*="slide"]{
   display: none;
@@ -1706,7 +1659,6 @@ input[id="orderlist"] + label:hover {background:#20c997;}
 }
 .section .slidelist > li > a img{
   width:90%;
-
 }
 .section .slidelist label {
   position: absolute;
@@ -1720,16 +1672,13 @@ input[id="orderlist"] + label:hover {background:#20c997;}
   left: 30px;
   background: url('../assets/img/left_white.png') center center / 80% no-repeat;
 }
-
 .section .slidelist .right{
   right: 100px;
   background: url('../assets/img/right_white.png') center center / 80% no-repeat;
 }
-
 .section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform: translateX(0%);}
 .section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-100%);}
 .section [id="slide03"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-200%);}
-
 // 모달 이미지
 input[id*="popup"]{
   display: none;
@@ -1743,7 +1692,6 @@ input[id="popup"] + label > img{
   height: 50%;
   margin-top: -15%;
   margin-left: 10%;
-
 }
 input[id="popup"] + label + div {
   position: fixed;
@@ -1787,7 +1735,6 @@ input[id*="popup"] + label + div{
 input[id*="popup"]:checked + label + div{
   opacity: 1;visibility: visible;
 }
-
 // 상품정보페이지
 //선택 = 옵션
 input[id="select_option"] {display:none;}
@@ -1817,7 +1764,6 @@ div[class="select_option_list_content"] span[id="select_option_list_content_quan
   float:right;
   right:50px;
   font-size: 16px;
-
 }
 div[class="select_option_list_content"] span[id="select_option_list_content_price"]{
   position: relative;
@@ -1828,15 +1774,12 @@ div[class="select_option_list_content"] span[id="select_option_list_content_pric
   color: blue;
   font-weight: bold;
 }
-
-
 // 주문버튼 ================================================
 // 주문하기
 .product_order_btn {
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
-
   background-color:transparent ;
   color: red;
   text-transform: uppercase;
@@ -1871,7 +1814,6 @@ div[class="select_option_list_content"] span[id="select_option_list_content_pric
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid rgb(0, 0, 0, .9);
-
   background-color:transparent ;
   color: rgb(0, 0, 0, .9);
   text-transform: uppercase;
@@ -1906,7 +1848,6 @@ div[class="select_option_list_content"] span[id="select_option_list_content_pric
   font-size: 21px;
   padding: 15px 30px;
   border: 1px solid red;
-
   background-color:transparent ;
   color: red;
   text-transform: uppercase;
@@ -1936,5 +1877,4 @@ div[class="select_option_list_content"] span[id="select_option_list_content_pric
 .product_order_btn_heart:hover{
   color: white;
 }
-
 </style>
