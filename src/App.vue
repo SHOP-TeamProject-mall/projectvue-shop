@@ -21,7 +21,7 @@
         <!-- 회원 아이콘 -->
         <div class="flex-shrink-0 dropdown" v-if="logged">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-            <img :src="this.preview" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="@/assets/img/product11.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
             <li><a class="dropdown-item" href="#" @click="changeMenu(8)">내정보</a></li>
@@ -95,6 +95,7 @@
         </div>
       </div>
     </nav>
+    
       <router-view :key="$route.fullPath"
         @changeLogged="changeLogged" >
       </router-view>
@@ -109,6 +110,7 @@
 </template>
 
 <script>
+  // import axios from "axios";
   import { useStore } from "vuex";
 
 	export default {
@@ -116,7 +118,7 @@
       return{
         menu:1,
         menu_product:1,
-        store : useStore()
+        store : useStore(),
       }
     },
 
@@ -129,7 +131,7 @@
     },
 
     methods:{
-      storeMenu(){
+      getMenu(){
         //바꾸기 
         // this.store.commit("setMenu",  111);
 
@@ -145,7 +147,7 @@
           console.log(menu);
         }
         else if(menu === 2){
-					this.$router.push({ path: "/product"});
+					// this.$router.push({ path: "/product"});
           console.log(menu);
         }
         else if(menu === 3){
@@ -183,16 +185,22 @@
 
       changeMenu_product(idx){
         if(idx === 1){
+          // this.$router.push({path:'/product', query: {menu: 2}});
+          this.store.commit("setMenu",  idx);
+          // console.log(a);
           console.log(idx);
-          this.$router.push({path:'/product', query: {menu: 1}});
+          // this.$refs['side'][idx].click();
         }
         else if(idx === 2){
           console.log(idx);
           this.$router.push({path:'/product', query: {menu: 2}});
+          
+          this.store.commit("setMenu",  idx);
         }
 
         //바꾸기
-        this.store.commit("setMenu",  idx);
+
+        
       }
     },
 }

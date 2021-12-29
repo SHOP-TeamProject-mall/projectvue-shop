@@ -1,3 +1,4 @@
+// import axios from "axios";
 import { createStore } from "vuex";
 
 export default createStore({
@@ -12,8 +13,13 @@ export default createStore({
     }
   },
   mutations: {
-    setMenu(state, value) {
-      state.menu = value;
+    setMenu(state, menu) {
+      state.menu = menu;
     }
+  },
+  actions:{
+    // SETproduct(context){
+    //   return axios.get('127.0.0.1:9090/product?menu=1').then(response => context.commit('setData',response));
+    // }
   }
 });

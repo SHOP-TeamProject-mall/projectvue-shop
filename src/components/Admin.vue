@@ -199,7 +199,7 @@
                         <th>옷감</th>
                         <th>가격</th>
                         <th>배송비</th>
-                        <th>할인율</th>
+                        <th>할인율(%)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -208,7 +208,7 @@
                         <td><input type="text" :placeholder="product.productfabric"></td>
                         <td><input type="text" :placeholder="product.productprice"></td>
                         <td><input type="text" :placeholder="product.productdeliveryfee"></td>
-                        <td><input type="text" :placeholder="product.productsale"></td>
+                        <td><input type="text" :placeholder="product.productsale*100"></td>
                     </tr>
                 </tbody>
                 <thead>
@@ -224,20 +224,16 @@
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
                         <td><img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" alt="" style="width:50px; height:50px;"><input type="file"></td>
-                        <td>
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=1`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=2`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=3`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=4`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=5`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=6`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=7`" alt="" style="width:50px; height:50px;">
-                          <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=8`" alt="" style="width:50px; height:50px;">
+                        <td >
+                          <button style="background:green; color:white;" @click="subimageadminmodal(product.productno)">서브이미지관리</button>
+                          
                           </td>
                         <td>{{product.productfinalprice}}</td>
                         <td>
-                          <input type="submit" style="width:50%; background:gold;" value="상품정보수정">
-                          <input type="button" style="width:50%; background:pink;" @click="openoptionmodal(product.productno)" value="상품옵션추가">
+                          <div><button style="width:50%; background:blue; margin-top:5px; color:white;" >상품정보수정</button></div>
+                          <div><button style="width:50%; background:pink; margin-top:5px; margin-bottom:5px; color:black;" @click="openoptionmodal(product.productno)" >상품옵션관리</button></div>
+                          <div><button style="width:50%; background:red; margin-bottom:5px; color:white;" >상품삭제</button></div>
+                          
                         </td>
                     </tr>
                 </tbody>
@@ -257,10 +253,10 @@
       </div>
     </div>
 
-<!-- 브랜드 / 상품명 / 제품명 / 제조사 / 가격 / 배송비 / 착불 , 선불 / (대표이미지) / 개별이미지 -->
-
-<!-- 상품(옵션) MODAL -->
 </div>
+<!-- 브랜드 / 상품명 / 제품명 / 제조사 / 가격 / 배송비 / 착불 , 선불 / (대표이미지) / 개별이미지 -->
+ 
+<!-- 상품(옵션) MODAL ======================================================================================================================================= -->
     <div class="option_modal" v-if="optionmodal === true">
       <div id="optionmodal_close" @click="optionmodal = false"></div>
       <div id="optionmodal_close_bg"></div>
@@ -326,6 +322,54 @@
           <button @click="optionmodal = false">닫기</button>
       </div>
     </div>
+
+    <!-- 서브 이미지 모달 ==================================================================================================================================== -->
+    <div class="subimage_modal" v-if="subimageadminmodalkey === true">
+      <div id="subimage_modal_close" @click="subimageadminmodalkey = false"></div>
+      <div id="subimage_modal_close_bg"></div>
+      <!-- 이미지추가 -->
+      <div class="subimage_modal_header">
+        <div style="margin-top:50px;">
+        <input type="file"> <button>서브이미지추가</button>
+        <p style="margin-top:20px; font-weight:bold;"><img src="@/assets/img/siren.png" style="width:30px; height:30px;" alt=""> 이미지 삭제 및 변경을 하려면 이미지를 클릭하세요</p>
+        </div>
+      </div>
+      <!-- 옵션조회 -->
+      <div class="subimage_modal_body">
+        <section >
+          <span v-for="(subimage,idx) in productsubimageidx" v-bind:key="subimage">
+          <button @click="Sub_image_management(idx)"><img :src="`/HOST/product/select_productsub_image.json?productno=${this.productsubmodal_productno}&productidx=${subimage}`" alt="" style="width:160px; height:160px;" ></button>
+          </span>
+        </section>
+      </div>
+      <!-- 모달 close 버튼 -->
+      <div class="subimage_modal_footer">
+          <button @click="subimageadminmodalkey = false">닫기</button>
+      </div>
+    </div>
+
+        <!-- 서브 관리 모달 ==================================================================================================================================== -->
+    <div class="management_subimage_modal" v-if="management_subimage_modal === true">
+      <div id="management_subimage_modal_close" @click="management_subimage_modal = false"></div>
+      <div id="management_subimage_modal_close_bg"></div>
+      <!-- 옵션추가 -->
+      <div class="management_subimage_modal_img">
+        <img :src="`/HOST/product/select_productsub_image.json?productno=${this.productsubmodal_productno}&productidx=${this.management_subimage_idx}`" alt=""  >
+      </div>
+      <!-- 옵션조회 -->
+      <div class="management_subimage_modal_body">
+        <section >
+
+        </section>
+      </div>
+      <!-- 모달 close 버튼 -->
+      <div class="management_subimage_modal_footer">
+          <button @click="management_subimage_modal = false">닫기</button>
+          <input type="file" style="position:absolute; bottom:90px; left:50px;"> <button style="left:50px; background:blue;">이미지저장</button>
+          <button style="left:370px; background:red; ">삭제</button>
+      </div>
+    </div>
+    
 </template>
 
 <script>
@@ -338,6 +382,7 @@
             menu:1,
             productidx:0,
             optionmodal:false,
+            subimageadminmodalkey:false,
             files: [], //업로드용 파일
             filesPreview: [],
             uploadImageIndex: 0, // 이미지 업로드를 위한 변수
@@ -345,6 +390,9 @@
             ppages:"",
             productitems:"",
             idxs:[1,2,3,4,5,6],
+            productsubmodal_productno:"",
+            management_subimage_modal:false,
+            management_subimage_idx:"",
 
             // product
             productcategory:[],
@@ -357,6 +405,9 @@
             productsale:0,
             productfinalprice:0,
             productmainimage:"",
+            productitemsone:"",
+            productsubimageidx:"",
+            
 
             // productoption
             productoptionname:"",
@@ -370,10 +421,17 @@
         }
     },
     methods:{
+        Sub_image_management(idx){
+          // confirm(idx)
+          this.management_subimage_modal = true;
+          this.management_subimage_idx = idx+1;
+          // console.log(idx);
+        },
         changeMenu(menu){
           this.menu = menu;
           if(menu === 1){
             this.menu = 1;
+          
           }
           else if(menu === 2){
             this.selectProduct();
@@ -515,6 +573,7 @@
             this.productitems = response.data.list;
             // console.log(this.productitems);
             this.ppages = response.data.ppage;
+
             console.log(this.ppages);
           }
         },
@@ -529,6 +588,24 @@
             console.log(this.productitems);
           }
         },
+        async subimageadminmodal(productno){
+          this.subimageadminmodalkey = true;
+          this.productsubmodal_productno = productno;
+          console.log(productno);
+          const url = `/HOST/product/selectone_product.json?productno=${productno}`;
+          const headers = { "Content-Type": "application/json" };
+          const response = await axios.get(url, { headers });
+          // console.log(response);
+          if(response.status === 200){
+            this.productitemsone = response.data.list;
+            this.productsubimageidx = response.data.list.productsubimageidx;
+            console.log(this.productsubimageidx);
+            console.log(this.productitemsone);
+          }
+        },
+
+
+
         //옵션추가 ==================================================================================================================
         async insertProductOption(){
           console.log(this.productoption_productno);
@@ -561,6 +638,7 @@
           // console.log(productno);
           if(response.status === 200){
             this.productoptionitems = response.data.list;
+            // console.log(this.productoptionitems.productno);
             // console.log(this.productoptionitems);
           }
           
@@ -647,6 +725,129 @@ div[class="option_modal_footer"] button{
   border-radius: 6px;
   font-weight: bold;
 }
+
+//서브이미지 모달 =========================================================================================================================
+div[class="subimage_modal"]{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border: 1px solid black;
+  border-radius: 25px;
+  background: white;
+  transform: translate(-50%,-50%);
+  width: 1000px;
+  height: 700px;
+  z-index: 2;
+}
+// 모달 닫기
+#subimage_modal_close{
+  position: absolute;
+  top: 0%;
+  left: 96.5%;
+  background: url('../assets/img/close.png') center center / 100% no-repeat;
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+}
+#subimage_modal_close_bg{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background:#999;
+  border-bottom: 1px solid black;
+  width: 999px;
+  height: 30px;
+  border-start-start-radius: 25px;
+  border-start-end-radius: 25px;
+}
+div[class="subimage_modal_header"]{
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  top: 30px;
+  left: 0%;
+  width: 999px;
+  height: 150px;
+  border-bottom: 1px solid black;
+}
+div[class="subimage_modal_body"]{
+  position: absolute;
+  vertical-align: middle;
+  text-align: center;
+  top: 180px;
+  left: 0%;
+  width: 998px;
+  height: 450px;
+  overflow-y: auto;
+  border-bottom: 1px solid black;
+}
+div[class="subimage_modal_body"] button{
+  position: relative;
+  top: 50px;
+  vertical-align: middle;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: none;
+}
+div[class="subimage_modal_footer"]{
+  position: absolute;
+  top: 630px;
+  left: 0%;
+  border-end-start-radius: 25px;
+  border-end-end-radius: 25px;
+  width: 1000px;
+  height: 70px;
+}
+div[class="subimage_modal_footer"] button{
+  position: absolute;
+  top: 25%;
+  left: 48%;
+  color: white;
+  background: black;
+  font-size: 18px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+// 서브이미지 모달 관리 ===================================================================================================================
+div[class="management_subimage_modal"]{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border: 1px solid black;
+  border-radius: 25px;
+  background: white;
+  transform: translate(-50%,-50%);
+  width: 500px;
+  height: 670px;
+  z-index: 2;
+}
+div[class="management_subimage_modal_img"] {
+  position: absolute;
+  top: 3%;
+  left: 10%;
+  color: white;
+  width: 400px;
+  font-size: 18px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+div[class="management_subimage_modal_img"] img {
+  width: 400px;
+  height: 500px;
+}
+// 모달 닫기
+div[class="management_subimage_modal_footer"] button{
+  position: absolute;
+  bottom: 6%;
+  left: 46%;
+  color: white;
+  background: black;
+  font-size: 18px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
 
 
 

@@ -19,7 +19,7 @@
               </button>
               <div class="collapse" id="home-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded" @click="ChangMenu(1)">남성상의</a></li>
+                  <li><a href="#" class="link-dark rounded" ref="side" @click="ChangMenu(1)">남성상의</a></li>
                   <li><a href="#" class="link-dark rounded" @click="ChangMenu(2)">남성하의</a></li>
                   <li><a href="#" class="link-dark rounded" @click="ChangMenu(3)">남성외투</a></li>
                   <li><a href="#" class="link-dark rounded" @click="ChangMenu(4)">남성속옷</a></li>
@@ -136,8 +136,8 @@
             <input type="checkbox" id="menuicon" >
             <label for="menuicon" @click="selectoneProduct(product.productno)">
               <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:0;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
+                <div class="card" style="width: 19rem;  border:0;">
+                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" style="height:435px;" class="card-img-top" alt="...">
                   <div class="card-body">
                       <span>[무료배송]</span>
                       <span style="margin-left:10px; font-weight:bold;">{{product.producttitle}}</span>
@@ -175,17 +175,19 @@
               <div>
                 <div>
                   <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
+                  <div class="section" >
+                    <input type="radio" name="slide" id="slide01" checked >
                     <input type="radio" name="slide" id="slide02">
                     <input type="radio" name="slide" id="slide03">
+                    <input type="radio" name="slide" id="slide04">
+                    <input type="radio" name="slide" id="slide05">
                     <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li v-for="tmp in 5" v-bind:key="tmp">
+                      <ul class="slidelist" >
+                        <li v-for="tmp in productsubimageidx" v-bind:key="tmp">
                           <a href="#" >
-                            <label for="slide03" class="left"></label>
-                            <img :src="`/HOST/product/select_productsub_image.json?productno=${product.productno}&productidx=${tmp}`" alt="">
-                            <label for="slide02" class="right"></label>
+                            <label for="slide01" class="left"></label>
+                            <img :src="`/HOST/product/select_productsub_image.json?productno=${productitemsone.productno}&productidx=${tmp}`" alt="">
+                            <label for="slide05" class="right"></label>
                           </a>
                         </li>
                       </ul>
@@ -226,7 +228,7 @@
                 </div>
 
               <hr style="border:1px solid black; width:90%; margin-left:5%;">
-{{optioncnt}}
+
                 <div class="select_option_list1" style="width:99%; position:relative; border:none; left:25px; ">
                   <div class="select_option_list_content" v-for="(selectoption,idx) in list" v-bind:key="selectoption">
                     <a href="#" style="text-decoration:none; color:black;">
@@ -250,7 +252,7 @@
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
                   <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{optioncnt[idx] * productitemsone.productfinalprice}}원</strong></span>
                   <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
+                    <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
                     <button class="product_order_btn_heart" style="margin-left:5px;">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -1307,26 +1309,26 @@
   import axios from "axios";
   import { useStore } from "vuex";
   export default {
-    async created(){
-      
-    },
-
-    mounted(){
+    async mounted(){
       this.store.subscribe( (mutation, state) => {
-
-          if(mutation.type == "setMenu") {
-              
-              console.log("Product.vue => ");
-              console.log(state);
-              console.log(mutation.payload)  // mutation에 전달된 값 
+          if(mutation.type == "setMenu"){
+            // this.$router.push({path:'/product'});
               const menu = Number(mutation.payload);
-              console.log(menu);
-
-
+              console.log(state, " state ");
               this.ChangMenu(menu);
+              // console.log(mutation.type, " type ");
+              // console.log("Product.vue => ");
+              // console.log(mutation.payload , " payload ")  // mutation에 전달된 값 
+              // console.log(menu, " menu ");
+              // this.$refs['side'][menu].click();
+
           }
       });
     },
+    async created(){
+
+    },
+
 
     data(){
       return{
@@ -1337,6 +1339,7 @@
         productitemsone:"",
         productoptionitems:"",
         productoptionquantity:"",
+        productsubimageidx:"",
         list:[],
         optioncnt:[],
         searchproduct:"",
@@ -1344,14 +1347,26 @@
         latestorder_select:"",
 
         store : useStore()
-        
       }
     },
     methods:{
+      order(){
+        console.log(this.list);
+        console.log(this.optioncnt);
+        console.log(this.productitemsone.productfinalprice);
+        console.log(this.optioncnt.length);
+        for(let i=0; i<this.optioncnt.length; i++){
+          let a = this.optioncnt[i]*(this.productitemsone.productfinalprice+this.list[i].addprice);
+          console.log(a);
+          
+
+          
+        }
+      },
       latestorder(e){
         if(e.target.value === "최신순"){
           this.latestorder_select = e.target.value;
-          console.log(this.latestorder_select);
+          // console.log(this.latestorder_select);
           this.selectProduct();
         }
       },
@@ -1362,19 +1377,29 @@
       },
       Order_option_quantity(idx){
         console.log(idx);
-        this.productoptionquantity = this.productoptionitems[idx];
-        console.log(this.productoptionquantity);
-        this.list.push({
-          no:this.productoptionquantity.productoptionno,
-          name:this.productoptionquantity.productoptionname,
-          size:this.productoptionquantity.productoptionsize,
-          color:this.productoptionquantity.productoptioncolor,
-          addprice:this.productoptionquantity.productoptionadditionalamount
-        })
+        this.productoptionitems[idx];
+        // console.log(this.productoptionquantity);
+        
+          this.optioncnt[idx] = 1;
+          console.log(this.list.length);
+          if(this.list.length <= idx){
+          this.list.push({ 
+            no:this.productoptionitems[idx].productoptionno,
+            name:this.productoptionitems[idx].productoptionname,
+            size:this.productoptionitems[idx].productoptionsize,
+            color:this.productoptionitems[idx].productoptioncolor, 
+            addprice:this.productoptionitems[idx].productoptionadditionalamount,
+          })
+          }
+          else{
+            this.optioncnt[idx] = this.optioncnt[idx] + 1;
+          }
+
+        console.log(this.optioncnt);
         console.log(this.list);
       },
       async ChangMenu(menu){
-        console.log("Hello", menu);
+        // console.log("Hello", menu);
         if(menu === 1){
           this.menu = 1;
           this.productcategoryname = "남성상의"
@@ -1427,7 +1452,7 @@
         }
         const headers = { "Content-Type": "application/json" };
         const response = await axios.get(url, { headers });
-        console.log(response);
+        // console.log(response);
         if(response.status === 200){
           if(this.menu === 1){
             this.productitems = response.data.masculine;
@@ -1462,6 +1487,7 @@
             this.productitems = response.data.womensunderwear;
             console.log(this.productitems);
           }
+          
         }
       },
       async selectoneProduct(productno){
@@ -1472,7 +1498,9 @@
         // console.log(response);
         if(response.status === 200){
           this.productitemsone = response.data.list;
-          // console.log(this.productitemsone);
+          this.productsubimageidx = response.data.list.productsubimageidx;
+          console.log(this.productsubimageidx);
+          console.log(this.productitemsone);
         }
         const url1 = `/HOST/productoption/select_productoption.json?productno=${response.data.list.productno}`;
         const headers1 = { "Content-Type": "application/json" };
@@ -1631,7 +1659,8 @@ input[id="orderlist"] + label:hover {background:#20c997;}
   position: relative;
 }
 .section .slidelist > li > a img{
-  width:90%;
+  width:89%;
+  height: 930px;
 }
 .section .slidelist label {
   position: absolute;
@@ -1650,8 +1679,11 @@ input[id="orderlist"] + label:hover {background:#20c997;}
   background: url('../assets/img/right_white.png') center center / 80% no-repeat;
 }
 .section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform: translateX(0%);}
-.section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-100%);}
+.section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-100%)}
 .section [id="slide03"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-200%);}
+.section [id="slide04"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-300%);}
+.section [id="slide05"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-400%);}
+.section [id="slide06"]:checked ~ .slidewrap .slidelist > li {transform: translateX(-500%);}
 // 모달 이미지
 input[id*="popup"]{
   display: none;
@@ -1661,7 +1693,7 @@ input[id="popup"] + label {
   color: #fff;
 }
 input[id="popup"] + label > img{
-  width: 100%;
+  width: 490px;
   height: 50%;
   margin-top: -15%;
   margin-left: 10%;
@@ -1676,11 +1708,11 @@ input[id="popup"] + label + div {
 }
 input[id="popup"] + label + div > div {
   position: absolute;
-  top: 22.5%;
+  top: 14%;
   left: 50%;
   transform: translate(-50%,-50%);
   width: 700px;
-  height: 400px;
+  height: 300px;
   z-index: 2;
 }
 // // close 버튼
