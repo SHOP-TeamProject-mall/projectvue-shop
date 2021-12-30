@@ -254,7 +254,7 @@
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
+                    <button class="product_order_btn_heart" style="margin-left:5px;" @click="handlewish">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                       </svg>
@@ -1332,23 +1332,24 @@
 
     data(){
       return{
-        menu:1,
-        aa:9,
-        productitems:"",
-        productcategoryname:"",
-        productitemsone:"",
-        productoptionitems:"",
-        productoptionquantity:"",
-        productsubimageidx:"",
-        list:[],
-        optioncnt:[],
-        searchproduct:"",
-        page:1,
-        latestorder_select:"",
-
-        store : useStore()
+        menu                  : 1,
+        aa                    : 9,
+        productitems          : "",
+        productcategoryname   : "",
+        productitemsone       : "",
+        productoptionitems    : "",
+        productoptionquantity : "",
+        productsubimageidx    : "",
+        list                  : [],
+        optioncnt             : [],
+        searchproduct         : "",
+        page                  : 1,
+        latestorder_select    : "",
+        token 	              : sessionStorage.getItem("TOKEN"),
+        store                 : useStore()
       }
     },
+
     methods:{
       order(){
         console.log(this.list);
@@ -1511,6 +1512,14 @@
           console.log(this.productoptionitems);
         }
         
+      },
+
+      // 위시리스트(찜) 추가
+      async handlewish(){
+        const url = `/HOST/wish/insertwish.json?no=3402`
+        const headers = { "Content-Type": "application/json" , token : this.token };
+        const response = await axios.post(url, { headers });
+        console.log(response);
       }
     },
 

@@ -1,87 +1,95 @@
 <template>
-<div>
-  <div class="main-container">
-        <div class="room-deal-information-container">
-            <div class="room-deal-information-title">사진 등록</div>
-            <div class="room-picture-notice">
-                <ul class="room-write-wrapper">
-                    <li>
-                        사진은 가로로 찍은 사진을 권장합니다. (가로 사이즈 최소 800px)
-                    </li>
-                    <li>사진 용량은 사진 한 장당 10MB 까지 등록이 가능합니다.</li>
+    <div>
+        <div class="main-container">
+            <div class="room-deal-information-container">
+                <div id="aside" class="col-md-3">
+                    <div class="aside">
+                        <h3 class="aside-title">고객센터</h3>
+                        <div class="checkbox-filter">
+                            <div class="input-checkbox">
+                                <label style="font-size:14px" for="category-1" @click="changeMenu(1)"><span></span><strong>공지사항</strong></label>
+                            </div>
 
-                </ul>
-            </div>
-            <div class="room-file-upload-wrapper">
-                <div v-if="!files.length" class="room-file-upload-example-container">
-                    <div class="room-file-upload-example">
-                        <div class="room-file-image-example-wrapper">서브이미지</div>
-                        <div class="room-file-notice-item">
-                            실사진 최소 3장 이상 등록하셔야 됩니다.
-                        </div>
-                        <div class="room-file-notice-item room-file-notice-item-red">
-                            로고를 제외한 불필요한 정보(워터마크,상호,전화번호 등)가 있는 매물은 비공개처리됩니다
-                        </div>
-                        <div class="room-file-notice-item room-file-upload-button">
-                            <div class="image-box">
-                                <!-- <div class="image-profile">
-            <img :src="profileImage" />
-            </div>-->
-                                <label for="file">일반 사진 등록</label>
-                                <input type="file" id="file" ref="files" @change="imageUpload" multiple />
+                            <div class="input-checkbox">
+                                <label style="font-size:14px" for="category-1" @click="changeMenu(2)"><span></span><strong>판매Q&A</strong></label>
+                            </div>
+
+                            <div class="input-checkbox">
+                                <label style="font-size:14px" for="category-1" @click="changeMenu(3)"><span></span><strong>상품Q&A</strong></label>
+                            </div>
+
+                            <div class="input-checkbox">
+                                <label style="font-size:14px" for="category-1" @click="changeMenu(4)"><span></span><strong>1:1문의</strong></label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div v-else class="file-preview-content-container">
-                    <div class="file-preview-container">
-                        <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                            <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
-                                x
-                            </div>
-                            <img :src="file.preview" />
+
+                <!-- 공지사항 -->
+                <div id="aside" class="col-md-9">
+                    <div v-if="menu==1" class="billing-details order-details" style="padding:50px;">
+                        <div class="form-group">
+                            <h4>공지사항</h4>
                         </div>
-                        <div class="file-preview-wrapper-upload">
-                            <div class="image-box">
-                                <label for="file">추가 사진 등록</label>
-                                <input type="file" id="file" ref="files" @change="imageAddUpload" multiple />
-                            </div>
-                            <!-- <div class="file-close-button" @click="fileDeleteButton" :name="file.number">x</div> -->
+                        <hr />
+                        <div class="form-group">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(board, idx) in noticeitems" v-bind:key="board">
+                                        <td style="width:50px;">{{board.no}}</td>
+                                        <td>
+                                            <a href="#">
+                                                <div class="form-group">
+                                                    <div class="input-checkbox">
+                                                        <input type="checkbox" :id="`create-account_${idx}`" @click="selectonenotice(board.no)">
+                                                        <label :for="`create-account_${idx}`">{{board.title}}</label>
+                                                        <div class="caption">
+                                                            <img :src="`/HOST/boards/selectboard_image?no=${board.no}`" style="width:350px;">
+                                                            <p>{{this.noticeonecontent[board.no]}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td style="width:100px;">{{board.writer}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <ul class="reviews-pagination">
+                            <li class="active">1</li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                        <br />
+
+                        <div class="header-search" style="text-align:center; border-top:2px solid red;">
+                            <form v-on:submit.prevent>
+                                <select class="input-select">
+                                    <option value="0">제목</option>
+                                    <option value="1">내용</option>
+                                    <option value="1">작성자</option>
+                                </select>
+                                <input class="input" placeholder="검색어를 입력하세요.">
+                                <button class="search-btn" >검색</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
-  </div>
-    <!-- <input type="checkbox" id="menuicon">
-    <label for="menuicon">
-          <div class="col-4 themed-grid-col">
-            <div class="card" style="width: 18rem; border:1px solid black;">
-              <img src="../assets/img/main3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text text-center">sdfsfdsf</p>
-              </div>
-            </div>
-          </div>
-        </label>
-        <div class="sidebar">
-            ddfsf
-        </div> -->
-
-        <!-- <ul class="child-ul">
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-        </ul> -->
-
-        <!-- <input type="checkbox" id="select_menu">
-        <label for="select_menu">ddd</label>
-        <div class="select_menu_list">
-dfsdf
-        </div> -->
-</div>
+    </div>
 </template>
 
 <script>
