@@ -139,8 +139,8 @@
                 <div class="card" style="width: 19rem;  border:0;">
                 <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" style="height:435px;" class="card-img-top" alt="...">
                   <div class="card-body">
-                      <span>[무료배송]</span>
-                      <span style="margin-left:10px; font-weight:bold;">{{product.producttitle}}</span>
+                      <span style="color:red;">{{product.productsalecheck}}</span>
+                      <span style="float:right; font-weight:bold;">{{product.producttitle}}</span>
                       <div style="text-decoration:line-through;">{{product.productprice}}won</div>
                       <div style="color:blue;">{{product.productfinalprice}}won</div>
                       <div>
@@ -151,7 +151,7 @@
                           </svg>22
                         </span>
                     </div>
-                      <div style="background:red; float:right;"><span style="color:gold;">무료</span><span style="color:white;">배송</span></div>
+                      <div style="background:red; float:right;"><span style="color:gold;">{{product.productdeliveryfeecheck}}</span><span style="color:white;">배송</span></div>
                   </div>
                 </div>
               </div>
@@ -217,8 +217,8 @@
                       <a href="#" style="text-decoration:none; color:black;" @click="Order_option_quantity(idx)">
                         <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${option.productoptionno}`" alt=""> 
                         <span id="select_option_list_content_name" >{{option.productoptionname}}</span> 
-                        <span id="select_option_list_content_name" style="margin-left:70px;">{{option.productoptionsize}} - {{option.productoptioncolor}}</span> 
-                        <span id="select_option_list_content_quantity" style="margin-left:70px;">{{productitemsone.productfinalprice + option.productoptionadditionalamount}}</span> 
+                        <span id="select_option_list_content_name" style="margin-left:30px;">{{option.productoptionsize}} - {{option.productoptioncolor}}</span> 
+                        <span id="select_option_list_content_quantity" style="margin-right:0;"><input type="hidden" v-model="order_addprice">{{productitemsone.productfinalprice + option.productoptionadditionalamount}}</span> 
                       </a>
                     </div>
 
@@ -234,15 +234,15 @@
                     <a href="#" style="text-decoration:none; color:black;">
                           <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${selectoption.no}`" alt=""> 
                           <span id="select_option_list_content_name" >{{selectoption.name}}</span> 
-                          <span id="select_option_list_content_name" style="margin-left:70px;">{{selectoption.size}} - {{selectoption.color}}</span> 
-                          <span id="select_option_list_content_quantity" style="margin-left:70px;"><button style="border:none; background:none;" @click="Order_option_quantity_cancel(idx)">x</button></span> 
-                          <span id="select_option_list_content_quantity" style="margin-right:-70px;">
+                          <span id="select_option_list_content_name" style="margin-left:30px;">{{selectoption.size}} - {{selectoption.color}}</span> 
+                          <span id="select_option_list_content_quantity" ><button style="border:none; background:none;" @click="Order_option_quantity_cancel(idx)">x</button></span> 
+                          <span id="select_option_list_content_quantity" >
                             
-                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt[idx]">
+                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt[idx]" @click="cnt">
                             <span class="qty-up" style="display:block;"></span>
                             <span class="qty-down" style="display:block;"></span>
                           </span> 
-                          <span id="select_option_list_content_price" style="margin-right:10px;">{{optioncnt[idx] * (productitemsone.productfinalprice + selectoption.addprice)}}won</span> 
+                          <span id="select_option_list_content_price" style="margin-right:30px;">{{optioncnt[idx] * (productitemsone.productfinalprice + selectoption.addprice)}}won</span> 
                     </a>
                      
                   </div>
@@ -250,7 +250,7 @@
                   
                 <div class="container" style="margin-top:10px;">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{optioncnt[idx] * productitemsone.productfinalprice}}원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{this.order_totalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -269,1034 +269,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===2">
-        <div class="row" >
-          <div class="col-2">남성하의
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===3">
-        <div class="row" >
-          <div class="col-2">남성외투
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===4">
-        <div class="row" >
-          <div class="col-2">남성속옷
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===5">
-        <div class="row" >
-          <div class="col-2">여성상의
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===6">
-        <div class="row" >
-          <div class="col-2">여성하의
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===7">
-        <div class="row" >
-          <div class="col-2">여성외투
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg-9 themed-grid-col mt-5" v-if="menu===8">
-        <div class="row" >
-          <div class="col-2">여성속옷
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected>보기</option>
-              <option value="1">최신순</option>
-              <option value="2">인기순</option>
-              <option value="3">주문순</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-          </div>
-          <div class="col col-lg-7">
-            <div class="input-group mb-3" style="width:300px; float:right;">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon21">
-              <button style="background-color:pink; border:1px solid pink;" type="button" id="button-addon21">Button</button>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 mt-5">
-          <div class="col-4 themed-grid-col" v-for="product in productitems" v-bind:key="product">
-            <input type="checkbox" id="menuicon" >
-            <label for="menuicon" @click="selectoneProduct(product.productno)">
-              <div class="col-4 themed-grid-col">
-                <div class="card" style="width: 18rem; border:1px solid black;">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text text-center">상품명 : {{product.productno}}</p>
-                    <p class="card-text text-center">상품명 : {{product.producttitle}}</p>
-                    <p class="card-text text-center">브랜드 : {{product.productbrand}}</p>
-                    <p class="card-text text-center">가격 : {{product.productprice}}</p>
-                    <p class="card-text text-center">수량 : {{product.productquantity}}</p>
-                    <p class="card-text text-center">할인 : {{product.productsale*100}} %</p>
-                  </div>
-                </div><hr>
-              </div>
-            </label>
-            <!-- 사이드바 -->
-            <div class="sidebar">
-              <div style="padding:50px;">
-                <input type="checkbox" id="menuicon">
-                <label for="menuicon" style="position: absolute; top: 0%; right: 0%;">
-                  <img src="../assets/img/close.png" style="width:30px; background:pink;" alt="">
-                </label>
-              </div>
-              <!-- 이미지 모달 -->
-              <input type="checkbox" id="popup">
-              <label for="popup">
-                <img :src="`/HOST/product/select_productmain_image.json?productno=${productitemsone.productno}`" alt="">
-                <div style="color:black; margin-left:50px;">
-                  <p >[이미지를 클릭하시면 상품의 이미지를 볼 수 있습니다]</p>
-                </div>
-              </label>
-              <div>
-                <div>
-                  <label for="popup"></label>
-                  <div class="section">
-                    <input type="radio" name="slide" id="slide01" checked>
-                    <input type="radio" name="slide" id="slide02">
-                    <input type="radio" name="slide" id="slide03">
-                    <div class="slidewrap">
-                      <ul class="slidelist">
-                        <li>
-                          <a href="#">
-                            <label for="slide03" class="left"></label>
-                            <img src="../assets/img/product11.jpg" alt="">
-                            <label for="slide02" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide01" class="left"></label>
-                            <img src="../assets/img/product22.jpg" alt="">
-                            <label for="slide03" class="right"></label>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <label for="slide02" class="left"></label>
-                            <img src="../assets/img/product33.gif" alt="">
-                            <label for="slide01" class="right"></label>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                  <label for="popup">
-
-                  </label>
-              </div>
-
-                  <h3 style="color:black; text-align:center;">{{productitemsone.producttitle}}</h3>
-                  <h3 style="color:red; text-align:center;">{{productitemsone.productfinalprice}}원</h3>
-              <hr style="border:1px solid black; width:80%; margin-left:10%;">
-
-              <div class="container">
-                <label style="margin-left:10%; " for="delivery_fee">가격:</label><span id="delivery_fee">{{productitemsone.productprice}}</span>
-                <label style="margin-left:10%; " for="delivery_fee">할인:</label><span id="delivery_fee">{{productitemsone.productsale*100}} %</span>
-                <label style="margin-left:25%; " for="delivery_fee">배송비:</label><span id="delivery_fee">{{productitemsone.productdeliveryfee}}원</span>
-                <br>
-
-                <div style="margin-top:30px;">
-                  <input type="checkbox" id="select_option">
-                  <label for="select_option"> -- 옵션선택 -- </label>
-                  <div class="select_option_list" >
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product11.jpg" alt=""> <span id="select_option_list_content_name">free - 블랙(black)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/product22.jpg" alt=""> <span id="select_option_list_content_name">free - 아이보리(Ivory)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-
-                    <hr style="margin:0; padding:0;">
-
-                    <div class="select_option_list_content">
-                      <a href="#" style="text-decoration:none; color:black;"><img src="../assets/img/main3.jpg" alt=""> <span id="select_option_list_content_name">실링 퍼프 블라우스(3colors)</span> <span id="select_option_list_content_quantity">수량 : 43</span></a>
-                    </div>
-                  </div>
-
-                </div>
-
-              <hr style="border:1px solid black; width:90%; margin-left:5%;">
-                <div class="container">
-                  <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{productitemsone.productfinalprice}}원</strong></span>
-                  <span style="margin-left:15px;">
-                    <button class="product_order_btn" style="margin-top:20px;">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                      </svg>
-                      찜
-                    </button>
-                  </span>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
     </div>
 
@@ -1310,25 +283,26 @@
   import { useStore } from "vuex";
   export default {
     async mounted(){
-      this.store.subscribe( (mutation, state) => {
-          if(mutation.type == "setMenu"){
-            // this.$router.push({path:'/product'});
-              const menu = Number(mutation.payload);
-              console.log(state, " state ");
-              this.ChangMenu(menu);
-              // console.log(mutation.type, " type ");
-              // console.log("Product.vue => ");
-              // console.log(mutation.payload , " payload ")  // mutation에 전달된 값 
-              // console.log(menu, " menu ");
-              // this.$refs['side'][menu].click();
+      const menu1 = Number(this.$route.query.menu);
+      this.ChangMenu(menu1);
+    //   this.store.subscribe( (mutation, state) => {
+    //       if(mutation.type == "setMenu"){
+    //         // this.$router.push({path:'/product'});
+    //           const menu = Number(mutation.payload);
+    //           console.log(state, " state ");
+    //           this.ChangMenu(menu);
+    //           // console.log(mutation.type, " type ");
+    //           // console.log("Product.vue => ");
+    //           // console.log(mutation.payload , " payload ")  // mutation에 전달된 값 
+    //           // console.log(menu, " menu ");
+    //           // this.$refs['side'][menu].click();
 
-          }
-      });
+    //       }
+    //   });
     },
     async created(){
 
     },
-
 
     data(){
       return{
@@ -1346,23 +320,33 @@
         page                  : 1,
         latestorder_select    : "",
         token 	              : sessionStorage.getItem("TOKEN"),
-        store                 : useStore()
+        store                 : useStore(),
+        order_addprice:0,
+        
+
+        order_totalprice:0
       }
     },
 
     methods:{
-      order(){
-        console.log(this.list);
-        console.log(this.optioncnt);
-        console.log(this.productitemsone.productfinalprice);
-        console.log(this.optioncnt.length);
+      cnt(){
+        this.order_totalprice=0;
         for(let i=0; i<this.optioncnt.length; i++){
           let a = this.optioncnt[i]*(this.productitemsone.productfinalprice+this.list[i].addprice);
-          console.log(a);
+
+          this.order_totalprice += a;
+          console.log(this.order_totalprice);
           
 
           
         }
+      },
+      order(){
+        // console.log(this.list);
+        // console.log(this.optioncnt);
+        // console.log(this.productitemsone.productfinalprice);
+        // console.log(this.optioncnt.length);
+
       },
       latestorder(e){
         if(e.target.value === "최신순"){
@@ -1377,34 +361,30 @@
         // console.log(this.list);
       },
       Order_option_quantity(idx){
-        console.log(idx);
+        console.log(this.order_addprice);
+        // console.log(idx);
         this.productoptionitems[idx];
         // console.log(this.productoptionquantity);
-        
+        const read_addprice = this.productoptionitems[idx].productoptionadditionalamount;
           this.optioncnt[idx] = 1;
-          console.log(this.list.length);
+          // console.log(this.list.length);
           if(this.list.length <= idx){
           this.list.push({ 
             no:this.productoptionitems[idx].productoptionno,
             name:this.productoptionitems[idx].productoptionname,
             size:this.productoptionitems[idx].productoptionsize,
             color:this.productoptionitems[idx].productoptioncolor, 
-            addprice:this.productoptionitems[idx].productoptionadditionalamount,
+            addprice:read_addprice,
           })
           }
-          else{
-            this.optioncnt[idx] = this.optioncnt[idx] + 1;
-          }
 
-        console.log(this.optioncnt);
-        console.log(this.list);
       },
       async ChangMenu(menu){
         // console.log("Hello", menu);
         if(menu === 1){
           this.menu = 1;
           this.productcategoryname = "남성상의"
-          await this.selectProduct();
+          this.selectProduct();
           
         }
         else if(menu === 2){
@@ -1457,7 +437,6 @@
         if(response.status === 200){
           if(this.menu === 1){
             this.productitems = response.data.masculine;
-            console.log(this.productitems);
             // console.log(this.ppages);
           }
           if(this.menu === 2){
@@ -1488,6 +467,8 @@
             this.productitems = response.data.womensunderwear;
             console.log(this.productitems);
           }
+          // console.log(this.productitems);
+
           
         }
       },
@@ -1500,8 +481,8 @@
         if(response.status === 200){
           this.productitemsone = response.data.list;
           this.productsubimageidx = response.data.list.productsubimageidx;
-          console.log(this.productsubimageidx);
-          console.log(this.productitemsone);
+          // console.log(this.productsubimageidx);
+          // console.log(this.productitemsone);
         }
         const url1 = `/HOST/productoption/select_productoption.json?productno=${response.data.list.productno}`;
         const headers1 = { "Content-Type": "application/json" };
@@ -1509,7 +490,7 @@
         // console.log(response1);
         if(response1.status === 200){
           this.productoptionitems = response1.data.list;
-          console.log(this.productoptionitems);
+          // console.log(this.productoptionitems);
         }
         
       },
@@ -1703,7 +684,7 @@ input[id="popup"] + label {
 }
 input[id="popup"] + label > img{
   width: 490px;
-  height: 50%;
+  height: 600px;
   margin-top: -15%;
   margin-left: 10%;
 }
@@ -1776,14 +757,13 @@ div[class="select_option_list_content"] span[id="select_option_list_content_quan
   position: relative;
   margin-top: 11px;
   float:right;
-  right:50px;
   font-size: 16px;
 }
 div[class="select_option_list_content"] span[id="select_option_list_content_price"]{
   position: relative;
   margin-top: 11px;
-  right:30px;
   float: right;
+  margin-right: 0;
   font-size: 16px;
   color: blue;
   font-weight: bold;

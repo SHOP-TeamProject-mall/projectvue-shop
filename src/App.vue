@@ -193,13 +193,13 @@
         }
         else if(idx === 2){
           console.log(idx);
-          this.$router.push({path:'/product', query: {menu: 2}});
+         
           
           this.store.commit("setMenu",  idx);
         }
 
         //바꾸기
-
+         this.$router.push({path:'/product', query: {menu: idx}});
         
       }
     },
