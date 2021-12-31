@@ -72,6 +72,36 @@
                         </label>
                       </div>
                       <!-- 찜목록내용 여기에 작성하시면 됩니다. -->
+                        <table class="table table-striped" style="border: 1px solid rgb(139, 126, 126)">
+                          <thead>
+                            <tr>
+                                <th><input type="checkbox" v-model="allcheckbox" @click="allcheckbox1">전체선택</th>
+                                <th colspan="2">상품정보</th>
+                                <th class="w130">단가</th>
+                                <th class="w130">수량</th>
+                                <th class="w130">상품금액</th>
+                                <th class="w100">주문</th>
+                                <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in wishlist" v-bind:key="item" >
+                              <td><input type="checkbox" v-model="chks" :value="item.PRODUCT_NO" /></td>
+                              <td><img :src="`/HOST/wish/wishselect_image?no=${item.PRODUCT_NO}`" style="width:200px;height:100px" /></td><br />
+                              <td>{{item.DELIVERYFEE}}</td>
+                              <td>{{item.PRODUCT_BRAND}}</td>
+                              <td>{{item.PRODUCT_CATEGORY}}</td>
+                              <td>{{item.PRODUCT_DATE}}</td>
+                              <td>{{item.PRODUCT_FABRIC}}</td>
+                              <td>{{item.PRODUCT_NO}}</td>
+                              <td>{{item.PRODUCT_PRICE}}</td>
+                              <td>{{item.PRODUCT_QUANTITY}}</td>
+                              <td>{{item.PRODUCT_TITLE}}</td>
+                              <td style="width:200px;"><button @click="handlewishdelete(item.MEMBERWISH_NO
+                              )">삭제하기</button><button>장바구니 담기</button></td>
+                            </tr>
+                          </tbody>
+                        </table>
                     </div>
                   </li>
                   <li>
@@ -148,7 +178,7 @@
                         <span style="float:right;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red;" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                             <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
-                          </svg>22
+                          </svg>{{wishcount}}
                         </span>
                     </div>
                       <div style="background:red; float:right;"><span style="color:gold;">{{product.productdeliveryfeecheck}}</span><span style="color:white;">배송</span></div>
@@ -300,8 +330,9 @@
     //       }
     //   });
     },
-    async created(){
-
+    created() {
+      this.handlewishcount()
+      this.handlewishlist()
     },
 
     data(){
@@ -321,10 +352,10 @@
         latestorder_select    : "",
         token 	              : sessionStorage.getItem("TOKEN"),
         store                 : useStore(),
-        order_addprice:0,
-        
-
-        order_totalprice:0
+        order_addprice        : 0,
+        order_totalprice      : 0,
+        wishcount             : "",
+        wishlist              : []
       }
     },
 
@@ -498,13 +529,54 @@
       // 위시리스트(찜) 추가
       async handlewish(){
         const url = `/HOST/wish/insertwish.json?no=3402`
-        const headers = { "Content-Type": "application/json" , token : this.token };
-        const response = await axios.post(url, { headers });
-        console.log(response);
-      }
-    },
+				const headers = { "Content-Type": "application/json",  "token" : this.token};
+				const response = await axios.post(url, {}, {headers:headers});
+        console.log(response.data);
+        if (response.data.status == 200){
+          // this.$emit("handlewishcount",this.handlewishcount);
+        }
+      },
 
-   
+      // 위시리스트(찜) 카운트 조회
+      async handlewishcount(){
+        const url = `/HOST/wish/wish_hit_select.json`
+        const headers = { "Content-Type": "application/json" , "token" : this.token };
+        const response = await axios.get(url, { headers:headers });
+        console.log('handlewishcount => handlewishcount');
+        console.log(response.data);
+        if (response.data.status == 200){
+          this.wishcount = response.data.wishcount;
+        }
+      },
+
+      // 위시리스트 리스트 조회
+      async handlewishlist(){
+        const url = `/HOST/wish/selectwish.json`
+        const headers = { "Content-Type": "application/json" , "token" : this.token };
+        const response = await axios.get(url, { headers:headers });
+        console.log('handlewishlist => handlewishlist');
+        console.log(response.data);
+        if (response.data.status == 200){
+          this.wishlist = response.data.wishlist;
+        }
+      },
+
+      // 위시리스트 삭제
+      async handlewishdelete(no) {
+        // console.log("no" + no);
+        if(confirm("삭제할까요?")){
+        const url = `/HOST/wish/wish_delete.json?no=`+ no;
+        // console.log(no);
+        const headers = { "Content-Type": "application/json"};
+        const response =  await axios.delete(url, { headers: { headers }, data: { }});
+          console.log('WishList.vue => handlewishdelete');
+          console.log(response);
+          // if(response.data.status === 200){
+          // await this.handlewishlist();
+          // }
+        }
+      },
+    },
   }
 </script>
 
