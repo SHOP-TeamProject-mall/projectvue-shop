@@ -258,7 +258,7 @@
  
 <!-- 상품(옵션) MODAL ======================================================================================================================================= -->
     <div class="option_modal" v-if="optionmodal === true">
-      <div id="optionmodal_close" @click="optionmodal = false"></div>
+      <div id="optionmodal_close" @click="optionmodal_cancle"></div>
       <div id="optionmodal_close_bg"></div>
       <!-- 옵션추가 -->
       <div class="option_modal_header">
@@ -319,7 +319,7 @@
       </div>
       <!-- 모달 close 버튼 -->
       <div class="option_modal_footer">
-          <button @click="optionmodal = false">닫기</button>
+          <button @click="optionmodal_cancle">닫기</button>
       </div>
     </div>
 
@@ -413,7 +413,7 @@
             productoptionname:"",
             productoptionsize:"",
             productoptioncolor:"",
-            productoptionadditionalamount:"",
+            productoptionadditionalamount:0,
             productoptionimage:"",
             productoption_productno:0,
             productoptionitems:""
@@ -627,6 +627,8 @@
           formData2.append("product_optionfile", this.productoptionimage);
           const response2 = await axios.post(url2, formData2, { headers:headers2 });
           console.log(response2);
+
+          this.openoptionmodal(this.productoption_productno);
          },
         async openoptionmodal(productno){
           this.productoption_productno = productno;
@@ -642,6 +644,15 @@
             // console.log(this.productoptionitems);
           }
           
+        },
+        // 옵션모달 닫기
+        optionmodal_cancle(){
+          this.optionmodal = false;
+          this.productoptionname = "";
+          this.productoptionsize = "";
+          this.productoptioncolor = "";
+          this.productoptionadditionalamount = 0;
+          this.productoptionimage = null;
         },
         created(){
             this.changeMenu();
