@@ -23,28 +23,23 @@
                     <button style="position:relative; left:23%; top:12px; color:blue; border:1px solid blue;">이미지 변경</button>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="id" id="id" autocomplete="off" required  :disabled="disabled" focus   v-model="memberid" />
-                    <div>{{memberlist.memberid}}</div>
+                    <input type="text" name="id" id="id" autocomplete="off" readonly    v-model="memberlist.memberid" />
                     <label for="id">아이디</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="name" id="name"  autocomplete="off" required  :disabled="disabled"   v-model="membername"/>
-                    <div>{{memberlist.membername}}</div>
+                    <input type="text" name="name" id="name"  autocomplete="off" required  :disabled="disabled"   v-model="memberlist.membername"/>
                     <label for="name">이름</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="phone" id="phone" autocomplete="off" required  :disabled="disabled"   v-model="memberphone"/>
-                    <div>{{memberlist.memberphone}}</div>
+                    <input type="text" name="phone" id="phone" autocomplete="off" required  :disabled="disabled"   v-model="memberlist.memberphone"/>
                     <label for="phone">연락처</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="adress" id="adress" style="font-size:16px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberaddress"/>
-                    <div>{{memberlist.memberaddress}}</div>
+                    <input type="text" name="adress" id="adress" style="font-size:16px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberlist.memberaddress"/>
                     <label for="adress">주소</label>
                 </div>
                 <div class="int-area">
-                    <input type="text" name="email" id="email" style="font-size:15px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberemail"/>
-                    <div>{{memberlist.memberemail}}</div>
+                    <input type="text" name="email" id="email" style="font-size:15px;"  autocomplete="off" required  :disabled="disabled"   v-model="memberlist.memberemail"/>
                     <label for="adress1">이메일</label>
                 </div>
                 <div class="btn-area">
@@ -253,13 +248,14 @@ import axios from "axios";
                 const url = `/HOST/member/memberupdate.json`;
                 const body = {
                     // memberid      : this.memberid,
-                    membername    : this.membername,
-                    memberphone   : this.memberphone,
-                    memberaddress : this.memberaddress,
-                    memberemail   : this.memberemail,
+                    membername    : this.memberlist.membername,
+                    memberphone   : this.memberlist.memberphone,
+                    memberaddress : this.memberlist.memberphone,
+                    memberemail   : this.memberlist.memberemail,
                 };
                 const response = await axios.put(url, body, {  headers:headers });
                 console.log(response);
+                this.changeMenu(1);
                 },
             changeMenu(menu){
                 if(menu === 1){

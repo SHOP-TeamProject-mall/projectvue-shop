@@ -154,7 +154,7 @@
       <div class="col-6 col-lg-9 themed-grid-col" v-if="menu === 2">
           <div class="container1">
               <h3 style="margin-top:60px; margin-left:30px; width:115px; border-bottom:1px solid black;">상품관리</h3>
-            <table border="1px solid black;" v-for="product in productitems" v-bind:key="product" style="margin-bottom:-50px;">
+            <table border="1px solid black;" v-for="(product,idx) in productitems" v-bind:key="product" style="margin-bottom:-50px;">
                 <thead>
                     <tr>
                         <th style="width:50px;">{{product.productno}}</th>
@@ -167,30 +167,30 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-bottom:none;"></td>
-                        <td><input type="text" :placeholder="product.producttitle"></td>
+                        <td><input type="text" v-model="productitems[idx].producttitle"></td>
                         <td>
-                            <select name="aa" id="aa" style="width:100%; text-align:center; border:none;">
-                                <option value="dd">{{product.productcategory}}</option>
-                                <option value="dd">남성상의</option>
-                                <option value="dd">남성하의</option>
-                                <option value="dd">남성외투</option>
-                                <option value="dd">남성속옷</option>
-                                <option value="dd">여성상의</option>
-                                <option value="dd">여성하의</option>
-                                <option value="dd">여성외투</option>
-                                <option value="dd">여성속옷</option>         
-                                <option value="dd">상품1</option>  
-                                <option value="dd">상품2</option>  
-                                <option value="dd">상품3</option>  
+                            <select name="aa" id="aa" style="width:100%; text-align:center; border:none;" v-model="productitems[idx].productcategory">
+                                <option >{{product.productcategory}}</option>
+                                <option >남성상의</option>
+                                <option >남성하의</option>
+                                <option >남성외투</option>
+                                <option >남성속옷</option>
+                                <option >여성상의</option>
+                                <option >여성하의</option>
+                                <option >여성외투</option>
+                                <option >여성속옷</option>         
+                                <option >상품1</option>  
+                                <option >상품2</option>  
+                                <option >상품3</option>  
                             </select>
                             </td>
                         <td>
-                            <select name="bb" id="bb" style="width:100%; text-align:center; border:none;">
-                                <option value="">{{product.productquantity}}</option>
-                                <option value="" v-for="qnt in quantity" v-bind:key="qnt">{{qnt}}</option>
+                            <select name="bb" id="bb" style="width:100%; text-align:center; border:none;" v-model="productitems[idx].productquantity">
+                                <option>{{product.productquantity}}</option>
+                                <option v-for="qnt in quantity" v-bind:key="qnt">{{qnt}}</option>
                             </select>
                             </td>
-                        <td><input type="text" :placeholder="product.productbrand"></td>
+                        <td><input type="text"  v-model="productitems[idx].productbrand"></td>
                     </tr>
                 </tbody>
                 <thead>
@@ -205,10 +205,10 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
-                        <td><input type="text" :placeholder="product.productfabric"></td>
-                        <td><input type="text" :placeholder="product.productprice"></td>
-                        <td><input type="text" :placeholder="product.productdeliveryfee"></td>
-                        <td><input type="text" :placeholder="product.productsale*100"></td>
+                        <td><input type="text" v-model="productitems[idx].productfabric"></td>
+                        <td><input type="text" v-model="productitems[idx].productprice"></td>
+                        <td><input type="text" v-model="productitems[idx].productdeliveryfee"></td>
+                        <td><input type="text" v-model="productitems[idx].productsale"></td>
                     </tr>
                 </tbody>
                 <thead>
@@ -228,9 +228,9 @@
                           <button style="background:green; color:white;" @click="subimageadminmodal(product.productno)">서브이미지관리</button>
                           
                           </td>
-                        <td>{{product.productfinalprice}}</td>
+                        <td><input type="text" readonly v-model="productitems[idx].productfinalprice"></td>
                         <td>
-                          <div><button style="width:50%; background:blue; margin-top:5px; color:white;" >상품정보수정</button></div>
+                          <div><button style="width:50%; background:blue; margin-top:5px; color:white;" @click="updateproduct(idx)">상품정보수정</button></div>
                           <div><button style="width:50%; background:pink; margin-top:5px; margin-bottom:5px; color:black;" @click="openoptionmodal(product.productno)" >상품옵션관리</button></div>
                           <div><button style="width:50%; background:red; margin-bottom:5px; color:white;" >상품삭제</button></div>
                           
@@ -407,6 +407,20 @@
             productmainimage:"",
             productitemsone:"",
             productsubimageidx:"",
+
+            // update product
+            updateproductcategory:[],
+            updateproducttitle:"",
+            updateproductquantity:[],
+            updateproductbrand:'',
+            updateproductfabric:'',
+            updateproductprice:0,
+            updateproductdeliveryfee:0,
+            updateproductsale:0,
+            updateproductfinalprice:0,
+            updateproductmainimage:"",
+            updateproductitemsone:"",
+            updateproductsubimageidx:"",
             
 
             // productoption
@@ -568,7 +582,7 @@
           const url = `/HOST/product/select_product.json?page=${this.page}&title=&brand=`;
           const headers = { "Content-Type": "application/json" };
           const response = await axios.get(url, { headers });
-          console.log(response);
+          console.log(response.data);
           if(response.status === 200){
             this.productitems = response.data.list;
             // console.log(this.productitems);
@@ -602,6 +616,31 @@
             console.log(this.productsubimageidx);
             console.log(this.productitemsone);
           }
+        },
+        async updateproduct(idx){
+          console.log(idx);
+          console.log(this.productitems[idx].productno);
+          this.productitems[idx].productfinalprice = this.productitems[idx].productprice - (this.productitems[idx].productsale*this.productitems[idx].productprice /100);
+            const url = `/HOST/product/product_update.json?page=${this.page}&productno=${this.productitems[idx].productno}`;
+            const headers = { "Content-Type": "application/json" };
+            const body = {
+            producttitle : this.productitems[idx].producttitle,
+            productcategory : this.productitems[idx].productcategory,
+            productbrand : this.productitems[idx].productbrand,
+            productprice : this.productitems[idx].productprice,
+            productfabric : this.productitems[idx].productfabric,
+            productquantity : this.productitems[idx].productquantity,
+            productdeliveryfee : this.productitems[idx].productdeliveryfee,
+            productsale : this.productitems[idx].productsale,
+            productfinalprice : this.productitems[idx].productfinalprice
+            };
+          
+            const response = await axios.put(url,body, {headers:headers});
+            console.log(response.data);
+            console.log(this.productitems[idx]);
+
+            this.selectProduct();
+            
         },
 
 
