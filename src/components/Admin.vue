@@ -223,7 +223,7 @@
                 <tbody>
                     <tr>
                         <td style="width:50px; border-top:none;"></td>
-                        <td><img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" alt="" style="width:50px; height:50px;"><input type="file"></td>
+                        <td><img :src="`/HOST/product/select_productmain_image.json?productno=${product.productno}`" alt="" style="width:50px; height:50px;"><input type="file" @change="handleUpdateProductMainImage($event)"></td>
                         <td >
                           <button style="background:green; color:white;" @click="subimageadminmodal(product.productno)">서브이미지관리</button>
                           
@@ -301,18 +301,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{idx+1}}</td>
-              <td><input type="text" :placeholder="productoption.productoptionname"></td>
-              <td><input type="text" :placeholder="productoption.productoptionsize"></td>
-              <td><input type="text" :placeholder="productoption.productoptioncolor"></td>
-              <td><input type="text" :placeholder="productoption.productoptionadditionalamount"></td>
-              <td><input type="button" value="수정완료"></td>
+              <td>{{productoption.productoptionno}}</td>
+              <td><input type="text" v-model="productoptionitems[idx].productoptionname"></td>
+              <td><input type="text" v-model="productoptionitems[idx].productoptionsize"></td>
+              <td><input type="text" v-model="productoptionitems[idx].productoptioncolor"></td>
+              <td><input type="text" v-model="productoptionitems[idx].productoptionadditionalamount"></td>
+              <td><button @click="UpdateProductOption(idx)">수정완료</button><button style="background:red; color:white; margin-left:5px;">삭제</button></td>
             </tr>
           </tbody>
         </table>
           <div style="position:relative; text-align:center; margin:10px;">
             <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${productoption.productoptionno}`" style="width:100px; height:100px; background-color:white; display: inline;" alt=""> 
-            <input type="file" style="margin-left: 50px;">
+            <input type="file" style="margin-left: 50px;" @change="handleUpdateProductOptionImage($event)">
           </div>
 
         </section>
@@ -330,7 +330,7 @@
       <!-- 이미지추가 -->
       <div class="subimage_modal_header">
         <div style="margin-top:50px;">
-        <input type="file"> <button>서브이미지추가</button>
+        <input type="file" @change="handleAddProductSubImage($event)"> <button @click="AddSubImage">서브이미지추가</button>
         <p style="margin-top:20px; font-weight:bold;"><img src="@/assets/img/siren.png" style="width:30px; height:30px;" alt=""> 이미지 삭제 및 변경을 하려면 이미지를 클릭하세요</p>
         </div>
       </div>
@@ -348,9 +348,35 @@
       </div>
     </div>
 
+    <!-- 서브 이미지 모달 ==================================================================================================================================== -->
+    <div class="subimage_modal" v-if="subimageadminmodalkey1 === true">
+      <div id="subimage_modal_close" @click="subimageadminmodalkey1 = false"></div>
+      <div id="subimage_modal_close_bg"></div>
+      <!-- 이미지추가 -->
+      <div class="subimage_modal_header">
+        <div style="margin-top:50px;">
+        <input type="file" @change="handleAddProductSubImage($event)"> <button @click="AddSubImage">서브이미지추가</button>
+        <p style="margin-top:20px; font-weight:bold;"><img src="@/assets/img/siren.png" style="width:30px; height:30px;" alt=""> 이미지 삭제 및 변경을 하려면 이미지를 클릭하세요</p>
+        </div>
+      </div>
+      <!-- 옵션조회 -->
+      <div class="subimage_modal_body">
+        <section >
+          <span v-for="(subimage,idx) in productsubimageidx" v-bind:key="subimage">
+          <button @click="Sub_image_management(idx)"><img :src="`/HOST/product/select_productsub_image.json?productno=${this.productsubmodal_productno}&productidx=${subimage}`" alt="" style="width:160px; height:160px;" ></button>
+          </span>
+        </section>
+      </div>
+      <!-- 모달 close 버튼 -->
+      <div class="subimage_modal_footer">
+          <button @click="subimageadminmodalkey1 = false">닫기</button>
+      </div>
+    </div>
+
+    
+
         <!-- 서브 관리 모달 ==================================================================================================================================== -->
     <div class="management_subimage_modal" v-if="management_subimage_modal === true">
-      <div id="management_subimage_modal_close" @click="management_subimage_modal = false"></div>
       <div id="management_subimage_modal_close_bg"></div>
       <!-- 옵션추가 -->
       <div class="management_subimage_modal_img">
@@ -364,8 +390,29 @@
       </div>
       <!-- 모달 close 버튼 -->
       <div class="management_subimage_modal_footer">
-          <button @click="management_subimage_modal = false">닫기</button>
-          <input type="file" style="position:absolute; bottom:90px; left:50px;"> <button style="left:50px; background:blue;">이미지저장</button>
+          <button @click="management_subimage_modal_cancel">닫기</button>
+          <input type="file" style="position:absolute; bottom:90px; left:50px;" @change="handleUpdateProductSubImage($event)"> <button style="left:50px; background:blue;" @click="UpdateProductSubImage()">이미지저장</button>
+          <button style="left:370px; background:red; ">삭제</button>
+      </div>
+    </div>
+
+        <!-- 서브 관리 모달 ==================================================================================================================================== -->
+    <div class="management_subimage_modal" v-if="management_subimage_modal1 === true">
+      <div id="management_subimage_modal_close_bg"></div>
+      <!-- 옵션추가 -->
+      <div class="management_subimage_modal_img">
+        <img :src="`/HOST/product/select_productsub_image.json?productno=${this.productsubmodal_productno}&productidx=${this.management_subimage_idx}`" alt=""  >
+      </div>
+      <!-- 옵션조회 -->
+      <div class="management_subimage_modal_body">
+        <section >
+
+        </section>
+      </div>
+      <!-- 모달 close 버튼 -->
+      <div class="management_subimage_modal_footer">
+          <button @click="management_subimage_modal_cancel">닫기</button>
+          <input type="file" style="position:absolute; bottom:90px; left:50px;" @change="handleUpdateProductSubImage($event)"> <button style="left:50px; background:blue;" @click="UpdateProductSubImage()">이미지저장</button>
           <button style="left:370px; background:red; ">삭제</button>
       </div>
     </div>
@@ -383,6 +430,7 @@
             productidx:0,
             optionmodal:false,
             subimageadminmodalkey:false,
+            subimageadminmodalkey1:false,
             files: [], //업로드용 파일
             filesPreview: [],
             uploadImageIndex: 0, // 이미지 업로드를 위한 변수
@@ -392,6 +440,7 @@
             idxs:[1,2,3,4,5,6],
             productsubmodal_productno:"",
             management_subimage_modal:false,
+            management_subimage_modal1:false,
             management_subimage_idx:"",
 
             // product
@@ -405,8 +454,11 @@
             productsale:0,
             productfinalprice:0,
             productmainimage:"",
+            productsubimage:"",
             productitemsone:"",
             productsubimageidx:"",
+            
+            
 
             // update product
             updateproductcategory:[],
@@ -420,7 +472,8 @@
             updateproductfinalprice:0,
             updateproductmainimage:"",
             updateproductitemsone:"",
-            updateproductsubimageidx:"",
+            updateproductsubimageidx:0,
+            productsubimageidxreflash:0,
             
 
             // productoption
@@ -440,6 +493,10 @@
           this.management_subimage_modal = true;
           this.management_subimage_idx = idx+1;
           // console.log(idx);
+          this.updateproductsubimageidx = idx+1;
+          this.productsubimageidxreflash = idx;
+          console.log(this.productsubimageidxreflash);
+          console.log(this.productsubmodal_productno);
         },
         changeMenu(menu){
           this.menu = menu;
@@ -454,8 +511,20 @@
         handleProductMainImage(e){
           this.productmainimage = e.target.files[0];
         },
+        handleUpdateProductMainImage(e){
+          this.productmainimage = e.target.files[0];
+        },
+        handleUpdateProductSubImage(e){
+          this.productsubimage = e.target.files[0];
+        },
+        handleAddProductSubImage(e){
+          this.productsubimage = e.target.files[0];
+        },
         handleProductOptionImage(e){
           this.productoptionimage = e.target.files[0];
+        },
+        handleUpdateProductOptionImage(e){
+          this.productoptionimage = e.target.files[0]
         },
         imageUpload() {
             // console.log(this.$refs.files.files);
@@ -604,8 +673,9 @@
         },
         async subimageadminmodal(productno){
           this.subimageadminmodalkey = true;
-          this.productsubmodal_productno = productno;
+          
           console.log(productno);
+          console.log(this.productsubmodal_productno);
           const url = `/HOST/product/selectone_product.json?productno=${productno}`;
           const headers = { "Content-Type": "application/json" };
           const response = await axios.get(url, { headers });
@@ -615,6 +685,7 @@
             this.productsubimageidx = response.data.list.productsubimageidx;
             console.log(this.productsubimageidx);
             console.log(this.productitemsone);
+            this.productsubmodal_productno = productno;
           }
         },
         async updateproduct(idx){
@@ -639,12 +710,63 @@
             console.log(response.data);
             console.log(this.productitems[idx]);
 
+          const headers2 = { "Content-Type": "multipart/form-data" };
+          const url2 = `/HOST/product/update_product_mainimage.json?${this.page}&productno=${this.productitems[idx].productno}`;
+          const formData2 = new FormData();
+
+          formData2.append("updatemainimage", this.productmainimage);
+          const response2 = await axios.post(url2, formData2, { headers:headers2 });
+          console.log(response2);
+
             this.selectProduct();
-            
         },
+        async UpdateProductSubImage(){
+          // console.log(this.productsubmodal_productno);
+          // console.log(this.productsubimageidxreflash);
+          console.log(this.updateproductsubimageidx);
+          // const idx = this.productsubimageidxreflash;
+          const headers = { "Content-Type": "multipart/form-data" };
+          const url = `/HOST/product//update_product_subimage.json?productno=${this.productsubmodal_productno}&productidx=${this.updateproductsubimageidx}`;
+          const formData = new FormData();
 
+          formData.append("updatesubimage", this.productsubimage);
+          const response = await axios.post(url, formData, { headers:headers });
+          console.log(response);
+          this.management_subimage_modal = !this.management_subimage_modal;
+          this.subimageadminmodalkey = !this.subimageadminmodalkey;
+          this.subimageadminmodalkey1 = !this.subimageadminmodalkey1;
 
+          // this.Sub_image_management(this.productsubimageidxreflash);
+        },
+        async AddSubImage(){
 
+          console.log(this.productsubmodal_productno);
+          let idx = this.productsubimageidx + 1;
+          console.log(idx);
+
+          const headers1 = { "Content-Type": "multipart/form-data" };
+          const url1 = `/HOST/product/add_product_subimage.json?productno=${this.productsubmodal_productno}&productidx=${idx}`;
+          const formData1 = new FormData();
+
+          formData1.append("addsubimage", this.productsubimage);
+          const response1 = await axios.post(url1, formData1, { headers:headers1 });
+          console.log(response1);
+          if(response1.status === 200){
+            console.log("dfsdffdfdsfsdfsd");
+            const url = `/HOST/product/update_product_subimage_idx.json?productno=${this.productsubmodal_productno}`;
+            const headers = { "Content-Type": "application/json" };
+
+            const response = await axios.put(url, {headers:headers});
+            console.log(response);
+            this.subimageadminmodalkey = !this.subimageadminmodalkey;
+            this.subimageadminmodal(this.productsubmodal_productno);
+          }
+        },
+        management_subimage_modal_cancel(){
+          // console.log(this.productsubmodal_productno);
+          this.management_subimage_modal = false;
+          // console.log(this.subimageadminmodal());
+        },
         //옵션추가 ==================================================================================================================
         async insertProductOption(){
           console.log(this.productoption_productno);
@@ -655,7 +777,7 @@
             productoptionsize : this.productoptionsize,
             productoptioncolor : this.productoptioncolor,
             productoptionadditionalamount : this.productoptionadditionalamount
-          }
+          };
           const response = await axios.post(url,body, {headers:headers});
           console.log(response);
 
@@ -683,6 +805,32 @@
             // console.log(this.productoptionitems);
           }
           
+        },
+        async UpdateProductOption(idx){
+          console.log(idx);
+          console.log(this.productoptionitems[idx]);
+          console.log(this.productoptionitems[idx].productoptionno)
+          const headers = { "Content-Type": "application/json" };
+          const url = `/HOST/productoption/update_productoption.json?productoptionno=${this.productoptionitems[idx].productoptionno}`;
+          const body = {
+            productoptionname : this.productoptionitems[idx].productoptionname,
+            productoptionsize : this.productoptionitems[idx].productoptionsize,
+            productoptioncolor : this.productoptionitems[idx].productoptioncolor,
+            productoptionadditionalamount : this.productoptionitems[idx].productoptionadditionalamount
+          };
+          const response = await axios.put(url, body, {headers:headers});
+          console.log(response);
+
+          const headers2 = { "Content-Type": "multipart/form-data" };
+          const url2 = `/HOST/productoption/update_productoptionImage.json?productoptionno=${this.productoptionitems[idx].productoptionno}`;
+          const formData2 = new FormData();
+
+          formData2.append("updateproductoptionimage", this.productoptionimage);
+          const response2 = await axios.post(url2, formData2, { headers:headers2 });
+          console.log(response2);
+
+          // console.log(this.productoption_productno);
+          this.openoptionmodal(this.productoption_productno);
         },
         // 옵션모달 닫기
         optionmodal_cancle(){
