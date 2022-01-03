@@ -97,8 +97,10 @@
                               <td>{{item.PRODUCT_PRICE}}</td>
                               <td>{{item.PRODUCT_QUANTITY}}</td>
                               <td>{{item.PRODUCT_TITLE}}</td>
-                              <td style="width:200px;"><button @click="handlewishdelete(item.MEMBERWISH_NO
-                              )">삭제하기</button><button>장바구니 담기</button></td>
+                              <td style="width:200px;">
+                                <button @click="handlewishdelete(item.MEMBERWISH_NO)">삭제하기</button>
+                                <button>장바구니 담기</button>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -173,15 +175,19 @@
                       <span style="float:right; font-weight:bold;">{{product.producttitle}}</span>
                       <div style="text-decoration:line-through;">{{product.productprice}}won</div>
                       <div style="color:blue;">{{product.productfinalprice}}won</div>
+                      
                       <div>
                         <span> 리뷰 : 1 </span>
                         <span style="float:right;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red;" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                             <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
-                          </svg>{{wishcount}}
+                          </svg>{{memberwish}} <!-- 위시카운트 !-->
                         </span>
-                    </div>
-                      <div style="background:red; float:right;"><span style="color:gold;">{{product.productdeliveryfeecheck}}</span><span style="color:white;">배송</span></div>
+                      </div>
+                      
+                      <div style="background:red; float:right;">
+                        <span style="color:gold;">{{product.productdeliveryfeecheck}}</span><span style="color:white;">배송</span>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -284,7 +290,7 @@
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
-                    <button class="product_order_btn_heart" style="margin-left:5px;" @click="handlewish">
+                    <button class="product_order_btn_heart" style="margin-left:5px;" @click="handlewish(productitemsone.productno)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                       </svg>
@@ -354,8 +360,9 @@
         store                 : useStore(),
         order_addprice        : 0,
         order_totalprice      : 0,
-        wishcount             : "",
-        wishlist              : []
+        memberwish            : "",
+        wishlist              : [],
+        item                  : [],
       }
     },
 
@@ -525,10 +532,11 @@
         }
         
       },
-
+                          
       // 위시리스트(찜) 추가
-      async handlewish(){
-        const url = `/HOST/wish/insertwish.json?no=3402`
+      async handlewish(productno){
+        // console.log(productno);
+        const url = `/HOST/wish/insertwish.json?productno=${productno}`
 				const headers = { "Content-Type": "application/json",  "token" : this.token};
 				const response = await axios.post(url, {}, {headers:headers});
         console.log(response.data);
@@ -539,13 +547,13 @@
 
       // 위시리스트(찜) 카운트 조회
       async handlewishcount(){
-        const url = `/HOST/wish/wish_hit_select.json`
+        const url = `/HOST/wish/wish_hit_select.json?no=3452`
         const headers = { "Content-Type": "application/json" , "token" : this.token };
         const response = await axios.get(url, { headers:headers });
         console.log('handlewishcount => handlewishcount');
-        console.log(response.data);
+        console.log(response.data.memberwish);
         if (response.data.status == 200){
-          this.wishcount = response.data.wishcount;
+          this.memberwish = response.data.memberwish;
         }
       },
 
