@@ -232,7 +232,7 @@
                         <td>
                           <div><button style="width:50%; background:blue; margin-top:5px; color:white;" @click="updateproduct(idx)">상품정보수정</button></div>
                           <div><button style="width:50%; background:pink; margin-top:5px; margin-bottom:5px; color:black;" @click="openoptionmodal(product.productno)" >상품옵션관리</button></div>
-                          <div><button style="width:50%; background:red; margin-bottom:5px; color:white;" >상품삭제</button></div>
+                          <div><button style="width:50%; background:red; margin-bottom:5px; color:white;" @click="DeleteProduct(product.productno)">상품삭제</button></div>
                           
                         </td>
                     </tr>
@@ -306,7 +306,7 @@
               <td><input type="text" v-model="productoptionitems[idx].productoptionsize"></td>
               <td><input type="text" v-model="productoptionitems[idx].productoptioncolor"></td>
               <td><input type="text" v-model="productoptionitems[idx].productoptionadditionalamount"></td>
-              <td><button @click="UpdateProductOption(idx)">수정완료</button><button style="background:red; color:white; margin-left:5px;">삭제</button></td>
+              <td><button @click="UpdateProductOption(idx)">수정완료</button><button style="background:red; color:white; margin-left:5px;" @click="DeleteProductOption(idx)">삭제</button></td>
             </tr>
           </tbody>
         </table>
@@ -767,6 +767,14 @@
           this.management_subimage_modal = false;
           // console.log(this.subimageadminmodal());
         },
+        async DeleteProduct(productno){
+          console.log(productno);
+            const url = `/HOST/product/deleteProduct.json?productno=${productno}`;
+            const headers = { "Content-Type": "application/json" };
+            const response = await axios.delete(url, {headers:headers});
+          console.log(url);
+            console.log(response);
+        },
         //옵션추가 ==================================================================================================================
         async insertProductOption(){
           console.log(this.productoption_productno);
@@ -840,6 +848,14 @@
           this.productoptioncolor = "";
           this.productoptionadditionalamount = 0;
           this.productoptionimage = null;
+        },
+        async DeleteProductOption(idx){
+          console.log(this.productoptionitems[idx].productoptionno)
+            const url = `/HOST/productoption/delete_productoption.json?productoptionno=${this.productoptionitems[idx].productoptionno}`;
+            const headers = { "Content-Type": "application/json" };
+            const response = await axios.delete(url, {headers:headers});
+          console.log(url);
+            console.log(response);
         },
         created(){
             this.changeMenu();
@@ -1193,7 +1209,8 @@ main {
 
   border: 1px solid #dddddd;
   background-color: #f4f4f4;
-  min-height: 350px;
+  min-height: 500px;
+  overflow-y:auto;
   font-size: 15px;
   color: #888888;
   display: flex;
@@ -1256,8 +1273,8 @@ width: 100%; */
 .file-preview-wrapper>img {
     position: relative;
     left:10%;
-    width: 190px;
-    height: 130px;
+    width: 207px;
+    height: 240px;
     z-index: 10;
 }
 

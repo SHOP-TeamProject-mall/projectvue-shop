@@ -181,7 +181,8 @@
                         <span style="float:right;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red;" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                             <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
-                          </svg>{{memberwish}} <!-- 위시카운트 !-->
+                          </svg>
+                          {{memberwish}} <!-- 위시카운트 !-->
                         </span>
                       </div>
                       
@@ -536,7 +537,7 @@
       // 위시리스트(찜) 추가
       async handlewish(productno){
         // console.log(productno);
-        const url = `/HOST/wish/insertwish.json?productno=${productno}`
+        const url = `/HOST/wish/insertwish.json?productno=${productno}`;
 				const headers = { "Content-Type": "application/json",  "token" : this.token};
 				const response = await axios.post(url, {}, {headers:headers});
         console.log(response.data);
@@ -547,7 +548,7 @@
 
       // 위시리스트(찜) 카운트 조회
       async handlewishcount(){
-        const url = `/HOST/wish/wish_hit_select.json?no=3452`
+        const url = `/HOST/wish/wish_hit_select.json?no=3452`;
         const headers = { "Content-Type": "application/json" , "token" : this.token };
         const response = await axios.get(url, { headers:headers });
         console.log('handlewishcount => handlewishcount');
@@ -559,7 +560,7 @@
 
       // 위시리스트 리스트 조회
       async handlewishlist(){
-        const url = `/HOST/wish/selectwish.json`
+        const url = `/HOST/wish/selectwish.json`;
         const headers = { "Content-Type": "application/json" , "token" : this.token };
         const response = await axios.get(url, { headers:headers });
         console.log('handlewishlist => handlewishlist');
