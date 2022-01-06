@@ -101,11 +101,16 @@
       </router-view>
 </div>
 
-<footer class="footer mt-auto py-3 bg-light">
+<footer class="footer mt-auto py-3 bg-dark" style="text-align: center; color:white;">
   <div class="container">
-    <span class="text-muted">Place sticky footer content here.</span>
+    <p>상호:(주)SHOP | 대표자명 : 홍길동</p>
+    <p>사업자등록번호 : 000-00-000000 | 유통판매업신고번호 : 제0000-서울강남-0000호</p>
+    <p>연락처 : 02-000-0000 | 팩스 : 000-0000-0000 | 이메일 : ajasdu@naver.com</p>
+    <p>주소 : 서울특별시 강남구 00로 194 00빌딩 3F</p>
+
+    <span>이용약간</span><span>개인정보처리방침</span>
+    <p>CopyRight© SHOP</p>
   </div>
-  <button @click="storeMenu">메뉴변경</button>
 </footer>
 </template>
 
