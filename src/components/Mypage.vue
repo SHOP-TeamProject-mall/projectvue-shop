@@ -17,10 +17,10 @@
                     <img :src="`/HOST/member/MemberSelect_image?no=${memberlist.memberid}`" style="width:100%; height:400px;" />
                 </div>
                 <div>
-                    <input type="file" style="position:relative; left:23%; top:10px;">
+                    <input type="file" id="updatefile" ref="updatefile" @change="handleimgupdateFileUpload($event)" style="position:relative; left:23%; top:10px;">
                 </div>
                 <div>
-                    <button style="position:relative; left:23%; top:12px; color:blue; border:1px solid blue;">이미지 변경</button>
+                    <button style="position:relative; left:23%; top:12px; color:blue; border:1px solid blue;" @click="handleimagechange">이미지 변경</button>
                 </div>
                 <div class="int-area">
                     <input type="text" name="id" id="id" autocomplete="off" readonly    v-model="memberlist.memberid" />
@@ -182,13 +182,30 @@ import axios from "axios";
             // 회원정보 가져오기
             this.handlememberlist();
 
-            // 회원 이미지 가져오기
-            // this.handlememberimage();
-
             // 카트리스트 가져오기
             this.cartList()
         },
-        methods:{
+        methods : {
+
+            // 변경 할 이미지 첨부 여부 확인
+            handleimgupdateFileUpload(e) {
+                this.updatefile = e.target.files[0];
+                console.log(this.updatefile);
+		},
+
+            // 이미지 변경
+            async handleimagechange(){
+                const url = `/HOST/member/memberiamgeupdate.json?memberid=${this.memberlist.memberid}`
+                const headers = { "Content-Type": "multipart/form-data" };
+                const formData = new FormData();
+                formData.append("updatefile", this.updatefile);
+                const response = await axios.post( url, formData, { headers :  headers })
+                console.log(response.data);
+                if (response.data.sucess == 200){
+                    alert("이미지 변경이 정상적으로 완료되었습니다.")
+                    this.changeMenu(1);
+                }
+            },
 
             // 암호변경
             async handlepassword() { 
@@ -229,15 +246,6 @@ import axios from "axios";
                     this.memberlist = response.data.memberlist;
                 }
             },
-
-                // // 회원 이미지 조회
-                // async handlememberimage() {  
-                //     const url = `/HOST/member/MemberSelect_image?no=${this.memberid}`;
-                //     const headers = { "Content-Type": "application/json", token: this.token};
-                //     const response = await axios.get(url, {}, {headers:headers});
-                //     console.log('Mypage.vue => handlememberimage');
-                //     console.log(response);
-                // },
             
             update_info(){ // 정보수정 클릭시 input text박스 변환 -> 완료버튼 나옴
                 this.disabled = !this.disabled;
