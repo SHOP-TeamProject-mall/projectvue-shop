@@ -9,6 +9,7 @@ import Login from '@/components/Login.vue';
 import Admin from '@/components/Admin.vue';
 import Mypage from '@/components/Mypage.vue';
 import Logout from '@/components/Logout.vue';
+import Order from '@/components/Order.vue';
 
 const routes = [
   { path:'/home', name:"Home", component:Home },
@@ -22,6 +23,7 @@ const routes = [
   { path:'/admin', name:"Admin", component:Admin },
   { path:'/mypage', name:"Mypage", component:Mypage },
   { path:'/logout', name:"Logout", component:Logout },
+  { path:'/order', name:"Order", component:Order },
 ]
 
 const router = createRouter({
