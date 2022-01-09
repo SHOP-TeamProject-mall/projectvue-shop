@@ -3,18 +3,18 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    menu : 1,
+    list : [],
     // menu1 :1,
   },
 
   getters: {
-    getMenu(state) {
-      return state.menu;
+    getList(state) {
+      return state.list;
     }
   },
   mutations: {
-    setMenu(state, menu) {
-      state.menu = menu;
+    setList(state, payload) {
+      state.list = payload;
     }
   },
   actions:{

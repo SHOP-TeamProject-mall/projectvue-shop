@@ -1,5 +1,9 @@
 <template>
     <div class="container">
+        <div>
+        상품번호 : {{$route.query.productno}}
+        {{this.optionlist}}</div>
+
         <div class="ordertable">
             <table style="border:1px solid rgb(223, 217, 217); width:1000px; text-align:center;">
                 <thead style="border:1px solid rgb(223, 217, 217); height:40px; font-size:12px;  background:rgb(235, 235, 235);">
@@ -106,18 +110,42 @@
             <button>주문완료</button><button style="background:red; margin-left:10px;">주문취소</button>
         </div>
     </div>
+    {{$route.params}}
+    {{list}}
 </template>
 
 <script>
-    export default {
-        data(){
-            return{
-                finalprice:39800,
-                deliradio:""
-            }
-        }
+import { useStore } from "vuex";
+export default {
+    name:'Order',
+    watch:{
+    getList(){
+        this.list = this.getList;
+    },
+    list(){
+        
+        // console.log(this.list);
         
     }
+    },
+    created(){
+        let a = this.store.getters.getList;
+        this.list = a;
+        console.log(this.list,"this.list");
+        // // console.log(this.$route.query.name);
+        // console.log(this.$route.query.productno);
+        // console.log(this.$route);
+    },
+    data(){
+        return{
+            finalprice:39800,
+            deliradio:"",
+            list:[],
+            store:useStore(),
+        }
+    }
+    
+}
 </script>
 
 <style lang="scss" scoped>

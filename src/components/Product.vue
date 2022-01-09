@@ -242,7 +242,7 @@
 
               <div class="container">
                 <label  for="delivery_fee" style="position:relative; left:50px;">가격:</label><span id="delivery_fee" style="position:relative; left:50px;">{{productitemsone.productprice}}</span>
-                <label  for="delivery_fee" style="position:relative; left:150px;">할인:</label><span id="delivery_fee" style="position:relative; left:150px;">{{productitemsone.productsale*100}} %</span>
+                <label  for="delivery_fee" style="position:relative; left:150px;">할인:</label><span id="delivery_fee" style="position:relative; left:150px;">{{productitemsone.productsale}} %</span>
                 <label  for="delivery_fee " style="position:relative; left:250px;">배송비:</label><span id="delivery_fee" style="position:relative; left:250px;">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
@@ -268,26 +268,22 @@
 
                 <div class="select_option_list1" style="width:99%; position:relative; border:none; left:25px; ">
                   <div class="select_option_list_content" v-for="(selectoption,idx) in list" v-bind:key="selectoption">
-                    <a href="#" style="text-decoration:none; color:black;">
                           <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${selectoption.no}`" alt=""> 
                           <span id="select_option_list_content_name" >{{selectoption.name}}</span> 
                           <span id="select_option_list_content_name" style="margin-left:30px;">{{selectoption.size}} - {{selectoption.color}}</span> 
                           <span id="select_option_list_content_quantity" ><button style="border:none; background:none;" @click="Order_option_quantity_cancel(idx)">x</button></span> 
                           <span id="select_option_list_content_quantity" >
                             
-                            <input type="number" style="width:40px; border:none; display:block;"  v-model="optioncnt[idx]" @click="cnt">
-                            <span class="qty-up" style="display:block;"></span>
-                            <span class="qty-down" style="display:block;"></span>
+                            <input type="number" style="width:40px; border:none; display:block;" :min="1"  v-model="optioncnt[idx]" @change="cntchange(idx)">
+
                           </span> 
-                          <span id="select_option_list_content_price" style="margin-right:30px;">{{optioncnt[idx] * (productitemsone.productfinalprice + selectoption.addprice)}}won</span> 
-                    </a>
-                     
+                          <span id="select_option_list_content_price" style="margin-right:30px;">{{this.list3[idx]}}won</span> 
                   </div>
                 </div>
                   
                 <div class="container" style="margin-top:10px;">
                   <label for="total_price" style="margin-left:40px; font-size:20px;"><strong>총구매가</strong></label>
-                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{this.order_totalprice}}원</strong></span>
+                  <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{this.order_finalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
                     <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
@@ -306,8 +302,6 @@
         </div>
       </div>
 
-      
-
     </div>
 
 
@@ -319,6 +313,9 @@
   import axios from "axios";
   import { useStore } from "vuex";
   export default {
+    name:"Product",
+    computed:{
+    },
     async mounted(){
       const menu1 = Number(this.$route.query.menu);
       this.ChangMenu(menu1);
@@ -341,9 +338,9 @@
       this.handlewishcount()
       this.handlewishlist()
     },
-
     data(){
       return{
+        test : "dd",
         menu                  : 1,
         aa                    : 9,
         productitems          : "",
@@ -353,34 +350,62 @@
         productoptionquantity : "",
         productsubimageidx    : "",
         list                  : [],
+        listno                : "",
         optioncnt             : [],
-        searchproduct         : "",
+        searchproduct         : '',
         page                  : 1,
         latestorder_select    : "",
         token 	              : sessionStorage.getItem("TOKEN"),
         store                 : useStore(),
         order_addprice        : 0,
-        order_totalprice      : 0,
+        order_totalprice      : [],
         memberwish            : "",
         wishlist              : [],
         item                  : [],
+        list2                 : [],
+        optioncnt_cnt         :0,
+        list3                 : [],
+        productitemsone_productno : 0,
+        productoptionitems_totalprice:0,
+        productoptionitems_totalprice1:[],
+        order_finalprice:0,
+        order_finalprice1:0,
+        order_finalprice2:0
       }
     },
 
     methods:{
-      cnt(){
-        this.order_totalprice=0;
-        for(let i=0; i<this.optioncnt.length; i++){
-          let a = this.optioncnt[i]*(this.productitemsone.productfinalprice+this.list[i].addprice);
-
-          this.order_totalprice += a;
-          console.log(this.order_totalprice);
-          
-
-          
-        }
-      },
       order(){
+        console.log(this.optioncnt);
+        // console.log(this.productoptionitems_totalprice1.price);
+        console.log(this.list);
+        for(let i = 0; i < this.optioncnt.length; i++) {
+          this.list2.push({
+            no:this.list[i].no,
+            name:this.list[i].name,
+            size:this.list[i].size,
+            color:this.list[i].color,
+            cnt : this.optioncnt[i]
+          })
+        }
+        console.log(this.list2);
+
+
+        // console.log(this.optioncnt);
+        // console.log(this.optioncnt[idx]);
+        // console.log("productitemsone_productno",this.productitemsone_productno);
+        // let a = this.store.getters.getList;
+        // a = this.list;
+        // console.log(a,"product");
+        // this.store.commit("setList",  a);
+        //     this.$router.push({
+        //       name:"Order",
+        //       query: {productno:this.productitemsone_productno, },
+        //       params: {list:this.list},
+        //       props: {list:this.list},
+        //       component:()=> import('./Order.vue'),
+        //   })
+        
         // console.log(this.list);
         // console.log(this.optioncnt);
         // console.log(this.productitemsone.productfinalprice);
@@ -399,23 +424,52 @@
         this.list.splice(idx,1);
         // console.log(this.list);
       },
+      cntchange(idx){
+        
+        // console.log(this.optioncnt[idx]);
+        let b = this.productoptionitems_totalprice1[idx].price;
+        this.productoptionitems_totalprice1[idx].price = this.optioncnt[idx] * this.productoptionitems_totalprice1[idx].price;
+        // console.log(b);
+        // console.log(this.productoptionitems_totalprice1[idx].price,"this.productoptionitems_totalprice1");
+        // console.log(this.productoptionitems_totalprice1[idx].price,"price");
+        
+        this.list3[idx] = this.productoptionitems_totalprice1[idx].price;
+          // console.log(this.list3);
+        // console.log(a,"order_totalprice");
+        // console.log(this.productoptionitems_totalprice1[idx].price, "aa");
+        this.order_price_calculate = this.productoptionitems_totalprice1[idx].price;
+        this.productoptionitems_totalprice1[idx].price = b;
+        const result = this.list3.reduce(function add(sum, currValue) {
+          return sum + currValue;
+        }, 0);
+        this.order_finalprice = result;
+
+        console.log(result);
+      },
       Order_option_quantity(idx){
-        console.log(this.order_addprice);
-        // console.log(idx);
-        this.productoptionitems[idx];
-        // console.log(this.productoptionquantity);
-        const read_addprice = this.productoptionitems[idx].productoptionadditionalamount;
-          this.optioncnt[idx] = 1;
-          // console.log(this.list.length);
-          if(this.list.length <= idx){
+        this.productoptionitems_totalprice = this.productitemsone.productfinalprice + this.productoptionitems[idx].productoptionadditionalamount;
+        console.log(this.productoptionitems_totalprice);
+        
+        if(this.list.length <= idx){
+          this.productoptionitems_totalprice1.push({
+            price:this.productoptionitems_totalprice
+          })
+        }
+        console.log(this.productoptionitems_totalprice1);
+        console.log(this.order_totalprice);
+
+        if(this.list.length <= idx){
           this.list.push({ 
             no:this.productoptionitems[idx].productoptionno,
             name:this.productoptionitems[idx].productoptionname,
             size:this.productoptionitems[idx].productoptionsize,
             color:this.productoptionitems[idx].productoptioncolor, 
-            addprice:read_addprice,
           })
-          }
+        }
+        for(let i=0; i<this.list.length; i++){
+          this.optioncnt[i] > 0;
+        
+        }
 
       },
       async ChangMenu(menu){
@@ -513,6 +567,8 @@
       },
       async selectoneProduct(productno){
         console.log(productno);
+        this.productitemsone_productno = productno;
+        console.log("productitemsone_productno" , this.productitemsone_productno);
         const url = `/HOST/product/selectone_product.json?productno=${productno}`;
         const headers = { "Content-Type": "application/json" };
         const response = await axios.get(url, { headers });
