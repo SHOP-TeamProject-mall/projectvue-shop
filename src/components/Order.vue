@@ -61,11 +61,11 @@
             </div>
             <div style="border-top:1px solid black; border-bottom:1px solid rgb(235, 235, 235); height:40px; margin-top:30px;">
                 <span class="radio1"><label for="c" style="margin-left:25px; margin-top:5px; width:140px;">수취인*</label></span>
-                <span class="radio2"><input type="text" placeholder="고객명" style="border:none;"></span>
+                <span class="radio2"><input type="text" v-model="this.memberlist.membername" style="border:none;"></span>
             </div>
             <div style="border-bottom:1px solid rgb(235, 235, 235); height:40px;">
                 <span class="radio1"><label for="c" style="margin-left:25px; margin-top:5px; width:140px;">연락처*</label></span>
-                <span class="radio2">010-0000-0000</span>
+                <span class="radio2"><input type="text" v-model="this.memberlist.memberphone" style="border:none;"></span>
             </div>
             <div style="border-top:1px solid black; border-bottom:1px solid rgb(235, 235, 235); height:40px; margin-top:30px;">
                 <span class="radio1"><label for="c" style="margin-left:25px; margin-top:5px; width:140px;">배송지*</label></span>
@@ -106,6 +106,7 @@ export default {
     }
     },
     created(){
+        this.handlememberlist();
         let a = this.store.getters.getList;
         this.list = a;
         // console.log(this.list,"this.list");
@@ -130,6 +131,8 @@ export default {
     },
     data(){
         return{
+            token         : sessionStorage.getItem("TOKEN"),
+            memberlist    : {},
             finalprice:39800,
             deliradio:"prepayment",
             list:[],
@@ -167,30 +170,30 @@ export default {
             console.log(this.Detailed_Address);
         },
         async selectoneProduct(){
-        const url = `/HOST/product/selectone_product.json?productno=${this.$route.query.productno}`;
-        const headers = { "Content-Type": "application/json" };
-        const response = await axios.get(url, { headers });
-        // console.log(response);
-        if(response.status === 200){
-          this.productitemsone = response.data.list;
-          this.productsubimageidx = response.data.list.productsubimageidx;
-          // console.log(this.productsubimageidx);
-          console.log(this.productitemsone);
-        //   this.product_saleprice = this.productitemsone
-            // console.log(this.totalprice,"====================");
-            // console.log(this.productitemsone.productdeliveryfee,"========================");
-            this.order_finalprice = this.totalprice + this.productitemsone.productdeliveryfee;
-            // console.log(this.order_finalprice);
-        }  
-      },
-      // 카카오주소찾기 api
-      Find_address(){
-            var width = 600; //팝업의 너비
-            var height = 600; //팝업의 높이
-        new window.daum.Postcode({
-            width:width,
-            height:height,
-            
+            const url = `/HOST/product/selectone_product.json?productno=${this.$route.query.productno}`;
+            const headers = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers });
+            // console.log(response);
+            if(response.status === 200){
+                this.productitemsone = response.data.list;
+                this.productsubimageidx = response.data.list.productsubimageidx;
+                // console.log(this.productsubimageidx);
+                console.log(this.productitemsone);
+                //   this.product_saleprice = this.productitemsone
+                // console.log(this.totalprice,"====================");
+                // console.log(this.productitemsone.productdeliveryfee,"========================");
+                this.order_finalprice = this.totalprice + this.productitemsone.productdeliveryfee;
+                // console.log(this.order_finalprice);
+            }  
+        },
+        // 카카오주소찾기 api
+        Find_address(){
+                var width = 600; //팝업의 너비
+                var height = 600; //팝업의 높이
+                new window.daum.Postcode({
+                width:width,
+                height:height,
+
             oncomplete: (data) => {
                 console.log("[주소]",data);
                 
@@ -213,11 +216,23 @@ export default {
                 // emphTextColor: "#C01160" //강조 글자색
                 // //outlineColor: "", //테두리
             }
-        }).open({
-            left: (window.screen.width / 2) - (width / 2),
-            top: (window.screen.height / 2) - (height / 2)
-        });
-      }
+            }).open({
+                left: (window.screen.width / 2) - (width / 2),
+                top: (window.screen.height / 2) - (height / 2)
+            });
+        },
+            // 회원정보 조회
+        async handlememberlist() {  
+            const url = '/HOST/member/memberlist.json';
+            const headers = { "Content-Type": "application/json", token: this.token};
+            const response = await axios.get(url, {headers:headers});
+
+            console.log('Mypage.vue => handlemylist');
+            console.log(response.data);
+            if (response.data.status === 200){
+                this.memberlist = response.data.memberlist;
+            }
+        },
     }
 }
 </script>
