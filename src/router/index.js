@@ -10,6 +10,7 @@ import Admin from '@/components/Admin.vue';
 import Mypage from '@/components/Mypage.vue';
 import Logout from '@/components/Logout.vue';
 import Order from '@/components/Order.vue';
+import Order_Complete from '@/components/Order_Complete.vue';
 
 const routes = [
   { path:'/home', name:"Home", component:Home },
@@ -24,6 +25,7 @@ const routes = [
   { path:'/mypage', name:"Mypage", component:Mypage },
   { path:'/logout', name:"Logout", component:Logout },
   { path:'/order', name:"Order", component:Order },
+  { path:'/order_complete', name:"Order_Complete", component:Order_Complete },
 ]
 
 const router = createRouter({
