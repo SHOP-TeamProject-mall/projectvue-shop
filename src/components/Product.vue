@@ -241,9 +241,9 @@
               <hr style="border:1px solid black; width:80%; margin-left:10%;">
 
               <div class="container">
-                <label  for="delivery_fee" style="position:relative; left:50px;">가격:</label><span id="delivery_fee" style="position:relative; left:50px;">{{productitemsone.productprice}}</span>
-                <label  for="delivery_fee" style="position:relative; left:150px;">할인:</label><span id="delivery_fee" style="position:relative; left:150px;">{{productitemsone.productsale}} %</span>
-                <label  for="delivery_fee " style="position:relative; left:250px;">배송비:</label><span id="delivery_fee" style="position:relative; left:250px;">{{productitemsone.productdeliveryfee}}원</span>
+                <label  for="delivery_fee" style="position:relative; left:40px;">가격:</label><span id="delivery_fee" style="position:relative; left:50px;">{{productitemsone.productprice}}</span>
+                <label  for="delivery_fee" style="position:relative; left:140px;">할인:</label><span id="delivery_fee" style="position:relative; left:150px;">{{productitemsone.productsale}} %</span>
+                <label  for="delivery_fee " style="position:relative; left:240px;">배송비:</label><span id="delivery_fee" style="position:relative; left:250px;">{{productitemsone.productdeliveryfee}}원</span>
                 <br>
 
                 <div style="margin-top:30px;">
@@ -255,7 +255,7 @@
                         <img :src="`/HOST/productoption/select_productoption_image.json?productoptionno=${option.productoptionno}`" alt=""> 
                         <span id="select_option_list_content_name" >{{option.productoptionname}}</span> 
                         <span id="select_option_list_content_name" style="margin-left:30px;">{{option.productoptionsize}} - {{option.productoptioncolor}}</span> 
-                        <span id="select_option_list_content_quantity" style="margin-right:0;"><input type="hidden" v-model="order_addprice">{{productitemsone.productfinalprice + option.productoptionadditionalamount}}</span> 
+                        <span id="select_option_list_content_quantity" style="margin-right:10px;"><input type="hidden" v-model="order_addprice">{{productitemsone.productfinalprice + option.productoptionadditionalamount}}won</span> 
                       </a>
                     </div>
 
@@ -370,7 +370,13 @@
         productoptionitems_totalprice1:[],
         order_finalprice:0,
         order_finalprice1:0,
-        order_finalprice2:0
+        order_finalprice2:0,
+        cost : 0,
+        costcomplete :0,
+        costlist :[],
+        salecost : 0,
+        salecostlist : [],
+        salecostcomplete :0,
       }
     },
 
@@ -378,33 +384,51 @@
       order(){
         console.log(this.optioncnt);
         // console.log(this.productoptionitems_totalprice1.price);
-        console.log(this.list);
+        // console.log(this.list);
         for(let i = 0; i < this.optioncnt.length; i++) {
           this.list2.push({
             no:this.list[i].no,
             name:this.list[i].name,
             size:this.list[i].size,
             color:this.list[i].color,
-            cnt : this.optioncnt[i]
+            cnt : this.optioncnt[i],
+            price: this.list3[i],
+            sale:this.salecostlist[i]
           })
         }
         console.log(this.list2);
+        console.log(this.order_finalprice);
 
 
         // console.log(this.optioncnt);
         // console.log(this.optioncnt[idx]);
         // console.log("productitemsone_productno",this.productitemsone_productno);
-        // let a = this.store.getters.getList;
-        // a = this.list;
-        // console.log(a,"product");
-        // this.store.commit("setList",  a);
-        //     this.$router.push({
-        //       name:"Order",
-        //       query: {productno:this.productitemsone_productno, },
-        //       params: {list:this.list},
-        //       props: {list:this.list},
-        //       component:()=> import('./Order.vue'),
-        //   })
+        
+        let a = this.store.getters.getList;
+        a = this.list2;
+        console.log(a,"product");
+        this.store.commit("setList",  a);
+
+        let b = this.store.getters.getPrice;
+        b = this.order_finalprice;
+        console.log(b, "totalprice");
+        this.store.commit("setPrice", b);
+
+        let c = this.store.getters.getCost;
+        c = this.costcomplete;
+        console.log(c, "cost");
+        this.store.commit("setCost", c);
+
+        let d = this.store.getters.getSalecost;
+        d = this.salecostcomplete;
+        console.log(d, "salecost");
+        this.store.commit("setSalecost", d);
+
+            this.$router.push({
+              name:"Order",
+              query: {productno:this.productitemsone_productno, },
+              component:()=> import('./Order.vue'),
+          })
         
         // console.log(this.list);
         // console.log(this.optioncnt);
@@ -425,7 +449,33 @@
         // console.log(this.list);
       },
       cntchange(idx){
-        
+        // 상품 원가
+        console.log(this.productitemsone.productprice);
+        console.log(this.productoptionitems[idx].productoptionadditionalamount);
+        this.cost = (this.productitemsone.productprice + this.productoptionitems[idx].productoptionadditionalamount) * this.optioncnt[idx];
+        this.costlist[idx] = this.cost;
+        console.log(this.costlist,"costlist");
+        console.log(this.cost, "cost");
+        const result1 = this.costlist.reduce(function add(sum, currValue){
+          return sum + currValue
+        }, 0);
+        this.costcomplete = result1;
+        console.log(this.costcomplete,"costcomplete");
+
+        // 상품 할인가격
+        console.log(this.productitemsone.productprice);
+        console.log(this.productitemsone.productsale);
+        console.log(this.productitemsone.productprice * this.productitemsone.productsale / 100 );
+        this.salecost = this.productitemsone.productprice * this.productitemsone.productsale / 100 * this.optioncnt[idx];
+        console.log(this.salecost,"salecost");
+        this.salecostlist[idx] = this.salecost;
+        console.log(this.salecostlist,"salecostlist");
+        const result2 = this.salecostlist.reduce(function add(sum, currValue){
+          return sum + currValue
+        }, 0);
+        this.salecostcomplete = result2;
+        console.log(this.salecostcomplete,"this.salecostcomplete");
+
         // console.log(this.optioncnt[idx]);
         let b = this.productoptionitems_totalprice1[idx].price;
         this.productoptionitems_totalprice1[idx].price = this.optioncnt[idx] * this.productoptionitems_totalprice1[idx].price;
@@ -577,7 +627,7 @@
           this.productitemsone = response.data.list;
           this.productsubimageidx = response.data.list.productsubimageidx;
           // console.log(this.productsubimageidx);
-          // console.log(this.productitemsone);
+          console.log(this.productitemsone);
         }
         const url1 = `/HOST/productoption/select_productoption.json?productno=${response.data.list.productno}`;
         const headers1 = { "Content-Type": "application/json" };
