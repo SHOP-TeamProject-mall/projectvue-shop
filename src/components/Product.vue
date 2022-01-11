@@ -119,38 +119,6 @@
                         </label>
                       </div>
                       <!-- 장바구니내용 여기에 작성하시면 됩니다. -->
-                        <table class="table table-striped" style="border: 1px solid rgb(139, 126, 126)">
-                          <thead>
-                            <tr>
-                                <th><input type="checkbox" v-model="allcheckbox" @click="allcheckbox1">전체선택</th>
-                                <th colspan="2">상품정보</th>
-                                <th class="w130">단가</th>
-                                <th class="w130">수량</th>
-                                <th class="w130">상품금액</th>
-                                <th class="w100">주문</th>
-                                <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="cartitem in membercart" v-bind:key="cartitem" >
-                              <td><input type="checkbox" v-model="chks" :value="cartitem.PRODUCT_NO" /></td>
-                              <td><img :src="`/HOST/cart/cartselect_image?no=${cartitem.PRODUCT_NO}`" style="width:200px;height:100px" /></td><br />
-                              <td>{{cartitem.DELIVERYFEE}}</td>
-                              <td>{{cartitem.PRODUCT_BRAND}}</td>
-                              <td>{{cartitem.PRODUCT_CATEGORY}}</td>
-                              <td>{{cartitem.PRODUCT_DATE}}</td>
-                              <td>{{cartitem.PRODUCT_FABRIC}}</td>
-                              <td>{{cartitem.PRODUCT_NO}}</td>
-                              <td>{{cartitem.PRODUCT_PRICE}}</td>
-                              <td>{{cartitem.PRODUCT_QUANTITY}}</td>
-                              <td>{{cartitem.PRODUCT_TITLE}}</td>
-                              <td style="width:200px;">
-                                <button @click="handlecartdelete(cartitem.MEMBERWISH_NO)">삭제하기</button>
-                                <!-- <button>장바구니 담기</button> -->
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                     </div>
                   </li>
                   <li>
@@ -318,7 +286,7 @@
                   <span id="total_price" style="margin-left:55%; font-size:20px; color:red;"><strong>{{this.order_finalprice}}원</strong></span>
                   <span style="margin-left:15px;">
                     <button class="product_order_btn" style="margin-top:20px;" @click="order">주문하기</button>
-                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;" @click="handlecart(productitemsone.productno)">장바구니</button>
+                    <button class="product_order_btn_shopping_basket" style="margin-top:20px; margin-left:15px;">장바구니</button>
                     <button class="product_order_btn_heart" style="margin-left:5px;" @click="handlewish(productitemsone.productno)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -369,7 +337,6 @@
     created() {
       this.handlewishcount()
       this.handlewishlist()
-      this.handlecartlist()
     },
     data(){
       return{
@@ -395,7 +362,6 @@
         memberwish            : "",
         wishlist              : [],
         item                  : [],
-        membercart            : [],
         list2                 : [],
         optioncnt_cnt         :0,
         list3                 : [],
@@ -416,6 +382,9 @@
 
     methods:{
       order(){
+        if(this.list.length === 0){
+          alert("상품을 선택하세요");
+        }
         console.log(this.optioncnt);
         // console.log(this.productoptionitems_totalprice1.price);
         // console.log(this.list);
@@ -725,48 +694,6 @@
           // }
         }
       },
-
-      // 장바구니 추가
-      async handlecart(productno){
-        // console.log(productno);
-        const url = `/HOST/cart/memberinsertcart.json?no=${productno}`;
-				const headers = { "Content-Type": "application/json",  "token" : this.token};
-				const response = await axios.post(url, {}, {headers:headers});
-        console.log(response.data);
-        if (response.data.status == 200){
-          // this.$emit("handlewishcount",this.handlewishcount);
-        }
-      },
-
-      // 장바구니 목록 조회
-      async handlecartlist(){
-        const url = `/HOST/cart/memberselectcart.json`;
-        const headers = { "Content-Type": "application/json" , "token" : this.token };
-        const response = await axios.get(url, { headers:headers });
-        console.log('handlecartlist => handlecartlist');
-        console.log(response.data);
-        if (response.data.status == 200){
-          this.membercart = response.data.membercart;
-        }
-      }, 
-
-      // 장바구니 삭제
-      async handlecartdelete(no) {
-        // console.log("no" + no);
-        if(confirm("삭제할까요?")){
-        const url = `/HOST/cart/memberdeletecart.json?membercartno=`+ no;
-        // console.log(no);
-        const headers = { "Content-Type": "application/json"};
-        const response =  await axios.delete(url, { headers: { headers }, data: { }});
-          console.log('cartList.vue => handlecartdelete');
-          console.log(response);
-          // if(response.data.status === 200){
-          // await this.handlewishlist();
-          // }
-        }
-      },
-
-
     },
   }
 </script>
