@@ -81,7 +81,7 @@
             </div>
             <div style="border-bottom:1px solid rgb(235, 235, 235); height:40px;">
                 <span class="radio1"><label for="c" style="margin-left:25px; margin-top:5px; width:140px;">상세주소*</label></span>
-                <span class="radio2"><input type="text" style="width:360px; border:1px solid rgb(235, 235, 235);" v-model="Detailed_Address"></span>
+                <span class="radio2"><input type="text" style="width:360px; border:1px solid rgb(235, 235, 235);" v-model="this.Detailed_Address"></span>
             </div>
         </div>
         <div class="order_btn">
@@ -98,9 +98,9 @@ import { useStore } from "vuex";
 export default {
     name:'Order',
     watch:{
-    getList(){
-        this.list = this.getList;
-    },
+    // getList(){
+    //     this.list = this.getList;
+    // },
     list(){
 
     }
@@ -127,7 +127,13 @@ export default {
         
     },
     mounted() {
+        this.ordernumber = String(Math.floor(Math.random()*999999)); 
+        console.log(this.ordernumber);
 
+        let a = this.store.getters.getOrderidx;
+        a = this.ordernumber;
+        console.log(a,"ordernumber");
+        this.store.commit("setOrderidx",  a);
     },
     data(){
         return{
@@ -147,14 +153,58 @@ export default {
             address             :null,
             Detailed_Address    :"",
             menu                :1,
+            orderlist           :[],
+            ordernumber         :"",
 
         }
     },
     methods:{
         cancle_order(menu){
-            console.log(menu);
+            console.log("menu",menu);
+            console.log(this.token);
             // this.$router.push({ path: "/product"});
-            this.$router.push({path:'/product', query: {menu: menu}});
+            // this.$router.push({path:'/product', query: {menu: menu}});
+            
+                for(let i=0; i<this.list.length; i++){
+                    const url = `/HOST/order/insertorder.json`;
+                    const headers = { "Content-Type": "application/json" };
+                    const body = {
+                            order_productoptionno : this.list[i].no,
+                            order_productoptioncnt : this.list[i].cnt,
+                            order_productoptionsize : this.list[i].size,
+                            order_productoptioncolor : this.list[i].color,
+                            order_amount_paid:this.list[i].price,
+                            order_deliveryfee : this.productitemsone.productdeliveryfee,
+                            order_deliveryfee_check : this.deliradio,
+                            reciever_name : this.memberlist.membername,
+                            reciever_phone : this.memberlist.memberphone,
+                            reciever_zipcode : this.zonecode,
+                            reciever_address : this.address,
+                            reciever_detailed_address : this.Detailed_Address,
+                            userid : this.memberlist.memberid,
+                            idx : this.ordernumber
+                    };
+                    // console.log(body);
+                    if(0 < i){
+                        body.order_deliveryfee = 0;
+                    }
+                    else{
+                        body.order_deliveryfee = this.productitemsone.productdeliveryfee;
+                    }
+                    this.orderlist = body;
+                    console.log(this.orderlist);
+
+                    // // console.log(body);
+                    const response = axios.post(url,this.orderlist, {headers:headers});
+                    console.log(response);
+                }
+                    let b = this.store.getters.getUserid;
+                    b = this.memberlist.memberid;
+                    console.log(b,"userid");
+                    this.store.commit("setUserid",  b);   
+
+                    this.$router.push({ path: "/order_complete"});
+
         },
         changeradio(){
             if(this.deliradio === "Cash_on_delivery"){
@@ -164,7 +214,7 @@ export default {
                 this.order_finalprice = this.totalprice + this.productitemsone.productdeliveryfee;
             }
         },
-        order(){
+        async order(){
             // if(this.Detailed_Address === ""){
             //     alert("상세주소를 입력하세요");
             // }
@@ -229,6 +279,40 @@ export default {
 			if (rsp.success) {
 				var msg = '결제가 완료되었습니다.';
 				alert(msg);
+
+                // for(let i=0; i<this.list.length; i++){
+                //     const url = `/HOST/order/insertorder.json`;
+                //     const headers = { "Content-Type": "application/json" };
+                //     const body = {
+                //         order_productoptionno : this.list[i].no,
+                //             order_productoptioncnt : this.list[i].cnt,
+                //             order_productoptionsize : this.list[i].size,
+                //             order_productoptioncolor : this.list[i].color,
+                //             order_amount_paid:this.list[i].price,
+                //             order_deliveryfee : this.productitemsone.productdeliveryfee,
+                //             order_deliveryfee_check : this.deliradio,
+                //             reciever_name : this.memberlist.membername,
+                //             reciever_phone : this.memberlist.memberphone,
+                //             reciever_zipcode : this.zonecode,
+                //             reciever_address : this.address,
+                //             reciever_detailed_address : this.Detailed_Address,
+                //             userid : this.memberlist.memberid,
+                //     };
+                //     // console.log(body);
+                //     if(0 < i){
+                //         body.order_deliveryfee = 0;
+                //     }
+                //     else{
+                //         body.order_deliveryfee = this.productitemsone.productdeliveryfee;
+                //     }
+                //     this.orderlist = body;
+                //     console.log(this.orderlist);
+
+                //     // // console.log(body);
+                //     const response = axios.post(url,this.orderlist, {headers:headers});
+                //     console.log(response);
+                // }
+
                 location.href='/order_complete';
 			} else {
 				var msg1 = '결제에 실패하였습니다.';
@@ -237,7 +321,6 @@ export default {
 			}
 			});
    
-
         },
         async selectoneProduct(){
             const url = `/HOST/product/selectone_product.json?productno=${this.$route.query.productno}`;

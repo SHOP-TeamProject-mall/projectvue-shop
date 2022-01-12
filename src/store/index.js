@@ -6,8 +6,11 @@ export default createStore({
     list : [],
     totalprice : 0,
     cost : 0,
-    salecost : 0
+    salecost : 0,
     // menu1 :1,
+    // == 주문 ==
+    orderidx : "",
+    userid : ""
   },
 
   getters: {
@@ -22,6 +25,12 @@ export default createStore({
     },
     getSalecost(state){
       return state.salecost;
+    },
+    getOrderidx(state){
+      return state.orderidx;
+    },
+    getUserid(state){
+      return state.userid;
     }
   },
   mutations: {
@@ -36,6 +45,12 @@ export default createStore({
     },
     setSalecost(state, payload){
       state.salecost = payload;
+    },
+    setOrderidx(state, payload){
+      state.orderidx = payload;
+    },
+    setUserid(state, payload){
+      state.userid = payload;
     }
   },
   actions:{

@@ -13,7 +13,7 @@
                 </div>
                 <div class="table2_3">
                     <span>고객님이 주문하신 주문번호는</span><br>
-                    <span style="color:red; font-size:26px;">1601453330</span><span>입니다.</span>
+                    <span style="color:red; font-size:26px;">| </span><span style="color:red; font-size:26px;" v-for="items in ordernumber" v-bind:key="items"> {{items.onumber}} | </span><span>입니다.</span>
                 </div>
                 <div class="table2_4">
                     <span>주문내역 확인은 배송/마이페이지의</span><br>
@@ -28,13 +28,56 @@
 </template>
 
 <script>
-    export default {
-        methods:{
-            orderlist(){
-                this.$router.push({path:'/mypage'});
+import axios from "axios";
+import { useStore } from "vuex";
+export default {
+    data(){
+        return{
+            token               : sessionStorage.getItem("TOKEN"),
+            store               : useStore(),
+            orderidx            : "",
+            userid              : "",
+            list                : [],
+            ordernumber              : [],
+        }
+    },
+    mounted(){
+
+    },
+    created(){
+        let a = this.store.getters.getOrderidx;
+        this.orderidx = a;
+        console.log(this.orderidx,"주문완료페이지");
+
+        let b = this.store.getters.getUserid;
+        this.userid = b;
+        console.log(this.userid,"주문완료페이지");
+        
+        this.SelectOrderNumber();
+    },
+    methods:{
+        orderlist(){
+            this.$router.push({path:'/mypage'});
+        },
+        async SelectOrderNumber(){
+            const url = `/HOST/order/select_ordernumber.json?idx=${this.orderidx}&userid=${this.userid}`;
+            const headers = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers });
+            // console.log(response);
+                if(response.status === 200){
+                    this.list = response.data;
+                        // console.log(this.list.list.length);
+                    for(var i=0; i< this.list.list.length; i++){
+                        this.ordernumber.push({
+                            onumber: this.list.list[i].ordernumber
+                        })
+                            // console.log(this.ordernumber,"list");
+                        
+                }
             }
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
