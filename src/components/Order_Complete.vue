@@ -154,7 +154,7 @@ export default {
     // 가운데 정렬
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
+    width: 95.5%;
     height: 70px;
     top: 150px;
     text-align: center;

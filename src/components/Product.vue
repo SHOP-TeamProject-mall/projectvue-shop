@@ -417,6 +417,11 @@
     methods:{
       order(){
         console.log(this.optioncnt);
+        console.log(this.token);
+        if(this.token === null){
+          alert("로그인이 필요한 서비스입니다.")
+          return  this.$router.push({ path: "/login"});
+        }
         // console.log(this.productoptionitems_totalprice1.price);
         // console.log(this.list);
         for(let i = 0; i < this.optioncnt.length; i++) {

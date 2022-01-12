@@ -72,25 +72,28 @@
             </section>
         </div>
         <!-- 주문조회 -->
-        <div v-if="menu === 3">
-            <section class="Login-form">
-                <h1>주문조회</h1>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="id" id="id" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="id">현재암호</label>
-                </div>
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="name" id="name"  autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="name">새암호</label>
-                </div> 
-                <div class="int-area" style="top:0; left:40%;">
-                    <input type="password" name="phone" id="phone" autocomplete="off" required style="text-align:left; width:300px;">
-                    <label for="phone">새암호확인</label>
-                </div>
-                <div class="btn-area">
-                    <button type="submit" style="top:50px;">정보수정</button>
-                </div>
-            </section>
+        <div class="container_order" v-if="menu === 3">
+            <div class="ordertable">
+                <table style="border:1px solid rgb(223, 217, 217); width:1200px; text-align:center;">
+                    <thead style="border:1px solid rgb(223, 217, 217); height:40px; font-size:12px;  background:rgb(235, 235, 235);">
+                        <th>번호</th>
+                        <th>주문번호</th>
+                        <th>상품명</th>
+                        <th>옵션</th>
+                        <th>수량</th>
+                        <th>판매가</th>
+                        <th>배송상태</th>
+                    </thead>
+                    <tbody style="border:1px solid rgb(223, 217, 217); height:50px;">
+                        <td>d</td>
+                        <td>d</td>
+                        <td>d</td>
+                        <td>d</td>
+                        <td>d</td>
+                        <td>배송전</td>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!-- 장바구니 -->
         <div v-if="menu === 4">
@@ -306,6 +309,25 @@ import axios from "axios";
     height: 100vh;
     align-items: center;
     justify-content: center;
+}
+
+// 주문내역 ======================================================================================================
+.container_order{
+    position: absolute;
+    // 가운데 정렬
+    left: 50%;
+    top: 250px;
+    justify-content: center;
+    align-items: center;
+    height: 82vh;
+}
+.ordertable{
+    position: absolute;
+    left: 60%;
+    transform: translateX(-60%);
+    width: 1000px;
+    left: 11%;
+    top: 10%;
 }
 .mypage_nav{
     width: 100%;
