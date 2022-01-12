@@ -73,24 +73,43 @@
         </div>
         <!-- 주문조회 -->
         <div class="container_order" v-if="menu === 3">
+            <div class="order_title">
+                <img src="@/assets/img/servicecenter.gif" style="width:210px; height:200px; padding:0px; margin:0px;" alt="">
+            </div>
+            <div class="ordercontent">
+                이미지 / 상품명 / 주문번호 / 옵션 / 수량 / 판매가 / 배송상태 / 수취인정보
+            </div>
             <div class="ordertable">
                 <table style="border:1px solid rgb(223, 217, 217); width:1200px; text-align:center;">
                     <thead style="border:1px solid rgb(223, 217, 217); height:40px; font-size:12px;  background:rgb(235, 235, 235);">
-                        <th>번호</th>
-                        <th>주문번호</th>
-                        <th>상품명</th>
-                        <th>옵션</th>
-                        <th>수량</th>
+                        <th style="width:50px;">번호</th>
+                        <th style="width:100px;">주문번호</th>
+                        <th style="width:300px;">상품명</th>
+                        <th style="width:160px;">옵션</th>
+                        <th style="width:50px;">수량</th>
                         <th>판매가</th>
                         <th>배송상태</th>
+                        <th>리뷰작성</th>
                     </thead>
-                    <tbody style="border:1px solid rgb(223, 217, 217); height:50px;">
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>배송전</td>
+                    <tbody style="border:1px solid rgb(223, 217, 217); height:50px;" v-for="(ordercheck,idx) in orderlist" v-bind:key="ordercheck">
+                        <td>{{idx+1}}</td>
+                        <td>{{ordercheck.ordernumber}}</td>
+                        <td><a href="#" style="color:black;" @click="ordercontent">{{ordercheck.productname}}</a></td>
+                        <td>{{ordercheck.order_productoptioncolor}} - {{ordercheck.order_productoptionsize}}</td>
+                        <td>{{ordercheck.order_productoptioncnt}}</td>
+                        <td>{{ordercheck.order_amount_paid}}</td>
+                        <td>{{ordercheck.delivery_status}}</td>
+                        <td><button type="button" class="btn btn-outline-warning">작성</button></td>
+                    </tbody>
+                    <tbody style="border:1px solid rgb(223, 217, 217); height:50px;" v-if="order_content_btn === true">
+                        <td></td>
+                        <td>{{this.orderlist[0].ordernumber}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tbody>
                 </table>
             </div>
@@ -177,10 +196,20 @@ import axios from "axios";
                 membernewpw   : "",
                 membernewpw1  : "",
 
-                memberlist    : {}
+                memberlist    : {},
+                page          : 1,
+                // 주문조회
+                orderlist     : [],
+                idx           : [1,2,3,4,5],
+                order_content_btn : false
+
             }
         },
-
+        mounted() {
+            console.log(this.$route.query.menu , "query");
+            const menu1 = Number(this.$route.query.menu);
+            this.changeMenu(menu1);
+        },
         created() {
             // 회원정보 가져오기
             this.handlememberlist();
@@ -189,12 +218,25 @@ import axios from "axios";
             this.cartList()
         },
         methods : {
-
+            ordercontent(){
+                this.order_content_btn = !this.order_content_btn;
+            },
+            // 주문조회
+            async SelectMyOrder(){
+                const url = `/HOST/order/select_myorderlist.json?page=${this.page}`;
+                const headers = { "Content-Type": "application/json" , "token" : this.token };
+                const response = await axios.get(url, { headers:headers });
+                console.log(response);
+                if(response.status === 200){
+                    this.orderlist = response.data.list;
+                    console.log(this.orderlist, "orderlist");
+                }
+            },
             // 변경 할 이미지 첨부 여부 확인
             handleimgupdateFileUpload(e) {
                 this.updatefile = e.target.files[0];
                 console.log(this.updatefile);
-		},
+            },
 
             // 이미지 변경
             async handleimagechange(){
@@ -277,6 +319,7 @@ import axios from "axios";
                 }
                 else if(menu === 3){
                     this.menu = 3;
+                    this.SelectMyOrder();
                 }
                 else if(menu === 4){
                     this.menu = 4;
@@ -314,21 +357,33 @@ import axios from "axios";
 // 주문내역 ======================================================================================================
 .container_order{
     position: absolute;
-    // 가운데 정렬
-    left: 50%;
-    top: 250px;
+    top: 240px;
     justify-content: center;
     align-items: center;
     height: 82vh;
 }
 .ordertable{
     position: absolute;
-    left: 60%;
-    transform: translateX(-60%);
     width: 1000px;
-    left: 11%;
-    top: 10%;
+    left: 50px;
+    top: 30%;
 }
+.ordercontent{
+    position: absolute;
+    width: 980px;
+    height: 200px;
+    left: 280px;
+    border: 1px solid black;
+}
+.order_title{
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    left: 40px;
+}
+
+// ====================================================================================================================
+
 .mypage_nav{
     width: 100%;
     height: 50px;

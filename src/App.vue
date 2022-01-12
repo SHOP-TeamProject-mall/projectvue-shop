@@ -25,7 +25,7 @@
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
             <li><a class="dropdown-item" href="#" @click="changeMenu(8)">내정보</a></li>
-            <li><a class="dropdown-item" href="#">주문내역</a></li>
+            <li><a class="dropdown-item" href="#" @click="changeMenu(9)">주문내역</a></li>
             <li><a class="dropdown-item" href="#">장바구니</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
@@ -95,7 +95,9 @@
         </div>
       </div>
     </nav>
-    
+    <div class="scroll">
+      <a href="#"><img src="@/assets/img/up.png" style="width:100px;" alt="" @click="scrollup"></a>
+    </div>
       <router-view :key="$route.fullPath"
         @changeLogged="changeLogged" >
       </router-view>
@@ -136,6 +138,9 @@
     },
 
     methods:{
+      scrollup(){
+        window.scrollTo({top:0, left:0, behavior:'auto'});
+      },
       getMenu(){
         //바꾸기 
         // this.store.commit("setMenu",  111);
@@ -172,6 +177,11 @@
         }
         else if(menu === 8){
           this.$router.push({ path: "/mypage "});
+        }
+        else if(menu === 9){
+          const idx = 3;
+          console.log(idx,"idx");
+          this.$router.push({path:'/mypage', query: {menu: idx}});
         }
         this.active = '';
 
@@ -218,4 +228,9 @@ ul{
    list-style:none;
    padding-left:0px;
    }
+.scroll{
+  position: fixed;
+  left: 90%;
+  top: 80%;
+}
 </style>

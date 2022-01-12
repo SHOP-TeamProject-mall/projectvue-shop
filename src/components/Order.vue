@@ -162,8 +162,48 @@ export default {
         cancle_order(menu){
             console.log("menu",menu);
             console.log(this.token);
-            // this.$router.push({ path: "/product"});
-            // this.$router.push({path:'/product', query: {menu: menu}});
+            console.log(this.productitemsone.producttitle);
+                for(let i=0; i<this.list.length; i++){
+                    const url = `/HOST/order/insertorder.json`;
+                    const headers = { "Content-Type": "application/json" };
+                    const body = {
+                            order_productoptionno : this.list[i].no,
+                            order_productoptioncnt : this.list[i].cnt,
+                            order_productoptionsize : this.list[i].size,
+                            order_productoptioncolor : this.list[i].color,
+                            order_amount_paid:this.list[i].price,
+                            order_deliveryfee : this.productitemsone.productdeliveryfee,
+                            order_deliveryfee_check : this.deliradio,
+                            reciever_name : this.memberlist.membername,
+                            reciever_phone : this.memberlist.memberphone,
+                            reciever_zipcode : this.zonecode,
+                            reciever_address : this.address,
+                            reciever_detailed_address : this.Detailed_Address,
+                            userid : this.memberlist.memberid,
+                            idx : this.ordernumber,
+                            productname : this.productitemsone.producttitle
+                    };
+                    // console.log(body);
+                    if(0 < i){
+                        body.order_deliveryfee = 0;
+                    }
+                    else{
+                        body.order_deliveryfee = this.productitemsone.productdeliveryfee;
+                    }
+                    this.orderlist = body;
+                    console.log(this.orderlist);
+
+                    // // console.log(body);
+                    const response = axios.post(url,this.orderlist, {headers:headers});
+                    console.log(response);
+                }
+
+                    let b = this.store.getters.getUserid;
+                    b = this.memberlist.memberid;
+                    console.log(b,"userid");
+                    this.store.commit("setUserid",  b);   
+
+                    this.$router.push({ path: "/order_complete"});
         },
         changeradio(){
             if(this.deliradio === "Cash_on_delivery"){
@@ -256,7 +296,8 @@ export default {
                             reciever_address : this.address,
                             reciever_detailed_address : this.Detailed_Address,
                             userid : this.memberlist.memberid,
-                            idx : this.ordernumber
+                            idx : this.ordernumber,
+                            productname : this.productitemsone.producttitle
                     };
                     // console.log(body);
                     if(0 < i){
@@ -272,7 +313,7 @@ export default {
                     const response = axios.post(url,this.orderlist, {headers:headers});
                     console.log(response);
                 }
-                
+
                     let b = this.store.getters.getUserid;
                     b = this.memberlist.memberid;
                     console.log(b,"userid");

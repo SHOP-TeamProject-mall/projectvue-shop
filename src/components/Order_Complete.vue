@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="table3">
-                <button @click="orderlist">주문내역보러가기</button>
+                <button @click="orderlist(3)">주문내역보러가기</button>
             </div>
         </div>
     </div>
@@ -56,8 +56,9 @@ export default {
         this.SelectOrderNumber();
     },
     methods:{
-        orderlist(){
-            this.$router.push({path:'/mypage'});
+        orderlist(idx){
+            // console.log();
+            this.$router.push({path:'/mypage', query: {menu: idx}});
         },
         async SelectOrderNumber(){
             const url = `/HOST/order/select_ordernumber.json?idx=${this.orderidx}&userid=${this.userid}`;
