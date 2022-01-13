@@ -349,6 +349,10 @@ import axios from "axios";
 
             // 이미지 변경
             async handleimagechange(){
+                if (this.updatefile === undefined){
+                    return alert("변경 할 파일 이미지를 첨부 하세요.")
+                }
+                
                 const url = `/HOST/member/memberiamgeupdate.json?memberid=${this.memberlist.memberid}`
                 const headers = { "Content-Type": "multipart/form-data" };
                 const formData = new FormData();
