@@ -39,12 +39,13 @@ export default {
             userid              : "",
             list                : [],
             ordernumber              : [],
+            listlength          : 0
         }
     },
     mounted(){
-
+        
     },
-    created(){
+    async created(){
         let a = this.store.getters.getOrderidx;
         this.orderidx = a;
         console.log(this.orderidx,"주문완료페이지");
@@ -52,8 +53,12 @@ export default {
         let b = this.store.getters.getUserid;
         this.userid = b;
         console.log(this.userid,"주문완료페이지");
+
+        let c = this.store.getters.getlistlength
+        this.listlength = c;
+        console.log(this.listlength,"주문완료페이지");
         
-        this.SelectOrderNumber();
+        return this.SelectOrderNumber();
     },
     methods:{
         orderlist(idx){
@@ -61,14 +66,14 @@ export default {
             this.$router.push({path:'/mypage', query: {menu: idx}});
         },
         async SelectOrderNumber(){
+            for(var i=0; i< this.listlength; i++){
             const url = `/HOST/order/select_ordernumber.json?idx=${this.orderidx}&userid=${this.userid}`;
             const headers = { "Content-Type": "application/json" };
             const response = await axios.get(url, { headers });
-            // console.log(response);
+            console.log(response);
                 if(response.status === 200){
                     this.list = response.data;
-                        // console.log(this.list.list.length);
-                    for(var i=0; i< this.list.list.length; i++){
+                        console.log(this.list.list.length);
                         this.ordernumber.push({
                             onumber: this.list.list[i].ordernumber
                         })

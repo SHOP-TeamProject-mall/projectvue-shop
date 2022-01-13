@@ -164,8 +164,9 @@ export default {
             console.log(this.token);
             console.log(this.productitemsone.producttitle);
                 for(let i=0; i<this.list.length; i++){
-                    const url = `/HOST/order/insertorder.json`;
-                    const headers = { "Content-Type": "application/json" };
+                    const url = `/HOST/order/insertorder.json?productoptionno=${this.list[i].no}`;
+                    console.log(url);
+                    const headers = { "Content-Type": "application/json","token" : this.token };
                     const body = {
                             order_productoptionno : this.list[i].no,
                             order_productoptioncnt : this.list[i].cnt,
@@ -184,12 +185,12 @@ export default {
                             productname : this.productitemsone.producttitle
                     };
                     // console.log(body);
-                    if(0 < i){
-                        body.order_deliveryfee = 0;
-                    }
-                    else{
-                        body.order_deliveryfee = this.productitemsone.productdeliveryfee;
-                    }
+                    // if(0 < i){
+                    //     body.order_deliveryfee = 0;
+                    // }
+                    // else{
+                    //     body.order_deliveryfee = this.productitemsone.productdeliveryfee;
+                    // }
                     this.orderlist = body;
                     console.log(this.orderlist);
 
@@ -197,6 +198,9 @@ export default {
                     const response = axios.post(url,this.orderlist, {headers:headers});
                     console.log(response);
                 }
+                    let c = this.store.getters.getlistlength;
+                    c = this.list.length;
+                    this.store.commit("setlistlength",c);
 
                     let b = this.store.getters.getUserid;
                     b = this.memberlist.memberid;

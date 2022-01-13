@@ -10,7 +10,8 @@ export default createStore({
     // menu1 :1,
     // == 주문 ==
     orderidx : "",
-    userid : ""
+    userid : "",
+    listlength : 0
   },
 
   getters: {
@@ -31,6 +32,9 @@ export default createStore({
     },
     getUserid(state){
       return state.userid;
+    },
+    getlistlength(state){
+      return state.listlength
     }
   },
   mutations: {
@@ -51,6 +55,9 @@ export default createStore({
     },
     setUserid(state, payload){
       state.userid = payload;
+    },
+    setlistlength(state, payload){
+      state.listlength = payload;
     }
   },
   actions:{
