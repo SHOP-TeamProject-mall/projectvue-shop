@@ -160,7 +160,7 @@
                         <td>{{ordercheck.order_productoptioncnt}}</td>
                         <td>{{ordercheck.order_amount_paid}}</td>
                         <td>{{ordercheck.delivery_status}}</td>
-                        <td><button type="button" class="btn btn-outline-warning">작성</button></td>
+                        <td><button type="button" class="btn btn-outline-warning" @click="Write_a_review()">작성</button></td>
                     </tbody>
                 </table>
             </div>
@@ -235,6 +235,18 @@
             </section>
         </div>
     </div>
+        <!-- 리뷰작성 모달 -->
+    <div class="Write_a_review" v-if="reviewkey === true">
+        <div class="Write_a_review_header">
+
+        </div>
+        <div class="Write_a_review_body">
+
+        </div>
+        <div class="Write_a_review_footer">
+
+        </div>
+    </div>
 </template>
 
 <script>
@@ -262,7 +274,9 @@ import axios from "axios";
                 order_content_btn : false,
                 order_productoption_no : 0,
                 ppages        : "",
-                order_content : ""
+                order_content : "",
+                // 리뷰작성
+                reviewkey     : false
 
             }
         },
@@ -279,6 +293,10 @@ import axios from "axios";
             this.cartList()
         },
         methods : {
+            Write_a_review(){
+                this.reviewkey = !this.reviewkey;
+            },
+            // 주문조회 1개만 (주문번호가 일치하는 경우)
             async ordercontent(ordernumber){
                 console.log(ordernumber);
                 this.order_content_btn = !this.order_content_btn;
@@ -290,6 +308,7 @@ import axios from "axios";
                 if(response.status === 200){
                     this.order_content = response.data.orderlist;
                     console.log(this.order_content);
+                    console.log(this.order_content.productOption.product); // 상품정보
                 }
             },
             // 주문조회
@@ -465,7 +484,7 @@ import axios from "axios";
     height: 200px;
     left: 280px;
     top: 0px;
-    border: 1px solid black;
+    border: 1px solid rgb(223, 217, 217);
 }
 .ordercontent label{
     position: absolute; left: 5px; top: -25px;
@@ -769,4 +788,32 @@ a{
 .ppagenation li.ppagenation_Prev a {margin-right: 23px; margin-left: 13px;}
 .ppagenation li.ppagenation_Next a {margin-left: 23px; margin-right: 13px;}
 
+// 주문 후 리뷰작성 모달 =========================================================================================
+div[class="Write_a_review"]{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border: 3px solid gold;
+  border-radius: 25px;
+  background: rgb(255, 247, 210);
+  transform: translate(-50%,-50%);
+  width: 500px;
+  height: 670px;
+  z-index: 2;
+}
+div[class="Write_a_review_header"]{
+border: 1px solid red;
+width: 100%;
+height: 150px;
+}
+div[class="Write_a_review_body"]{
+border: 1px solid red;
+width: 100%;
+height: 150px;
+}
+div[class="Write_a_review_footer"]{
+border: 1px solid red;
+width: 100%;
+height: 150px;
+}
 </style>
