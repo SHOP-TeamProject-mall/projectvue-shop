@@ -164,15 +164,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagenation">
                 <ol class="ppagenation">
-                    <li class="ppagenation_First"><button @click="Order_Pagenation(idx = 1)"></button></li>
-                    <li class="ppagenation_Prev"><button @click="Order_Pagenation(idx-10)"></button></li>
-                    <li v-for="(productpagetion,idx) in ppages" v-bind:key="productpagetion"><button  @click="Order_Pagenation(idx+1)" >{{idx+1}}</button></li>
-                    <li class="ppagenation_Next"><button @click="Order_Pagenation(idx+10)"></button></li>
-                    <li class="ppagenation_Last"><button @click="Order_Pagenation(idx = ppages)"></button></li>
+                    <li class="ppagenation_First"><a href="#" @click="Order_Pagenation(idx = 1)"></a></li>
+                    <li class="ppagenation_Prev"><a href="#" ></a></li>
+                    <li v-for="(productpagetion,idx) in ppages" v-bind:key="productpagetion"><a href="#" @click="Order_Pagenation(idx+1)" >{{idx+1}}</a></li>
+                    <li class="ppagenation_Next"><a href="#" ></a></li>
+                    <li class="ppagenation_Last"><a href="#" @click="Order_Pagenation(idx = ppages)"></a></li>
                 </ol>
-            </div>
         </div>
         <!-- 장바구니 -->
         <div v-if="menu === 4">
@@ -449,23 +447,25 @@ import axios from "axios";
 // 주문내역 ======================================================================================================
 .container_order{
     position: absolute;
+    width: 1296px;
     top: 240px;
     justify-content: center;
     align-items: center;
     height: 82vh;
 }
 .ordertable{
-    position: absolute;
+    position: relative;
     width: 1000px;
     left: 50px;
-    top: 30%;
+    top: 10px;
 }
 .ordercontent{
     position: absolute;
     width: 980px;
     height: 200px;
     left: 280px;
-    border: 1px solid rgb(223, 217, 217);
+    top: 0px;
+    border: 1px solid black;
 }
 .ordercontent label{
     position: absolute; left: 5px; top: -25px;
@@ -475,7 +475,7 @@ import axios from "axios";
 }
 
 .order_title{
-    position: absolute;
+    position: relative;
     width: 210px;
     height: 210px;
     left: 40px;
@@ -573,6 +573,7 @@ import axios from "axios";
     width: 980px;
     height: 200px;
     left: 280px;
+    top: 0px;
     border: 1px solid rgb(223, 217, 217);
     z-index: -1;
     font-weight: bold;
@@ -751,26 +752,21 @@ a{
 }
 
 // 페이지 네이션 ===============================================================================================
-.pagenation {
-    position: relative;
-    top: 800px;
-    left: 66.8%;
-    height: 32px;
-}
 
-.ppagenation {text-align: center; padding: 0 0;}
+
+.ppagenation {position: relative; text-align: center; padding: 0 0; top: 50px;}
 .ppagenation li {display: inline-block; vertical-align: middle;}
-.ppagenation li button {color: #898786; display: block; width: 32px; height: 32px; border: none; background: white;}
-.ppagenation li button:hover {color: #ff5a20; text-decoration: underline;}
-.ppagenation li.ppagenation_First button,
-.ppagenation li.ppagenation_Prev button,
-.ppagenation li.ppagenation_Next button,
-.ppagenation li.ppagenation_Last button {overflow: hidden; width: 30px; height: 30px; margin: 0 2px; color: transparent; background: no-repeat center; border: none;}
-.ppagenation li.ppagenation_First button {background-image: url('../assets/img/first.png') ;}
-.ppagenation li.ppagenation_Prev button {background-image: url('../assets/img/left.png') ;}
-.ppagenation li.ppagenation_Next button {background-image: url('../assets/img/right.png') ;}
-.ppagenation li.ppagenation_Last button {background-image: url('../assets/img/last.png') ;}
-.ppagenation li.ppagenation_Prev button {margin-right: 23px; margin-left: 13px;}
-.ppagenation li.ppagenation_Next button {margin-left: 23px; margin-right: 13px;}
+.ppagenation li a {color: #898786; display: block; width: 32px; height: 32px;}
+.ppagenation li a:hover {color: #ff5a20; text-decoration: underline;}
+.ppagenation li.ppagenation_First a,
+.ppagenation li.ppagenation_Prev a,
+.ppagenation li.ppagenation_Next a,
+.ppagenation li.ppagenation_Last a {overflow: hidden; width: 30px; height: 30px; margin: 0 2px; color: transparent; background: no-repeat center;}
+.ppagenation li.ppagenation_First a {background-image: url('../assets/img/first.png') ;}
+.ppagenation li.ppagenation_Prev a {background-image: url('../assets/img/left.png') ;}
+.ppagenation li.ppagenation_Next a {background-image: url('../assets/img/right.png') ;}
+.ppagenation li.ppagenation_Last a {background-image: url('../assets/img/last.png') ;}
+.ppagenation li.ppagenation_Prev a {margin-right: 23px; margin-left: 13px;}
+.ppagenation li.ppagenation_Next a {margin-left: 23px; margin-right: 13px;}
 
 </style>
