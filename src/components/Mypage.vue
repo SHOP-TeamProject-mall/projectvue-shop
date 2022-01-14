@@ -160,7 +160,7 @@
                         <td>{{ordercheck.order_productoptioncnt}}</td>
                         <td>{{ordercheck.order_amount_paid}}</td>
                         <td>{{ordercheck.delivery_status}}</td>
-                        <td><button type="button" class="btn btn-outline-warning" @click="Write_a_review()">작성</button></td>
+                        <td><button type="button" class="btn btn-outline-warning" @click="Write_a_review_Modal(ordercheck.ordernumber)">작성</button></td>
                     </tbody>
                 </table>
             </div>
@@ -240,11 +240,16 @@
         <div class="Write_a_review_header">
 
         </div>
+        <h3 style="text-align:center;"><strong>리뷰</strong></h3>
         <div class="Write_a_review_body">
-
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100%;" rows="6" v-model="reviewcontent"></textarea>
+                <label for="floatingTextarea2">리뷰내용</label>
+            </div>
         </div>
         <div class="Write_a_review_footer">
-
+            <button type="button" class="btn btn-secondary" style="margin-right:10px" @click="Write_a_review_close()">닫기</button>
+            <button type="button" class="btn btn-danger" @click="Write_a_review()">저장</button>
         </div>
     </div>
 </template>
@@ -276,7 +281,9 @@ import axios from "axios";
                 ppages        : "",
                 order_content : "",
                 // 리뷰작성
-                reviewkey     : false
+                reviewkey     : false,
+                ordernumber   : "",
+                reviewcontent : ""
 
             }
         },
@@ -293,8 +300,25 @@ import axios from "axios";
             this.cartList()
         },
         methods : {
-            Write_a_review(){
-                this.reviewkey = !this.reviewkey;
+            async Write_a_review(){
+                console.log(this.ordernumber);
+                const url = `HOST/review/insert_review.json?ordernumber=${this.ordernumber}`;
+                const body = {
+                    reviewcontent : this.reviewcontent,
+                };
+                const headers = { "Content-Type": "application/json" , "token" : this.token };
+                const response = await axios.post(url,body, { headers:headers });
+                console.log(response);
+            },
+            Write_a_review_close(){
+                this.reviewkey = false;
+            },
+            // 리뷰작성
+            Write_a_review_Modal(ordernumber){
+                console.log(ordernumber);
+                this.ordernumber = ordernumber;
+                this.reviewkey = true;
+                
             },
             // 주문조회 1개만 (주문번호가 일치하는 경우)
             async ordercontent(ordernumber){
@@ -795,6 +819,8 @@ a{
 // 주문 후 리뷰작성 모달 =========================================================================================
 div[class="Write_a_review"]{
   position: fixed;
+  align-items: center;
+  justify-content: center;
   top: 50%;
   left: 50%;
   border: 3px solid gold;
@@ -802,22 +828,28 @@ div[class="Write_a_review"]{
   background: rgb(255, 247, 210);
   transform: translate(-50%,-50%);
   width: 500px;
-  height: 670px;
+  height: 400px;
   z-index: 2;
 }
 div[class="Write_a_review_header"]{
-border: 1px solid red;
-width: 100%;
-height: 150px;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    top: 0%;
 }
 div[class="Write_a_review_body"]{
-border: 1px solid red;
-width: 100%;
-height: 150px;
+    position: relative;
+    margin-top: -60px;
+    top: 20%;
+    left: 5%;
+    width: 90%;
+    height: 150px;
 }
 div[class="Write_a_review_footer"]{
-border: 1px solid red;
-width: 100%;
-height: 150px;
+    position: relative;
+    text-align: center;
+    top: 35%;
+    width: 100%;
+    height: 60px;
 }
 </style>

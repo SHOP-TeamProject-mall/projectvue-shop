@@ -17,23 +17,11 @@
         <h1 class="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg" contenteditable="false">상품리뷰</h1>
     </div>
     <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
-        <li>
-          <img src="../assets/img/product11.jpg" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
-          <p class="fs-110 font-cond-l" contenteditable="false">"너무 마음에 들어요! 품질도 좋고 색깔도 맘에 드네요~ 추천"</p>
-          <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">미샤원피스 - size - color</h5>
-          <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">User Id</small>
-        </li>
-        <li>
-          <img src="../assets/img/product22.jpg" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
-          <p class="fs-110 font-cond-l" contenteditable="false">"너무 마음에 들어요! 품질도 좋고 색깔도 맘에 드네요~ 추천"</p>
-          <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">미샤원피스 - size - color</h5>
-          <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">User Id</small>
-        </li>
-        <li>
-          <img src="../assets/img/product33.gif" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
-          <p class="fs-110 font-cond-l" contenteditable="false">"너무 마음에 들어요! 품질도 좋고 색깔도 맘에 드네요~ 추천"</p>
-          <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">미샤원피스 - size - color</h5>
-          <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">User Id</small>
+        <li v-for="review in review_list" v-bind:key="review">
+          <img :src="`/HOST/product/select_productmain_image.json?productno=${review.productOrder.productOption.product.productno}`" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
+          <p class="fs-110 font-cond-l" contenteditable="false">{{review.reviewcontent}}</p>
+          <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{review.productOrder.productOption.product.producttitle}} - size - color</h5>
+          <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">{{review.member.memberid}}</small>
         </li>
       </ul>
 </div>
@@ -54,11 +42,34 @@
 </template>
 
 <script>
+import axios from "axios";
     export default {
-        methods:{
-
+        data(){
+            return{
+                token           : sessionStorage.getItem("TOKEN"),
+                page            : 1,
+                review_list     : ""
+            }
         },
-        created(){}
+        methods:{
+            async SelectReview(){
+                console.log("11");
+                const url = `/HOST/review/select_review.json?page=${this.page}`;
+                const headers = { "Content-Type": "application/json"};
+                const response = await axios.get(url, { headers });
+                console.log(response.data);
+                console.log(response.data.review.content);
+                if(response.data.status === 200){
+                    console.log("333");
+                    this.review_list = response.data.review.content;
+                    console.log(this.review_list);
+                    console.log(response.data.review.content[0].productOrder.productOption.product.productno,"9999");
+                }
+            }
+        },
+        created(){
+            this.SelectReview();
+        }
     }
 </script>
 
@@ -161,6 +172,7 @@ body{margin-top:20px;}
 .hash-list > li {
     display: block;
     float: left;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
